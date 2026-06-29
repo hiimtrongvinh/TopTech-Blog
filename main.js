@@ -1,5 +1,11 @@
-// Mock Data for Articles (18 distinct articles with unique images and categories)
-const ARTICLES = [
+import { renderHeader, initHeaderEvents, updateActiveNavLink } from './src/components/Header.js';
+import { renderFooter } from './src/components/Footer.js';
+import { renderHomePage } from './src/components/HomePage.js';
+import { renderCategoryPage } from './src/components/CategoryPage.js';
+import { renderPostPage } from './src/components/PostPage.js';
+
+// Central Database of Articles
+export const ARTICLES = [
   {
     id: 1,
     title: "Top 20 công cụ AI tốt nhất năm 2026",
@@ -210,8 +216,7 @@ const ARTICLES = [
   }
 ];
 
-// 8 Categories specified in design
-const CATEGORIES = [
+export const CATEGORIES = [
   "Tin công nghệ",
   "AI",
   "Chuyển đổi số",
@@ -222,435 +227,74 @@ const CATEGORIES = [
   "Casestudy"
 ];
 
-// Document Elements
-const themeToggleBtn = document.getElementById("theme-toggle");
-const menuToggleBtn = document.getElementById("menu-toggle");
-const megaMenu = document.getElementById("mega-menu");
-const megaMenuCloseBtn = document.getElementById("mega-menu-close");
-const megaMenuBackdrop = document.getElementById("mega-menu-backdrop");
+// Single Page Application Routing Control
+function router() {
+  const contentContainer = document.getElementById("app-content");
+  if (!contentContainer) return;
 
-const searchTrigger = document.getElementById("search-trigger");
-const searchOverlay = document.getElementById("search-overlay");
-const searchCloseBtn = document.getElementById("search-close");
-const searchInput = document.getElementById("search-input");
+  // Run cleanup function if defined by previous page (e.g. scroll listeners on PostPage)
+  if (contentContainer.cleanup) {
+    contentContainer.cleanup();
+    contentContainer.cleanup = null;
+  }
 
-const heroSliderContainer = document.getElementById("hero-slider-container");
-const heroSideContainer = document.getElementById("hero-side-container");
-const heroSmallGridContainer = document.getElementById("hero-small-grid-container");
-const featuredNumbersContainer = document.getElementById("featured-numbers-container");
+  const hash = window.location.hash || "#/";
 
-const newUpdatesContent = document.getElementById("new-updates-content");
-const colCenterAi = document.getElementById("col-center-ai");
-const trendingContent = document.getElementById("trending-content");
-const reviewsContent = document.getElementById("reviews-content");
-const categoryColumnsContainer = document.getElementById("category-columns-container");
+  // Update Navigation Active state
+  updateActiveNavLink(hash);
 
-const refreshNewUpdatesBtn = document.getElementById("refresh-new-updates");
+  // Check section link scroll redirection (e.g. #/ #tac-gia)
+  if (hash.startsWith("#/ #")) {
+    const sectionId = hash.split("#")[2]; // e.g. "tac-gia"
+    renderHomePage(contentContainer, ARTICLES, CATEGORIES);
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+    return;
+  }
 
-// Init application
+  // Parse Routes
+  if (hash === "#/" || hash === "") {
+    renderHomePage(contentContainer, ARTICLES, CATEGORIES);
+  } else if (hash.startsWith("#/chuyen-muc/")) {
+    const categoryName = hash.replace("#/chuyen-muc/", "");
+    renderCategoryPage(contentContainer, categoryName, ARTICLES, false);
+  } else if (hash.startsWith("#/tim-kiem/")) {
+    const searchQuery = hash.replace("#/tim-kiem/", "");
+    renderCategoryPage(contentContainer, searchQuery, ARTICLES, true);
+  } else if (hash.startsWith("#/bai-viet/")) {
+    const postId = hash.replace("#/bai-viet/", "");
+    renderPostPage(contentContainer, postId, ARTICLES);
+  } else {
+    // 404 Fallback, redirect to home page
+    window.location.hash = "#/";
+  }
+
+  // Scroll to top on standard navigation
+  if (!hash.startsWith("#/ #")) {
+    window.scrollTo(0, 0);
+  }
+}
+
+// Initialize Application Layout & Listeners
 document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
-  renderHeroSection();
-  renderFeaturedNumbers();
-  renderSplitSections();
-  renderCategoryColumns();
-  setupEventListeners();
-});
+  const headerContainer = document.getElementById("app-header");
+  const footerContainer = document.getElementById("app-footer");
 
-// Theme Logic (Dark/Light mode)
-function initTheme() {
-  const savedTheme = localStorage.getItem("theme");
-  const sunIcon = themeToggleBtn.querySelector(".sun-icon");
-  const moonIcon = themeToggleBtn.querySelector(".moon-icon");
+  if (headerContainer) renderHeader(headerContainer);
+  if (footerContainer) renderFooter(footerContainer);
 
-  if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-    document.body.classList.add("dark");
-    sunIcon.style.display = "block";
-    moonIcon.style.display = "none";
-  } else {
-    document.body.classList.remove("dark");
-    sunIcon.style.display = "none";
-    moonIcon.style.display = "block";
-  }
-}
-
-// Toggle Dark / Light Theme
-function toggleTheme() {
-  const sunIcon = themeToggleBtn.querySelector(".sun-icon");
-  const moonIcon = themeToggleBtn.querySelector(".moon-icon");
-  
-  if (document.body.classList.contains("dark")) {
-    document.body.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-    sunIcon.style.display = "none";
-    moonIcon.style.display = "block";
-  } else {
-    document.body.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-    sunIcon.style.display = "block";
-    moonIcon.style.display = "none";
-  }
-}
-
-// Helper to prepend base URL for local dev and production builds
-function getAssetUrl(path) {
-  if (!path || path.startsWith('http') || path.startsWith('data:')) return path;
-  const base = import.meta.env.BASE_URL || '/';
-  return `${base}${path.replace(/^\//, '')}`;
-}
-
-// Render Hero Section
-function renderHeroSection() {
-  // 1. Full-width Hero Banner (Robot post, ID 1)
-  const robotPost = ARTICLES.find(a => a.id === 1);
-  const heroBannerContainer = document.getElementById("hero-banner-container");
-  if (robotPost && heroBannerContainer) {
-    heroBannerContainer.innerHTML = `
-      <img src="${getAssetUrl(robotPost.image)}" alt="${robotPost.title}">
-      <div class="hero-banner-full-overlay"></div>
-      <div class="hero-banner-full-content">
-        <span class="hero-banner-full-tag">${robotPost.category}</span>
-        <h3 class="hero-banner-full-title"><a href="#">${robotPost.title}</a></h3>
-        <div class="post-meta">
-          <div class="post-author">
-            <span>${robotPost.author} ${robotPost.authorTag}</span>
-          </div>
-          <span>&bull;&nbsp; ${robotPost.date}</span>
-          <span>&bull;&nbsp; ${robotPost.readTime}</span>
-          <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${robotPost.views}
-          </span>
-          <span style="display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${robotPost.comments}
-          </span>
-        </div>
-      </div>
-    `;
-  }
-
-  // 2. Left Medium post in Grid (Laptop post, ID 2)
-  const laptopPost = ARTICLES.find(a => a.id === 2);
-  const heroLeftContainer = document.getElementById("hero-left-container");
-  if (laptopPost && heroLeftContainer) {
-    heroLeftContainer.innerHTML = `
-      <img src="${getAssetUrl(laptopPost.image)}" alt="${laptopPost.title}">
-      <div class="featured-big-overlay"></div>
-      <div class="featured-big-content">
-        <span class="featured-big-tag">${laptopPost.category}</span>
-        <h3 class="featured-big-title"><a href="#">${laptopPost.title}</a></h3>
-        <div class="post-meta">
-          <div class="post-author">
-            <span>${laptopPost.author} ${laptopPost.authorTag}</span>
-          </div>
-          <span>&bull;&nbsp; ${laptopPost.date}</span>
-          <span>&bull;&nbsp; ${laptopPost.readTime}</span>
-          <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
-          </span>
-          <span style="display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${laptopPost.comments}
-          </span>
-        </div>
-      </div>
-    `;
-  }
-
-  // 3. Right side list (4 posts stacked, unique)
-  if (heroSideContainer) {
-    const sidePosts = [
-      ARTICLES.find(a => a.id === 3), // ChatGPT vs Claude vs Gemini
-      ARTICLES.find(a => a.id === 6), // China AI Experts
-      ARTICLES.find(a => a.id === 15), // CI/CD Docker
-      ARTICLES.find(a => a.id === 16)  // Secure API
-    ].filter(Boolean);
-
-    heroSideContainer.innerHTML = sidePosts.map(post => `
-      <div class="side-post-card">
-        <img class="side-post-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
-        <div class="side-post-info">
-          <h4 class="side-post-title"><a href="#">${post.title}</a></h4>
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-            <span>${post.author} ${post.authorTag} &bull; ${post.date}</span>
-          </div>
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // 4. Bottom 4 Small Cards (unique)
-  if (heroSmallGridContainer) {
-    const smallPosts = [
-      ARTICLES.find(a => a.id === 4),  // LLM coding
-      ARTICLES.find(a => a.id === 11), // Digital retail
-      ARTICLES.find(a => a.id === 12), // Cloud startup
-      ARTICLES.find(a => a.id === 17)  // Generative AI solution
-    ].filter(Boolean);
-
-    heroSmallGridContainer.innerHTML = smallPosts.map((post, idx) => `
-      <div class="small-post-card">
-        <div class="small-post-img-wrapper">
-          <img src="${getAssetUrl(post.image)}" alt="${post.title}">
-        </div>
-        <h4 class="small-post-title"><a href="#">${post.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; justify-content: space-between;">
-          <span>${post.author} &bull; ${post.date}</span>
-          <div style="display: gap: 0.5rem; display: flex;">
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-}
-
-// Render Featured Numbers (#1 to #6, unique)
-function renderFeaturedNumbers() {
-  if (!featuredNumbersContainer) return;
-
-  // Take 6 distinct articles to render
-  const numbersData = ARTICLES.slice(2, 8);
-
-  featuredNumbersContainer.innerHTML = numbersData.map((post, index) => `
-    <div class="number-post-card">
-      <span class="post-number">#${index + 1}</span>
-      <div class="number-post-img-wrapper">
-        <img src="${getAssetUrl(post.image)}" alt="${post.title}">
-      </div>
-      <div class="number-post-info">
-        <h4 class="number-post-title"><a href="#">${post.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-          <span>${post.author} ${post.authorTag} &bull; ${post.date}</span>
-        </div>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-          <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-          <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// Render Split Sections: Left Updates (25%), Center AI (50%), Right Trending (25%)
-// Also renders Review (Horizontal 4-card grid below)
-function renderSplitSections() {
-  // 1. Column 1: Left Updates (3 small posts, unique)
-  if (newUpdatesContent) {
-    const sideNew1 = ARTICLES.find(a => a.id === 3); // ChatGPT vs Claude vs Gemini
-    const sideNew2 = ARTICLES.find(a => a.id === 4); // LLM
-    const sideNew3 = ARTICLES.find(a => a.id === 7); // Keychron Q1 Pro
-    
-    newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].map(post => `
-      <div class="post-card-mini">
-        <img class="post-card-mini-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
-        <div class="post-card-mini-info">
-          <span class="post-card-mini-tag">${post.category}</span>
-          <h4 class="post-card-mini-title"><a href="#">${post.title}</a></h4>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // 2. Column 2: Center AI Highlights (1 Big featured post, 2 sub cards underneath, unique)
-  if (colCenterAi) {
-    const mainNew = ARTICLES.find(a => a.id === 5); // Chip war
-    const subNewLeft = ARTICLES.find(a => a.id === 6); // China AI
-    const subNewRight = ARTICLES.find(a => a.id === 8); // A24 Google AI
-    
-    colCenterAi.innerHTML = `
-      <!-- Main Center Post -->
-      <div class="center-main-post">
-        <span class="center-main-tag">${mainNew.category}</span>
-        <h4 class="center-main-title"><a href="#">${mainNew.title}</a></h4>
-        <div class="post-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
-          <span>${mainNew.author} ${mainNew.authorTag} &bull; ${mainNew.date}</span>
-        </div>
-        <div class="center-main-img-wrapper">
-          <img src="${getAssetUrl(mainNew.image)}" alt="${mainNew.title}">
-        </div>
-      </div>
-
-      <!-- Sub grid (2 cards side by side) -->
-      <div class="center-sub-row">
-        <!-- Sub Left -->
-        <div class="center-sub-card">
-          <span class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewLeft.category}</span>
-          <h5 class="center-sub-title"><a href="#">${subNewLeft.title}</a></h5>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">${subNewLeft.author}</span>
-        </div>
-
-        <!-- Sub Right -->
-        <div class="center-sub-card">
-          <span class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewRight.category}</span>
-          <h5 class="center-sub-title"><a href="#">${subNewRight.title}</a></h5>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">${subNewRight.author}</span>
-        </div>
-      </div>
-    `;
-  }
-
-  // 3. Column 3: Right Trending (5 text posts stacked, unique)
-  if (trendingContent) {
-    const trendPosts = [
-      ARTICLES.find(a => a.id === 9), // Meta Pauses
-      ARTICLES.find(a => a.id === 10), // US Govt
-      ARTICLES.find(a => a.id === 11), // Digital retail
-      ARTICLES.find(a => a.id === 12), // Cloud startup
-      ARTICLES.find(a => a.id === 14)  // VS Code
-    ].filter(Boolean);
-
-    trendingContent.innerHTML = trendPosts.map(post => `
-      <div class="trending-post-card">
-        <h4 class="trending-post-title"><a href="#">${post.title}</a></h4>
-        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} ${post.authorTag} &bull; ${post.date}</span>
-      </div>
-    `).join('');
-  }
-
-  // 4. Review Row (4 cards horizontally below, unique)
-  if (reviewsContent) {
-    // Select Review posts, fallback to others if needed to fill 4 cards
-    const reviewPosts = ARTICLES.filter(a => a.category === "Review");
-    const fallbackPosts = ARTICLES.filter(a => a.category !== "Review");
-    const revList = [...reviewPosts, ...fallbackPosts].slice(0, 4);
-
-    reviewsContent.innerHTML = revList.map(post => `
-      <div class="review-post-card">
-        <div class="review-post-img-wrapper">
-          <img src="${getAssetUrl(post.image)}" alt="${post.title}">
-        </div>
-        <span class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</span>
-        <h4 class="review-post-title"><a href="#">${post.title}</a></h4>
-        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
-      </div>
-    `).join('');
-  }
-}
-
-// Render Category Columns (8 columns with filtered matches)
-function renderCategoryColumns() {
-  if (!categoryColumnsContainer) return;
-
-  categoryColumnsContainer.innerHTML = CATEGORIES.map((cat, colIdx) => {
-    // Filter matching articles for this category, fallback if not enough
-    const catArticles = ARTICLES.filter(a => a.category === cat);
-    const items = [];
-    for (let i = 0; i < 4; i++) {
-      items.push(catArticles[i % catArticles.length] || ARTICLES[(colIdx * 2 + i) % ARTICLES.length]);
-    }
-
-    return `
-      <div class="category-column">
-        <div class="category-header-wrapper">
-          <span class="category-title-header">${cat}</span>
-        </div>
-        <div class="split-col" style="gap: 1rem;">
-          ${items.map((post, idx) => `
-            <div class="cat-post-card ${idx === 0 ? 'has-image' : ''}">
-              <div class="cat-post-img-wrapper">
-                <img src="${getAssetUrl(post.image)}" alt="${post.title}">
-              </div>
-              <h4 class="cat-post-title"><a href="#">${post.title}</a></h4>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">${post.date}</span>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// Setup Interactive Elements & Event Listeners
-function setupEventListeners() {
-  // Theme toggle click
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener("click", toggleTheme);
-  }
-
-  // Mega Menu open/close listeners
-  if (menuToggleBtn && megaMenu) {
-    menuToggleBtn.addEventListener("click", () => {
-      megaMenu.classList.add("active");
-    });
-  }
-
-  if (megaMenuCloseBtn && megaMenu) {
-    megaMenuCloseBtn.addEventListener("click", () => {
-      megaMenu.classList.remove("active");
-    });
-  }
-
-  if (megaMenuBackdrop && megaMenu) {
-    megaMenuBackdrop.addEventListener("click", () => {
-      megaMenu.classList.remove("active");
-    });
-  }
-
-  // Close Mega Menu on clicking links
-  const megaLinks = megaMenu?.querySelectorAll("a");
-  megaLinks?.forEach(link => {
-    link.addEventListener("click", () => {
-      megaMenu.classList.remove("active");
-    });
+  // Bind Search query callback
+  initHeaderEvents((searchQuery) => {
+    window.location.hash = `#/tim-kiem/${encodeURIComponent(searchQuery)}`;
   });
 
-  // Search trigger overlay open
-  if (searchTrigger && searchOverlay) {
-    searchTrigger.addEventListener("click", () => {
-      searchOverlay.classList.add("active");
-      setTimeout(() => searchInput?.focus(), 100);
-    });
-  }
-
-  // Search close click
-  if (searchCloseBtn && searchOverlay) {
-    searchCloseBtn.addEventListener("click", () => {
-      searchOverlay.classList.remove("active");
-      if (searchInput) searchInput.value = "";
-    });
-  }
-
-  // Search overlay click outside close
-  if (searchOverlay) {
-    searchOverlay.addEventListener("click", (e) => {
-      if (e.target === searchOverlay) {
-        searchOverlay.classList.remove("active");
-        if (searchInput) searchInput.value = "";
-      }
-    });
-  }
-
-  // Refresh New Updates spinner effect
-  if (refreshNewUpdatesBtn) {
-    refreshNewUpdatesBtn.addEventListener("click", () => {
-      refreshNewUpdatesBtn.classList.add("spinning");
-      
-      setTimeout(() => {
-        refreshNewUpdatesBtn.classList.remove("spinning");
-        
-        const shuffled = [...ARTICLES].filter(a => a.id !== 5 && a.id !== 6).sort(() => 0.5 - Math.random());
-        const sideNew1 = shuffled[0];
-        const sideNew2 = shuffled[1];
-        const sideNew3 = shuffled[2];
-
-        if (newUpdatesContent) {
-          newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].map(post => `
-            <div class="post-card-mini">
-              <img class="post-card-mini-img" src="${getAssetUrl(post.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250')}" alt="${post.title}">
-              <div class="post-card-mini-info">
-                <span class="post-card-mini-tag">${post.category}</span>
-                <h4 class="post-card-mini-title"><a href="#">${post.title}</a></h4>
-                <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
-              </div>
-            </div>
-          `).join('');
-        }
-      }, 600);
-    });
-  }
-}
+  // Listen to hash changes for routing
+  window.addEventListener("hashchange", router);
+  
+  // Initial page load trigger
+  router();
+});
