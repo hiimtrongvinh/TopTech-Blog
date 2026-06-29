@@ -1519,11 +1519,37 @@ body.dark footer {
 .mega-col h4 {
   font-size: 1.05rem;
   text-transform: uppercase;
-  color: var(--primary-color);
   margin-bottom: 0.8rem;
   border-bottom: 2px solid var(--border-color);
   padding-bottom: 0.4rem;
   font-family: var(--font-heading);
+  position: relative;
+}
+
+.mega-col h4 a {
+  color: var(--primary-color);
+  text-decoration: none !important;
+  transition: color var(--transition-fast);
+  display: block;
+}
+
+.mega-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast);
+}
+
+.mega-col h4:hover::after {
+  width: 100%;
+}
+
+.mega-col h4 a:hover {
+  color: var(--text-primary);
 }
 
 .mega-col ul {

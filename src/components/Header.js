@@ -84,7 +84,7 @@ export function renderHeader(container) {
           <div class="mega-menu-grid">
             <!-- Col 1: Tin công nghệ -->
             <div class="mega-col">
-              <h4>Tin công nghệ</h4>
+              <h4><a href="#/chuyen-muc/Tin công nghệ">Tin công nghệ</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Tin công nghệ">Điện thoại</a></li>
                 <li><a href="#/chuyen-muc/Tin công nghệ">Máy tính</a></li>
@@ -95,7 +95,7 @@ export function renderHeader(container) {
 
             <!-- Col 2: AI -->
             <div class="mega-col">
-              <h4>AI</h4>
+              <h4><a href="#/chuyen-muc/AI">AI</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/AI">Machine Learning</a></li>
                 <li><a href="#/chuyen-muc/AI">Generative AI</a></li>
@@ -106,7 +106,7 @@ export function renderHeader(container) {
 
             <!-- Col 3: Chuyển đổi số -->
             <div class="mega-col">
-              <h4>Chuyển đổi số</h4>
+              <h4><a href="#/chuyen-muc/Chuyển đổi số">Chuyển đổi số</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Chuyển đổi số">Doanh nghiệp</a></li>
                 <li><a href="#/chuyen-muc/Chuyển đổi số">Giải pháp đám mây</a></li>
@@ -117,7 +117,7 @@ export function renderHeader(container) {
 
             <!-- Col 4: Review -->
             <div class="mega-col">
-              <h4>Review</h4>
+              <h4><a href="#/chuyen-muc/Review">Review</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Review">Đánh giá Laptop</a></li>
                 <li><a href="#/chuyen-muc/Review">Đánh giá Smartphone</a></li>
@@ -128,7 +128,7 @@ export function renderHeader(container) {
 
             <!-- Col 5: Phần mềm -->
             <div class="mega-col">
-              <h4>Phần mềm</h4>
+              <h4><a href="#/chuyen-muc/Phần mềm">Phần mềm</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Phần mềm">Công cụ lập trình</a></li>
                 <li><a href="#/chuyen-muc/Phần mềm">Phần mềm văn phòng</a></li>
@@ -139,7 +139,7 @@ export function renderHeader(container) {
 
             <!-- Col 6: IT -->
             <div class="mega-col">
-              <h4>IT</h4>
+              <h4><a href="#/chuyen-muc/IT">IT</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/IT">Lập trình</a></li>
                 <li><a href="#/chuyen-muc/IT">Quản trị mạng</a></li>
@@ -150,7 +150,7 @@ export function renderHeader(container) {
 
             <!-- Col 7: Giải pháp công nghệ -->
             <div class="mega-col">
-              <h4>Giải pháp công nghệ</h4>
+              <h4><a href="#/chuyen-muc/Giải pháp công nghệ">Giải pháp công nghệ</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Giải pháp công nghệ">AI cho doanh nghiệp</a></li>
                 <li><a href="#/chuyen-muc/Giải pháp công nghệ">Tự động hóa quy trình</a></li>
@@ -161,7 +161,7 @@ export function renderHeader(container) {
 
             <!-- Col 8: Casestudy -->
             <div class="mega-col">
-              <h4>Casestudy</h4>
+              <h4><a href="#/chuyen-muc/Casestudy">Casestudy</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Casestudy">Thành công tiêu biểu</a></li>
                 <li><a href="#/chuyen-muc/Casestudy">Phân tích thất bại</a></li>
