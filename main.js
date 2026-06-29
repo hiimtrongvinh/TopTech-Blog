@@ -292,6 +292,13 @@ function toggleTheme() {
   }
 }
 
+// Helper to prepend base URL for local dev and production builds
+function getAssetUrl(path) {
+  if (!path || path.startsWith('http') || path.startsWith('data:')) return path;
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base}${path.replace(/^\//, '')}`;
+}
+
 // Render Hero Section
 function renderHeroSection() {
   // 1. Full-width Hero Banner (Robot post, ID 1)
@@ -299,7 +306,7 @@ function renderHeroSection() {
   const heroBannerContainer = document.getElementById("hero-banner-container");
   if (robotPost && heroBannerContainer) {
     heroBannerContainer.innerHTML = `
-      <img src="${robotPost.image}" alt="${robotPost.title}">
+      <img src="${getAssetUrl(robotPost.image)}" alt="${robotPost.title}">
       <div class="hero-banner-full-overlay"></div>
       <div class="hero-banner-full-content">
         <span class="hero-banner-full-tag">${robotPost.category}</span>
@@ -326,7 +333,7 @@ function renderHeroSection() {
   const heroLeftContainer = document.getElementById("hero-left-container");
   if (laptopPost && heroLeftContainer) {
     heroLeftContainer.innerHTML = `
-      <img src="${laptopPost.image}" alt="${laptopPost.title}">
+      <img src="${getAssetUrl(laptopPost.image)}" alt="${laptopPost.title}">
       <div class="featured-big-overlay"></div>
       <div class="featured-big-content">
         <span class="featured-big-tag">${laptopPost.category}</span>
@@ -359,7 +366,7 @@ function renderHeroSection() {
 
     heroSideContainer.innerHTML = sidePosts.map(post => `
       <div class="side-post-card">
-        <img class="side-post-img" src="${post.image}" alt="${post.title}">
+        <img class="side-post-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
         <div class="side-post-info">
           <h4 class="side-post-title"><a href="#">${post.title}</a></h4>
           <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
@@ -386,7 +393,7 @@ function renderHeroSection() {
     heroSmallGridContainer.innerHTML = smallPosts.map((post, idx) => `
       <div class="small-post-card">
         <div class="small-post-img-wrapper">
-          <img src="${post.image}" alt="${post.title}">
+          <img src="${getAssetUrl(post.image)}" alt="${post.title}">
         </div>
         <h4 class="small-post-title"><a href="#">${post.title}</a></h4>
         <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; justify-content: space-between;">
@@ -412,7 +419,7 @@ function renderFeaturedNumbers() {
     <div class="number-post-card">
       <span class="post-number">#${index + 1}</span>
       <div class="number-post-img-wrapper">
-        <img src="${post.image}" alt="${post.title}">
+        <img src="${getAssetUrl(post.image)}" alt="${post.title}">
       </div>
       <div class="number-post-info">
         <h4 class="number-post-title"><a href="#">${post.title}</a></h4>
@@ -439,7 +446,7 @@ function renderSplitSections() {
     
     newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].map(post => `
       <div class="post-card-mini">
-        <img class="post-card-mini-img" src="${post.image}" alt="${post.title}">
+        <img class="post-card-mini-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
         <div class="post-card-mini-info">
           <span class="post-card-mini-tag">${post.category}</span>
           <h4 class="post-card-mini-title"><a href="#">${post.title}</a></h4>
@@ -464,7 +471,7 @@ function renderSplitSections() {
           <span>${mainNew.author} ${mainNew.authorTag} &bull; ${mainNew.date}</span>
         </div>
         <div class="center-main-img-wrapper">
-          <img src="${mainNew.image}" alt="${mainNew.title}">
+          <img src="${getAssetUrl(mainNew.image)}" alt="${mainNew.title}">
         </div>
       </div>
 
@@ -515,7 +522,7 @@ function renderSplitSections() {
     reviewsContent.innerHTML = revList.map(post => `
       <div class="review-post-card">
         <div class="review-post-img-wrapper">
-          <img src="${post.image}" alt="${post.title}">
+          <img src="${getAssetUrl(post.image)}" alt="${post.title}">
         </div>
         <span class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</span>
         <h4 class="review-post-title"><a href="#">${post.title}</a></h4>
@@ -546,7 +553,7 @@ function renderCategoryColumns() {
           ${items.map((post, idx) => `
             <div class="cat-post-card ${idx === 0 ? 'has-image' : ''}">
               <div class="cat-post-img-wrapper">
-                <img src="${post.image}" alt="${post.title}">
+                <img src="${getAssetUrl(post.image)}" alt="${post.title}">
               </div>
               <h4 class="cat-post-title"><a href="#">${post.title}</a></h4>
               <span style="font-size: 0.7rem; color: var(--text-muted);">${post.date}</span>
@@ -634,7 +641,7 @@ function setupEventListeners() {
         if (newUpdatesContent) {
           newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].map(post => `
             <div class="post-card-mini">
-              <img class="post-card-mini-img" src="${post.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250'}" alt="${post.title}">
+              <img class="post-card-mini-img" src="${getAssetUrl(post.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250')}" alt="${post.title}">
               <div class="post-card-mini-info">
                 <span class="post-card-mini-tag">${post.category}</span>
                 <h4 class="post-card-mini-title"><a href="#">${post.title}</a></h4>
