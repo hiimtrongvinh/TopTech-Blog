@@ -126,6 +126,10 @@ html {
 
 /* Dark Mode Variables */
 body.dark {
+  --primary-color: #6366f1; /* Bright Indigo for strong dark contrast */
+  --primary-hover: #818cf8;
+  --secondary-color: #a78bfa;
+
   --bg-main: #0b0f19;
   --bg-surface: #111827;
   --bg-surface-secondary: #1f2937;
@@ -242,12 +246,16 @@ h6 {
 /* Component Styles */
 
 /* 1. Header */
-header {
-  background-color: var(--header-bg);
-  color: var(--header-text);
+#app-header {
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+}
+
+header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
   box-shadow: var(--shadow-sm);
   border-bottom: 1px solid var(--border-color);
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
@@ -305,7 +313,10 @@ body.dark .logo-img {
   color: var(--text-secondary);
 }
 
-header .nav-links a:hover,
+header .nav-links a:hover {
+  color: var(--text-primary);
+}
+
 header .nav-links a.active {
   color: var(--primary-color);
 }
@@ -2219,8 +2230,7 @@ body.dark footer {
 .post-card-mini-tag,
 .center-main-tag,
 .cat-card-category,
-.post-detail-category,
-.category-title-header {
+.post-detail-category {
   text-decoration: none !important;
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -2236,6 +2246,30 @@ body.dark footer {
   transform: translateY(-1px);
 }
 
+.category-title-header {
+  text-decoration: none !important;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+  transition: color var(--transition-fast);
+}
+
+.category-title-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast);
+}
+
+.category-title-header:hover::after {
+  width: 100%;
+}
+
 .category-title-header:hover {
-  color: var(--primary-color) !important;
+  color: var(--text-primary) !important;
 }
