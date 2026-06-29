@@ -46,7 +46,7 @@ export function renderPostPage(container, postId, articles) {
         <main class="post-main-content">
           <!-- Category & Metadata -->
           <div class="post-detail-header">
-            <span class="post-detail-category">${article.category}</span>
+            <a href="#/chuyen-muc/${article.category}" class="post-detail-category">${article.category}</a>
             <h1 class="post-detail-title">${article.title}</h1>
             
             <div class="post-meta" style="font-size: 0.9rem; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem;">
@@ -126,7 +126,7 @@ export function renderPostPage(container, postId, articles) {
                   </div>
                   <div class="related-post-info">
                     <h5 class="related-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h5>
-                    <span class="related-meta">${post.category} &bull; ${post.date}</span>
+                    <span class="related-meta"><a href="#/chuyen-muc/${post.category}" style="color: inherit; font-weight: 600;">${post.category}</a> &bull; ${post.date}</span>
                   </div>
                 </div>
               `).join('') : '<p style="color: var(--text-muted); font-size: 0.85rem;">Không có bài viết liên quan nào khác cùng chuyên mục.</p>'}

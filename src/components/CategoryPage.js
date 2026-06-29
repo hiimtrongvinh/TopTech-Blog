@@ -89,7 +89,7 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
       <article class="cat-article-card">
         <div class="cat-card-img-wrapper">
           <img src="${getAssetUrl(post.image)}" alt="${post.title}">
-          <span class="cat-card-category">${post.category}</span>
+          <a href="#/chuyen-muc/${post.category}" class="cat-card-category">${post.category}</a>
         </div>
         <div class="cat-card-content">
           <h3 class="cat-card-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h3>

@@ -2212,3 +2212,30 @@ body.dark footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Category & Tag anchor links styles */
+.hero-banner-full-tag,
+.featured-big-tag,
+.post-card-mini-tag,
+.center-main-tag,
+.cat-card-category,
+.post-detail-category,
+.category-title-header {
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.hero-banner-full-tag:hover,
+.featured-big-tag:hover,
+.post-card-mini-tag:hover,
+.center-main-tag:hover,
+.cat-card-category:hover,
+.post-detail-category:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.category-title-header:hover {
+  color: var(--primary-color) !important;
+}

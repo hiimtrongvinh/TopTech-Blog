@@ -3,6 +3,7 @@ import { getAssetUrl } from '../utils.js';
 export function renderHomePage(container, articles, categories) {
   // 1. Render the HTML container shell for the Home Page
   container.innerHTML = `
+    <main class="container">
     <!-- Hero Quote Banner -->
     <div class="hero-quote-block">
       <div class="quote-icon">“</div>
@@ -167,6 +168,7 @@ export function renderHomePage(container, articles, categories) {
         </div>
       </div>
     </section>
+    </main>
   `;
 
   // 2. Run the dynamic rendering functions inside HomePage
@@ -190,7 +192,7 @@ function populateHeroSection(articles) {
       <img src="${getAssetUrl(robotPost.image)}" alt="${robotPost.title}">
       <div class="hero-banner-full-overlay"></div>
       <div class="hero-banner-full-content">
-        <span class="hero-banner-full-tag">${robotPost.category}</span>
+        <a href="#/chuyen-muc/${robotPost.category}" class="hero-banner-full-tag">${robotPost.category}</a>
         <h3 class="hero-banner-full-title"><a href="#/bai-viet/${robotPost.id}">${robotPost.title}</a></h3>
         <div class="post-meta">
           <div class="post-author">
@@ -217,7 +219,7 @@ function populateHeroSection(articles) {
       <img src="${getAssetUrl(laptopPost.image)}" alt="${laptopPost.title}">
       <div class="featured-big-overlay"></div>
       <div class="featured-big-content">
-        <span class="featured-big-tag">${laptopPost.category}</span>
+        <a href="#/chuyen-muc/${laptopPost.category}" class="featured-big-tag">${laptopPost.category}</a>
         <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
         <div class="post-meta">
           <div class="post-author">
@@ -333,7 +335,7 @@ function populateSplitSections(articles) {
       <div class="post-card-mini">
         <img class="post-card-mini-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
         <div class="post-card-mini-info">
-          <span class="post-card-mini-tag">${post.category}</span>
+          <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag">${post.category}</a>
           <h4 class="post-card-mini-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
           <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
         </div>
@@ -350,7 +352,7 @@ function populateSplitSections(articles) {
     colCenterAi.innerHTML = `
       <!-- Main Center Post -->
       <div class="center-main-post">
-        <span class="center-main-tag">${mainNew.category}</span>
+        <a href="#/chuyen-muc/${mainNew.category}" class="center-main-tag">${mainNew.category}</a>
         <h4 class="center-main-title"><a href="#/bai-viet/${mainNew.id}">${mainNew.title}</a></h4>
         <div class="post-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
           <span>${mainNew.author} ${mainNew.authorTag} &bull; ${mainNew.date}</span>
@@ -364,14 +366,14 @@ function populateSplitSections(articles) {
       <div class="center-sub-row">
         <!-- Sub Left -->
         <div class="center-sub-card">
-          <span class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewLeft.category}</span>
+          <a href="#/chuyen-muc/${subNewLeft.category}" class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewLeft.category}</a>
           <h5 class="center-sub-title"><a href="#/bai-viet/${subNewLeft.id}">${subNewLeft.title}</a></h5>
           <span style="font-size: 0.7rem; color: var(--text-muted);">${subNewLeft.author}</span>
         </div>
 
         <!-- Sub Right -->
         <div class="center-sub-card">
-          <span class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewRight.category}</span>
+          <a href="#/chuyen-muc/${subNewRight.category}" class="post-card-mini-tag" style="font-size: 0.65rem;">${subNewRight.category}</a>
           <h5 class="center-sub-title"><a href="#/bai-viet/${subNewRight.id}">${subNewRight.title}</a></h5>
           <span style="font-size: 0.7rem; color: var(--text-muted);">${subNewRight.author}</span>
         </div>
@@ -408,7 +410,7 @@ function populateSplitSections(articles) {
         <div class="review-post-img-wrapper">
           <img src="${getAssetUrl(post.image)}" alt="${post.title}">
         </div>
-        <span class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</span>
+        <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</a>
         <h4 class="review-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
         <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
       </div>
@@ -430,7 +432,7 @@ function populateCategoryColumns(articles, categories) {
     return `
       <div class="category-column">
         <div class="category-header-wrapper">
-          <span class="category-title-header">${cat}</span>
+          <a href="#/chuyen-muc/${cat}" class="category-title-header">${cat}</a>
         </div>
         <div class="split-col" style="gap: 1rem;">
           ${items.map((post, idx) => `
@@ -469,7 +471,7 @@ function setupHomeEventListeners(articles) {
             <div class="post-card-mini">
               <img class="post-card-mini-img" src="${getAssetUrl(post.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250')}" alt="${post.title}">
               <div class="post-card-mini-info">
-                <span class="post-card-mini-tag">${post.category}</span>
+                <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag">${post.category}</a>
                 <h4 class="post-card-mini-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
                 <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
               </div>
