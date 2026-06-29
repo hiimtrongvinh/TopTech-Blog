@@ -1,4 +1,4 @@
-(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))s(n);new MutationObserver(n=>{for(const o of n)if(o.type==="childList")for(const r of o.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&s(r)}).observe(document,{childList:!0,subtree:!0});function c(n){const o={};return n.integrity&&(o.integrity=n.integrity),n.referrerPolicy&&(o.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?o.credentials="include":n.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(n){if(n.ep)return;n.ep=!0;const o=c(n);fetch(n.href,o)}})();function p(e){return!e||e.startsWith("http")||e.startsWith("data:")?e:`/TopTech-Blog/${e.replace(/^\//,"")}`}function L(e){e.innerHTML=`
+(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))s(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const r of o.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&s(r)}).observe(document,{childList:!0,subtree:!0});function c(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(i){if(i.ep)return;i.ep=!0;const o=c(i);fetch(i.href,o)}})();function p(e){return!e||e.startsWith("http")||e.startsWith("data:")?e:`/TopTech-Blog/${e.replace(/^\//,"")}`}function L(e){e.innerHTML=`
     <header>
       <div class="container nav-container">
         <!-- Left: Hamburger Menu & Links -->
@@ -81,7 +81,7 @@
           <div class="mega-menu-grid">
             <!-- Col 1: Tin công nghệ -->
             <div class="mega-col">
-              <h4>Tin công nghệ</h4>
+              <h4><a href="#/chuyen-muc/Tin công nghệ">Tin công nghệ</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Tin công nghệ">Điện thoại</a></li>
                 <li><a href="#/chuyen-muc/Tin công nghệ">Máy tính</a></li>
@@ -92,7 +92,7 @@
 
             <!-- Col 2: AI -->
             <div class="mega-col">
-              <h4>AI</h4>
+              <h4><a href="#/chuyen-muc/AI">AI</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/AI">Machine Learning</a></li>
                 <li><a href="#/chuyen-muc/AI">Generative AI</a></li>
@@ -103,7 +103,7 @@
 
             <!-- Col 3: Chuyển đổi số -->
             <div class="mega-col">
-              <h4>Chuyển đổi số</h4>
+              <h4><a href="#/chuyen-muc/Chuyển đổi số">Chuyển đổi số</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Chuyển đổi số">Doanh nghiệp</a></li>
                 <li><a href="#/chuyen-muc/Chuyển đổi số">Giải pháp đám mây</a></li>
@@ -114,7 +114,7 @@
 
             <!-- Col 4: Review -->
             <div class="mega-col">
-              <h4>Review</h4>
+              <h4><a href="#/chuyen-muc/Review">Review</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Review">Đánh giá Laptop</a></li>
                 <li><a href="#/chuyen-muc/Review">Đánh giá Smartphone</a></li>
@@ -125,7 +125,7 @@
 
             <!-- Col 5: Phần mềm -->
             <div class="mega-col">
-              <h4>Phần mềm</h4>
+              <h4><a href="#/chuyen-muc/Phần mềm">Phần mềm</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Phần mềm">Công cụ lập trình</a></li>
                 <li><a href="#/chuyen-muc/Phần mềm">Phần mềm văn phòng</a></li>
@@ -136,7 +136,7 @@
 
             <!-- Col 6: IT -->
             <div class="mega-col">
-              <h4>IT</h4>
+              <h4><a href="#/chuyen-muc/IT">IT</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/IT">Lập trình</a></li>
                 <li><a href="#/chuyen-muc/IT">Quản trị mạng</a></li>
@@ -147,7 +147,7 @@
 
             <!-- Col 7: Giải pháp công nghệ -->
             <div class="mega-col">
-              <h4>Giải pháp công nghệ</h4>
+              <h4><a href="#/chuyen-muc/Giải pháp công nghệ">Giải pháp công nghệ</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Giải pháp công nghệ">AI cho doanh nghiệp</a></li>
                 <li><a href="#/chuyen-muc/Giải pháp công nghệ">Tự động hóa quy trình</a></li>
@@ -158,7 +158,7 @@
 
             <!-- Col 8: Casestudy -->
             <div class="mega-col">
-              <h4>Casestudy</h4>
+              <h4><a href="#/chuyen-muc/Casestudy">Casestudy</a></h4>
               <ul>
                 <li><a href="#/chuyen-muc/Casestudy">Thành công tiêu biểu</a></li>
                 <li><a href="#/chuyen-muc/Casestudy">Phân tích thất bại</a></li>
@@ -184,7 +184,7 @@
         </button>
       </div>
     </div>
-  `}function I(e){const i=document.getElementById("theme-toggle"),c=document.getElementById("menu-toggle"),s=document.getElementById("mega-menu"),n=document.getElementById("mega-menu-close"),o=document.getElementById("mega-menu-backdrop"),r=document.getElementById("search-trigger"),a=document.getElementById("search-overlay"),t=document.getElementById("search-close"),l=document.getElementById("search-input"),g=document.querySelectorAll(".nav-chuyen-muc-trigger");function d(){const u=document.querySelector(".sun-icon"),h=document.querySelector(".moon-icon");!u||!h||(document.body.classList.contains("dark")?(u.style.display="block",h.style.display="none"):(u.style.display="none",h.style.display="block"))}(localStorage.getItem("theme")||"light")==="dark"?document.body.classList.add("dark"):document.body.classList.remove("dark"),d(),i&&i.addEventListener("click",()=>{document.body.classList.contains("dark")?(document.body.classList.remove("dark"),localStorage.setItem("theme","light")):(document.body.classList.add("dark"),localStorage.setItem("theme","dark")),d()});const y=()=>s==null?void 0:s.classList.add("active"),m=()=>s==null?void 0:s.classList.remove("active");c==null||c.addEventListener("click",y),g.forEach(u=>u.addEventListener("click",y)),n==null||n.addEventListener("click",m),o==null||o.addEventListener("click",m);const v=s==null?void 0:s.querySelectorAll("a");v==null||v.forEach(u=>u.addEventListener("click",m)),r&&a&&r.addEventListener("click",()=>{a.classList.add("active"),setTimeout(()=>l==null?void 0:l.focus(),100)});const w=()=>{a==null||a.classList.remove("active"),l&&(l.value="")};t==null||t.addEventListener("click",w),a==null||a.addEventListener("click",u=>{u.target===a&&w()}),l==null||l.addEventListener("keydown",u=>{if(u.key==="Enter"&&e){const h=l.value.trim();h&&(w(),e(h))}})}function M(e){const i=document.querySelector(".nav-home-link"),c=document.querySelector(".nav-blog-link");i==null||i.classList.remove("active"),c==null||c.classList.remove("active"),e==="#/"||e===""||e.startsWith("#/ #")?i==null||i.classList.add("active"):(e.startsWith("#/blog")||e.includes("bai-viet"))&&(c==null||c.classList.add("active"))}function B(e){e.innerHTML=`
+  `}function I(e){const n=document.getElementById("theme-toggle"),c=document.getElementById("menu-toggle"),s=document.getElementById("mega-menu"),i=document.getElementById("mega-menu-close"),o=document.getElementById("mega-menu-backdrop"),r=document.getElementById("search-trigger"),a=document.getElementById("search-overlay"),t=document.getElementById("search-close"),l=document.getElementById("search-input"),g=document.querySelectorAll(".nav-chuyen-muc-trigger");function d(){const u=document.querySelector(".sun-icon"),h=document.querySelector(".moon-icon");!u||!h||(document.body.classList.contains("dark")?(u.style.display="block",h.style.display="none"):(u.style.display="none",h.style.display="block"))}(localStorage.getItem("theme")||"light")==="dark"?document.body.classList.add("dark"):document.body.classList.remove("dark"),d(),n&&n.addEventListener("click",()=>{document.body.classList.contains("dark")?(document.body.classList.remove("dark"),localStorage.setItem("theme","light")):(document.body.classList.add("dark"),localStorage.setItem("theme","dark")),d()});const y=()=>s==null?void 0:s.classList.add("active"),m=()=>s==null?void 0:s.classList.remove("active");c==null||c.addEventListener("click",y),g.forEach(u=>u.addEventListener("click",y)),i==null||i.addEventListener("click",m),o==null||o.addEventListener("click",m);const v=s==null?void 0:s.querySelectorAll("a");v==null||v.forEach(u=>u.addEventListener("click",m)),r&&a&&r.addEventListener("click",()=>{a.classList.add("active"),setTimeout(()=>l==null?void 0:l.focus(),100)});const w=()=>{a==null||a.classList.remove("active"),l&&(l.value="")};t==null||t.addEventListener("click",w),a==null||a.addEventListener("click",u=>{u.target===a&&w()}),l==null||l.addEventListener("keydown",u=>{if(u.key==="Enter"&&e){const h=l.value.trim();h&&(w(),e(h))}})}function M(e){const n=document.querySelector(".nav-home-link"),c=document.querySelector(".nav-blog-link");n==null||n.classList.remove("active"),c==null||c.classList.remove("active"),e==="#/"||e===""||e.startsWith("#/ #")?n==null||n.classList.add("active"):(e.startsWith("#/blog")||e.includes("bai-viet"))&&(c==null||c.classList.add("active"))}function B(e){e.innerHTML=`
     <footer>
       <div class="container footer-container">
         <!-- Top part: Logo & Description (Row Layout) -->
@@ -297,7 +297,7 @@
         </div>
       </div>
     </footer>
-  `}function k(e,i,c){e.innerHTML=`
+  `}function k(e,n,c){e.innerHTML=`
     <main class="container">
     <!-- Hero Quote Banner -->
     <div class="hero-quote-block">
@@ -464,27 +464,27 @@
       </div>
     </section>
     </main>
-  `,A(i),E(i),q(i),P(i,c),H(i)}function A(e){const i=e.find(a=>a.id===1),c=document.getElementById("hero-banner-container");i&&c&&(c.innerHTML=`
-      <img src="${p(i.image)}" alt="${i.title}">
+  `,A(n),E(n),q(n),P(n,c),H(n)}function A(e){const n=e.find(a=>a.id===1),c=document.getElementById("hero-banner-container");n&&c&&(c.innerHTML=`
+      <img src="${p(n.image)}" alt="${n.title}">
       <div class="hero-banner-full-overlay"></div>
       <div class="hero-banner-full-content">
-        <a href="#/chuyen-muc/${i.category}" class="hero-banner-full-tag">${i.category}</a>
-        <h3 class="hero-banner-full-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h3>
+        <a href="#/chuyen-muc/${n.category}" class="hero-banner-full-tag">${n.category}</a>
+        <h3 class="hero-banner-full-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h3>
         <div class="post-meta">
           <div class="post-author">
-            <span>${i.author} ${i.authorTag}</span>
+            <span>${n.author} ${n.authorTag}</span>
           </div>
-          <span>&bull;&nbsp; ${i.date}</span>
-          <span>&bull;&nbsp; ${i.readTime}</span>
+          <span>&bull;&nbsp; ${n.date}</span>
+          <span>&bull;&nbsp; ${n.readTime}</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${i.views}
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${n.views}
           </span>
           <span style="display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${i.comments}
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${n.comments}
           </span>
         </div>
       </div>
-    `);const s=e.find(a=>a.id===2),n=document.getElementById("hero-left-container");s&&n&&(n.innerHTML=`
+    `);const s=e.find(a=>a.id===2),i=document.getElementById("hero-left-container");s&&i&&(i.innerHTML=`
       <img src="${p(s.image)}" alt="${s.title}">
       <div class="featured-big-overlay"></div>
       <div class="featured-big-content">
@@ -532,9 +532,9 @@
           </div>
         </div>
       </div>
-    `).join("")}}function E(e){const i=document.getElementById("featured-numbers-container");if(!i)return;const c=e.slice(2,8);i.innerHTML=c.map((s,n)=>`
+    `).join("")}}function E(e){const n=document.getElementById("featured-numbers-container");if(!n)return;const c=e.slice(2,8);n.innerHTML=c.map((s,i)=>`
     <div class="number-post-card">
-      <span class="post-number">#${n+1}</span>
+      <span class="post-number">#${i+1}</span>
       <div class="number-post-img-wrapper">
         <img src="${p(s.image)}" alt="${s.title}">
       </div>
@@ -549,7 +549,7 @@
         </div>
       </div>
     </div>
-  `).join("")}function q(e){const i=document.getElementById("new-updates-content"),c=document.getElementById("col-center-ai"),s=document.getElementById("trending-content"),n=document.getElementById("reviews-content");if(i){const o=e.find(t=>t.id===3),r=e.find(t=>t.id===4),a=e.find(t=>t.id===7);i.innerHTML=[o,r,a].map(t=>`
+  `).join("")}function q(e){const n=document.getElementById("new-updates-content"),c=document.getElementById("col-center-ai"),s=document.getElementById("trending-content"),i=document.getElementById("reviews-content");if(n){const o=e.find(t=>t.id===3),r=e.find(t=>t.id===4),a=e.find(t=>t.id===7);n.innerHTML=[o,r,a].map(t=>`
       <div class="post-card-mini">
         <img class="post-card-mini-img" src="${p(t.image)}" alt="${t.title}">
         <div class="post-card-mini-info">
@@ -592,7 +592,7 @@
         <h4 class="trending-post-title"><a href="#/bai-viet/${r.id}">${r.title}</a></h4>
         <span style="font-size: 0.7rem; color: var(--text-muted);">${r.author} ${r.authorTag} &bull; ${r.date}</span>
       </div>
-    `).join("")}if(n){const o=e.filter(t=>t.category==="Review"),r=e.filter(t=>t.category!=="Review"),a=[...o,...r].slice(0,4);n.innerHTML=a.map(t=>`
+    `).join("")}if(i){const o=e.filter(t=>t.category==="Review"),r=e.filter(t=>t.category!=="Review"),a=[...o,...r].slice(0,4);i.innerHTML=a.map(t=>`
       <div class="review-post-card">
         <div class="review-post-img-wrapper">
           <img src="${p(t.image)}" alt="${t.title}">
@@ -601,7 +601,7 @@
         <h4 class="review-post-title"><a href="#/bai-viet/${t.id}">${t.title}</a></h4>
         <span style="font-size: 0.7rem; color: var(--text-muted);">${t.author} &bull; ${t.date}</span>
       </div>
-    `).join("")}}function P(e,i){const c=document.getElementById("category-columns-container");c&&(c.innerHTML=i.map((s,n)=>{const o=e.filter(a=>a.category===s),r=[];for(let a=0;a<4;a++)r.push(o[a%o.length]||e[(n*2+a)%e.length]);return`
+    `).join("")}}function P(e,n){const c=document.getElementById("category-columns-container");c&&(c.innerHTML=n.map((s,i)=>{const o=e.filter(a=>a.category===s),r=[];for(let a=0;a<4;a++)r.push(o[a%o.length]||e[(i*2+a)%e.length]);return`
       <div class="category-column">
         <div class="category-header-wrapper">
           <a href="#/chuyen-muc/${s}" class="category-title-header">${s}</a>
@@ -618,7 +618,7 @@
           `).join("")}
         </div>
       </div>
-    `}).join(""))}function H(e){const i=document.getElementById("refresh-new-updates"),c=document.getElementById("new-updates-content");i&&i.addEventListener("click",()=>{i.classList.add("spinning"),setTimeout(()=>{i.classList.remove("spinning");const s=[...e].filter(a=>a.id!==5&&a.id!==6).sort(()=>.5-Math.random()),n=s[0],o=s[1],r=s[2];c&&(c.innerHTML=[n,o,r].map(a=>`
+    `}).join(""))}function H(e){const n=document.getElementById("refresh-new-updates"),c=document.getElementById("new-updates-content");n&&n.addEventListener("click",()=>{n.classList.add("spinning"),setTimeout(()=>{n.classList.remove("spinning");const s=[...e].filter(a=>a.id!==5&&a.id!==6).sort(()=>.5-Math.random()),i=s[0],o=s[1],r=s[2];c&&(c.innerHTML=[i,o,r].map(a=>`
             <div class="post-card-mini">
               <img class="post-card-mini-img" src="${p(a.image||"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250")}" alt="${a.title}">
               <div class="post-card-mini-info">
@@ -627,7 +627,7 @@
                 <span style="font-size: 0.7rem; color: var(--text-muted);">${a.author} &bull; ${a.date}</span>
               </div>
             </div>
-          `).join(""))},600)})}function C(e,i,c,s=!1){const n=decodeURIComponent(i);let o=[],r=n,a="Chuyên mục",t=`Khám phá các bài viết, tin tức công nghệ mới nhất và những chia sẻ chuyên sâu về chuyên mục ${n} từ đội ngũ chuyên gia TopTech.`;s?(o=c.filter(m=>m.title.toLowerCase().includes(n.toLowerCase())||m.category.toLowerCase().includes(n.toLowerCase())||m.description&&m.description.toLowerCase().includes(n.toLowerCase())),r=`Tìm kiếm: "${n}"`,a="Kết quả",t=`Tìm thấy ${o.length} bài viết liên quan đến từ khóa của bạn.`):(o=c.filter(m=>m.category.toLowerCase()===n.toLowerCase()),o.length===0&&(o=c));let l="newest",g=6;e.innerHTML=`
+          `).join(""))},600)})}function C(e,n,c,s=!1){const i=decodeURIComponent(n);let o=[],r=i,a="Chuyên mục",t=`Khám phá các bài viết, tin tức công nghệ mới nhất và những chia sẻ chuyên sâu về chuyên mục ${i} từ đội ngũ chuyên gia TopTech.`;s?(o=c.filter(m=>m.title.toLowerCase().includes(i.toLowerCase())||m.category.toLowerCase().includes(i.toLowerCase())||m.description&&m.description.toLowerCase().includes(i.toLowerCase())),r=`Tìm kiếm: "${i}"`,a="Kết quả",t=`Tìm thấy ${o.length} bài viết liên quan đến từ khóa của bạn.`):(o=c.filter(m=>m.category.toLowerCase()===i.toLowerCase()),o.length===0&&(o=c));let l="newest",g=6;e.innerHTML=`
     <div class="category-page-header">
       <div class="category-banner-overlay"></div>
       <div class="container category-header-content">
@@ -685,7 +685,7 @@
           </div>
         </div>
       </article>
-    `).join("");const u=document.getElementById("load-more-container");u&&(v.length>g?u.style.display="block":u.style.display="none")}d();const f=document.getElementById("load-more-articles-btn");f&&f.addEventListener("click",()=>{g+=6,d()});const y=document.querySelectorAll(".filter-tab-btn");y.forEach(m=>{m.addEventListener("click",v=>{y.forEach(w=>w.classList.remove("active")),v.target.classList.add("active"),l=v.target.dataset.filter,g=6,d()})})}function S(e,i,c){const s=parseInt(i,10),n=c.find(l=>l.id===s)||c[0];n.views+=1;const o=c.filter(l=>l.category===n.category&&l.id!==n.id).slice(0,4);n.commentsList||(n.commentsList=[{id:1,author:"Nguyễn Văn Hùng",date:"2 ngày trước",content:"Bài viết rất chi tiết và dễ hiểu! Tôi đang tìm hiểu về vấn đề này và thấy thông tin cực kỳ hữu ích cho công việc thực tế của mình.",avatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=80&h=80"},{id:2,author:"Lê Minh Hạnh",date:"1 ngày trước",content:"TopTech chia sẻ kiến thức chuẩn quá, thiết kế giao diện bài viết đọc rất sướng mắt. Mong nhóm tác giả ra thêm nhiều bài viết sâu hơn nữa!",avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=80&h=80"}]),e.innerHTML=`
+    `).join("");const u=document.getElementById("load-more-container");u&&(v.length>g?u.style.display="block":u.style.display="none")}d();const f=document.getElementById("load-more-articles-btn");f&&f.addEventListener("click",()=>{g+=6,d()});const y=document.querySelectorAll(".filter-tab-btn");y.forEach(m=>{m.addEventListener("click",v=>{y.forEach(w=>w.classList.remove("active")),v.target.classList.add("active"),l=v.target.dataset.filter,g=6,d()})})}function S(e,n,c){const s=parseInt(n,10),i=c.find(l=>l.id===s)||c[0];i.views+=1;const o=c.filter(l=>l.category===i.category&&l.id!==i.id).slice(0,4);i.commentsList||(i.commentsList=[{id:1,author:"Nguyễn Văn Hùng",date:"2 ngày trước",content:"Bài viết rất chi tiết và dễ hiểu! Tôi đang tìm hiểu về vấn đề này và thấy thông tin cực kỳ hữu ích cho công việc thực tế của mình.",avatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=80&h=80"},{id:2,author:"Lê Minh Hạnh",date:"1 ngày trước",content:"TopTech chia sẻ kiến thức chuẩn quá, thiết kế giao diện bài viết đọc rất sướng mắt. Mong nhóm tác giả ra thêm nhiều bài viết sâu hơn nữa!",avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=80&h=80"}]),e.innerHTML=`
     <!-- Reading Progress Bar -->
     <div class="reading-progress-container">
       <div class="reading-progress-bar" id="reading-bar"></div>
@@ -697,29 +697,29 @@
         <main class="post-main-content">
           <!-- Category & Metadata -->
           <div class="post-detail-header">
-            <a href="#/chuyen-muc/${n.category}" class="post-detail-category">${n.category}</a>
-            <h1 class="post-detail-title">${n.title}</h1>
+            <a href="#/chuyen-muc/${i.category}" class="post-detail-category">${i.category}</a>
+            <h1 class="post-detail-title">${i.title}</h1>
             
             <div class="post-meta" style="font-size: 0.9rem; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem;">
               <div class="post-author">
-                <span>Tác giả: <strong>${n.author}</strong> ${n.authorTag||""}</span>
+                <span>Tác giả: <strong>${i.author}</strong> ${i.authorTag||""}</span>
               </div>
-              <span>&bull;&nbsp; ${n.date}</span>
-              <span>&bull;&nbsp; ${n.readTime}</span>
+              <span>&bull;&nbsp; ${i.date}</span>
+              <span>&bull;&nbsp; ${i.readTime}</span>
               <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${n.views} lượt xem
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${i.views} lượt xem
               </span>
             </div>
           </div>
 
           <!-- Feature Image -->
           <div class="post-detail-img-wrapper">
-            <img src="${p(n.image)}" alt="${n.title}">
+            <img src="${p(i.image)}" alt="${i.title}">
           </div>
 
           <!-- Rich Text Content Body -->
           <div class="post-detail-body">
-            <p class="post-lead">${n.description||"Bài viết phân tích chuyên sâu về xu hướng công nghệ mới, hướng dẫn thực hành và đưa ra các giải pháp chuyển đổi số tối ưu hiệu suất cho doanh nghiệp."}</p>
+            <p class="post-lead">${i.description||"Bài viết phân tích chuyên sâu về xu hướng công nghệ mới, hướng dẫn thực hành và đưa ra các giải pháp chuyển đổi số tối ưu hiệu suất cho doanh nghiệp."}</p>
             
             <h2>1. Bối cảnh và Thách thức hiện tại</h2>
             <p>Trong kỷ nguyên số hóa bùng nổ, việc áp dụng công nghệ không còn là sự lựa chọn mà đã trở thành yếu tố sống còn đối với mọi cá nhân và doanh nghiệp. Sự ra đời của các nền tảng trí tuệ nhân tạo (AI) thế hệ mới, giải pháp điện toán đám mây và hệ thống dữ liệu lớn (Big Data) đòi hỏi chúng ta phải có một tư duy thích ứng nhanh chóng và liên tục cập nhật kiến thức.</p>
@@ -745,7 +745,7 @@
 
           <!-- Comments Section -->
           <section class="post-comments-section">
-            <h3 class="comments-title">Bình luận (<span id="comments-count">${n.commentsList.length}</span>)</h3>
+            <h3 class="comments-title">Bình luận (<span id="comments-count">${i.commentsList.length}</span>)</h3>
             
             <!-- Add Comment Form -->
             <div class="add-comment-form">
@@ -793,7 +793,7 @@
         </aside>
       </div>
     </div>
-  `;function r(){const l=document.getElementById("comments-list");if(!l)return;l.innerHTML=n.commentsList.map(d=>`
+  `;function r(){const l=document.getElementById("comments-list");if(!l)return;l.innerHTML=i.commentsList.map(d=>`
       <div class="comment-item">
         <img class="comment-avatar" src="${d.avatar}" alt="${d.author}">
         <div class="comment-content">
@@ -804,4 +804,4 @@
           <p class="comment-text-p">${d.content}</p>
         </div>
       </div>
-    `).join("");const g=document.getElementById("comments-count");g&&(g.textContent=n.commentsList.length)}r();const a=document.getElementById("submit-comment-btn");a&&a.addEventListener("click",()=>{const l=document.getElementById("comment-author-name"),g=document.getElementById("comment-text"),d=l==null?void 0:l.value.trim(),f=g==null?void 0:g.value.trim();if(!d||!f){alert("Vui lòng điền đầy đủ Tên và Nội dung bình luận.");return}const y={id:Date.now(),author:d,date:"Vừa xong",content:f,avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80&h=80"};n.commentsList.unshift(y),n.comments=n.commentsList.length,l&&(l.value=""),g&&(g.value=""),r()});const t=()=>{const l=document.getElementById("reading-bar");if(!l)return;const g=window.scrollY||document.documentElement.scrollTop,d=document.documentElement.scrollHeight-document.documentElement.clientHeight;if(d>0){const f=g/d*100;l.style.width=f+"%"}};window.addEventListener("scroll",t),e.cleanup=()=>{window.removeEventListener("scroll",t)}}const T=[{id:1,title:"Top 20 công cụ AI tốt nhất năm 2026",category:"AI",image:"hero_robot.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Khám phá danh sách các công cụ Trí tuệ Nhân tạo đột phá nhất năm 2026, giúp tự động hóa công việc, tăng hiệu suất gấp 5 lần và tối ưu hóa quy trình làm việc của cá nhân cũng như doanh nghiệp."},{id:2,title:"Top 15 laptop cho lập trình viên chuyên nghiệp",category:"Tin công nghệ",image:"coding_laptop.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Đánh giá chi tiết top 15 dòng máy tính xách tay cấu hình cao, pin trâu và bàn phím gõ êm nhất dành riêng cho các kỹ sư phần mềm và lập trình viên chuyên nghiệp năm nay."},{id:3,title:"So sánh ưu điểm ChatGPT vs Claude vs Gemini năm nay",category:"AI",image:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1357,comments:26,featured:!1},{id:4,title:"Mô hình ngôn ngữ lớn LLM đang thay đổi lập trình thế nào",category:"AI",image:"https://images.unsplash.com/photo-1684369175833-3d026dc6a066?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 ngày trước",views:945,comments:14,featured:!1},{id:5,title:"EUROPE IS PUSHING BACK ON WASHINGTON’S CHIP WAR",category:"AI",image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800&h=450",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:894,comments:15,description:`At high-stakes meetings with the White House, Anthropic's cofounder—a "weirdo," per one official—has been replaced by cofounder Tom Brown to lead negotiations on silicon sanctions.`},{id:6,title:"I Met With China’s Top AI Experts. They’re Freaking Out, Too",category:"AI",image:"https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1102,comments:42,description:"The AI arms race between China and the US has researchers on both sides worried about a “Chernobyl moment” for automated systems."},{id:7,title:"Đánh giá chi tiết Keychron Q1 Pro sau 6 tháng sử dụng",category:"Review",image:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"2 ngày trước",views:520,comments:9},{id:8,title:"A24 Knows You’re Mad About the Google AI Collab",category:"AI",image:"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:932,comments:18},{id:9,title:"Meta tạm dừng chương trình theo dõi nhân viên sau sự cố rò rỉ dữ liệu",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:2405,comments:63},{id:10,title:"Chính phủ Mỹ yêu cầu nhân viên gỡ bỏ ứng dụng lạ trên điện thoại công vụ",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:3108,comments:72},{id:11,title:"Hành trình chuyển đổi số của doanh nghiệp bán lẻ Việt Nam",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"3 ngày trước",views:1823,comments:29},{id:12,title:"Chiến lược tối ưu hóa hạ tầng đám mây cho startup năm 2026",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"4 ngày trước",views:1245,comments:11},{id:13,title:"Đánh giá chi tiết màn hình Dell UltraSharp U2723QE 4K",category:"Review",image:"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"5 ngày trước",views:890,comments:15},{id:14,title:"VS Code vs WebStorm: IDE nào tốt hơn cho lập trình Frontend",category:"Phần mềm",image:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 tuần trước",views:3105,comments:54},{id:15,title:"Xây dựng hệ thống CI/CD hoàn chỉnh với Docker và GitHub Actions",category:"IT",image:"https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:2200,comments:31},{id:16,title:"Bảo mật API trong kiến trúc Microservices thế nào cho đúng",category:"IT",image:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:1780,comments:19},{id:17,title:"Ứng dụng AI tổng hợp để tăng năng suất cho doanh nghiệp",category:"Giải pháp công nghệ",image:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"2 tuần trước",views:1450,comments:22},{id:18,title:"Casestudy: Uber đã di chuyển hạ tầng dữ liệu khổng lồ thế nào",category:"Casestudy",image:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"3 tuần trước",views:2900,comments:48}],$=["Tin công nghệ","AI","Chuyển đổi số","Review","Phần mềm","IT","Giải pháp công nghệ","Casestudy"];function x(){const e=document.getElementById("app-content");if(!e)return;e.cleanup&&(e.cleanup(),e.cleanup=null);const i=window.location.hash||"#/";if(M(i),i.startsWith("#/ #")){const c=i.split("#")[2];k(e,T,$),setTimeout(()=>{const s=document.getElementById(c);s&&s.scrollIntoView({behavior:"smooth"})},100);return}if(i==="#/"||i==="")k(e,T,$);else if(i.startsWith("#/chuyen-muc/")){const c=i.replace("#/chuyen-muc/","");C(e,c,T,!1)}else if(i.startsWith("#/tim-kiem/")){const c=i.replace("#/tim-kiem/","");C(e,c,T,!0)}else if(i.startsWith("#/bai-viet/")){const c=i.replace("#/bai-viet/","");S(e,c,T)}else window.location.hash="#/";i.startsWith("#/ #")||window.scrollTo(0,0)}document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("app-header"),i=document.getElementById("app-footer");e&&L(e),i&&B(i),I(c=>{window.location.hash=`#/tim-kiem/${encodeURIComponent(c)}`}),window.addEventListener("hashchange",x),x()});
+    `).join("");const g=document.getElementById("comments-count");g&&(g.textContent=i.commentsList.length)}r();const a=document.getElementById("submit-comment-btn");a&&a.addEventListener("click",()=>{const l=document.getElementById("comment-author-name"),g=document.getElementById("comment-text"),d=l==null?void 0:l.value.trim(),f=g==null?void 0:g.value.trim();if(!d||!f){alert("Vui lòng điền đầy đủ Tên và Nội dung bình luận.");return}const y={id:Date.now(),author:d,date:"Vừa xong",content:f,avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80&h=80"};i.commentsList.unshift(y),i.comments=i.commentsList.length,l&&(l.value=""),g&&(g.value=""),r()});const t=()=>{const l=document.getElementById("reading-bar");if(!l)return;const g=window.scrollY||document.documentElement.scrollTop,d=document.documentElement.scrollHeight-document.documentElement.clientHeight;if(d>0){const f=g/d*100;l.style.width=f+"%"}};window.addEventListener("scroll",t),e.cleanup=()=>{window.removeEventListener("scroll",t)}}const T=[{id:1,title:"Top 20 công cụ AI tốt nhất năm 2026",category:"AI",image:"hero_robot.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Khám phá danh sách các công cụ Trí tuệ Nhân tạo đột phá nhất năm 2026, giúp tự động hóa công việc, tăng hiệu suất gấp 5 lần và tối ưu hóa quy trình làm việc của cá nhân cũng như doanh nghiệp."},{id:2,title:"Top 15 laptop cho lập trình viên chuyên nghiệp",category:"Tin công nghệ",image:"coding_laptop.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Đánh giá chi tiết top 15 dòng máy tính xách tay cấu hình cao, pin trâu và bàn phím gõ êm nhất dành riêng cho các kỹ sư phần mềm và lập trình viên chuyên nghiệp năm nay."},{id:3,title:"So sánh ưu điểm ChatGPT vs Claude vs Gemini năm nay",category:"AI",image:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1357,comments:26,featured:!1},{id:4,title:"Mô hình ngôn ngữ lớn LLM đang thay đổi lập trình thế nào",category:"AI",image:"https://images.unsplash.com/photo-1684369175833-3d026dc6a066?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 ngày trước",views:945,comments:14,featured:!1},{id:5,title:"EUROPE IS PUSHING BACK ON WASHINGTON’S CHIP WAR",category:"AI",image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800&h=450",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:894,comments:15,description:`At high-stakes meetings with the White House, Anthropic's cofounder—a "weirdo," per one official—has been replaced by cofounder Tom Brown to lead negotiations on silicon sanctions.`},{id:6,title:"I Met With China’s Top AI Experts. They’re Freaking Out, Too",category:"AI",image:"https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1102,comments:42,description:"The AI arms race between China and the US has researchers on both sides worried about a “Chernobyl moment” for automated systems."},{id:7,title:"Đánh giá chi tiết Keychron Q1 Pro sau 6 tháng sử dụng",category:"Review",image:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"2 ngày trước",views:520,comments:9},{id:8,title:"A24 Knows You’re Mad About the Google AI Collab",category:"AI",image:"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:932,comments:18},{id:9,title:"Meta tạm dừng chương trình theo dõi nhân viên sau sự cố rò rỉ dữ liệu",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:2405,comments:63},{id:10,title:"Chính phủ Mỹ yêu cầu nhân viên gỡ bỏ ứng dụng lạ trên điện thoại công vụ",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:3108,comments:72},{id:11,title:"Hành trình chuyển đổi số của doanh nghiệp bán lẻ Việt Nam",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"3 ngày trước",views:1823,comments:29},{id:12,title:"Chiến lược tối ưu hóa hạ tầng đám mây cho startup năm 2026",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"4 ngày trước",views:1245,comments:11},{id:13,title:"Đánh giá chi tiết màn hình Dell UltraSharp U2723QE 4K",category:"Review",image:"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"5 ngày trước",views:890,comments:15},{id:14,title:"VS Code vs WebStorm: IDE nào tốt hơn cho lập trình Frontend",category:"Phần mềm",image:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 tuần trước",views:3105,comments:54},{id:15,title:"Xây dựng hệ thống CI/CD hoàn chỉnh với Docker và GitHub Actions",category:"IT",image:"https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:2200,comments:31},{id:16,title:"Bảo mật API trong kiến trúc Microservices thế nào cho đúng",category:"IT",image:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:1780,comments:19},{id:17,title:"Ứng dụng AI tổng hợp để tăng năng suất cho doanh nghiệp",category:"Giải pháp công nghệ",image:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"2 tuần trước",views:1450,comments:22},{id:18,title:"Casestudy: Uber đã di chuyển hạ tầng dữ liệu khổng lồ thế nào",category:"Casestudy",image:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"3 tuần trước",views:2900,comments:48}],$=["Tin công nghệ","AI","Chuyển đổi số","Review","Phần mềm","IT","Giải pháp công nghệ","Casestudy"];function x(){const e=document.getElementById("app-content");if(!e)return;e.cleanup&&(e.cleanup(),e.cleanup=null);const n=window.location.hash||"#/";if(M(n),n.startsWith("#/ #")){const c=n.split("#")[2];k(e,T,$),setTimeout(()=>{const s=document.getElementById(c);s&&s.scrollIntoView({behavior:"smooth"})},100);return}if(n==="#/"||n==="")k(e,T,$);else if(n.startsWith("#/chuyen-muc/")){const c=n.replace("#/chuyen-muc/","");C(e,c,T,!1)}else if(n.startsWith("#/tim-kiem/")){const c=n.replace("#/tim-kiem/","");C(e,c,T,!0)}else if(n.startsWith("#/bai-viet/")){const c=n.replace("#/bai-viet/","");S(e,c,T)}else window.location.hash="#/";n.startsWith("#/ #")||window.scrollTo(0,0)}document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("app-header"),n=document.getElementById("app-footer");e&&L(e),n&&B(n),I(c=>{window.location.hash=`#/tim-kiem/${encodeURIComponent(c)}`}),window.addEventListener("hashchange",x),x()});
