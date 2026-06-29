@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TopTech - Nền tảng chia sẻ kiến thức công nghệ</title>
+  <meta name="description"
+    content="TOPTECH - Blog chia sẻ kiến thức công nghệ, trí tuệ nhân tạo (AI), chuyển đổi số, phần mềm doanh nghiệp và các xu hướng công nghệ mới nhất.">
+  <script type="module" crossorigin src="/assets/index-DoiibXkn.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CE9X4Mk7.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav-container">
+      <!-- Left: Hamburger Menu & Links -->
+      <div class="nav-left">
+        <button class="menu-toggle-btn" id="menu-toggle" aria-label="Mở danh mục">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </button>
+        <ul class="nav-links desktop-only">
+          <li><a href="#" class="active">Trang chủ</a></li>
+          <li><a href="#blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Center: Logo -->
+      <a href="#" class="logo">
+        <img class="logo-img" src="/assets/logo-toptech-color.svg" alt="TopTech Logo">
+      </a>
+
+      <!-- Right: Desktop Links & Actions -->
+      <div class="header-actions">
+        <ul class="nav-links desktop-only" style="margin-right: 0.5rem;">
+          <li><a href="#chuyen-muc">Chuyên mục</a></li>
+          <li><a href="#tac-gia">Tác giả</a></li>
+        </ul>
+
+        <!-- Dark Mode Toggle -->
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Chuyển chế độ tối/sáng">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="display: none;">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </button>
+
+        <!-- Search Trigger -->
+        <button class="search-btn" id="search-trigger" aria-label="Tìm kiếm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mega Menu Drawer (Slide down full screen) -->
+  <div class="mega-menu" id="mega-menu">
+    <div class="mega-menu-backdrop" id="mega-menu-backdrop"></div>
+    <div class="mega-menu-content">
+      <div class="container">
+        <div class="mega-menu-header">
+          <h3 class="mega-menu-title">Tất cả chuyên mục</h3>
+          <button class="mega-menu-close" id="mega-menu-close" aria-label="Đóng menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="mega-menu-grid">
+          <!-- Col 1: Tin công nghệ -->
+          <div class="mega-col">
+            <h4>Tin công nghệ</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Điện thoại</a></li>
+              <li><a href="#chuyen-muc">Máy tính</a></li>
+              <li><a href="#chuyen-muc">Thiết bị thông minh</a></li>
+              <li><a href="#chuyen-muc">Xe điện</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 2: AI -->
+          <div class="mega-col">
+            <h4>AI</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Machine Learning</a></li>
+              <li><a href="#chuyen-muc">Generative AI</a></li>
+              <li><a href="#chuyen-muc">ChatGPT & LLMs</a></li>
+              <li><a href="#chuyen-muc">Thị giác máy tính</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Chuyển đổi số -->
+          <div class="mega-col">
+            <h4>Chuyển đổi số</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Doanh nghiệp</a></li>
+              <li><a href="#chuyen-muc">Giải pháp đám mây</a></li>
+              <li><a href="#chuyen-muc">IoT & Automation</a></li>
+              <li><a href="#chuyen-muc">Bảo mật dữ liệu</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Review -->
+          <div class="mega-col">
+            <h4>Review</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Đánh giá Laptop</a></li>
+              <li><a href="#chuyen-muc">Đánh giá Smartphone</a></li>
+              <li><a href="#chuyen-muc">Đồ công nghệ khác</a></li>
+              <li><a href="#chuyen-muc">Trải nghiệm dịch vụ</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 5: Phần mềm -->
+          <div class="mega-col">
+            <h4>Phần mềm</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Công cụ lập trình</a></li>
+              <li><a href="#chuyen-muc">Phần mềm văn phòng</a></li>
+              <li><a href="#chuyen-muc">Hệ điều hành</a></li>
+              <li><a href="#chuyen-muc">Ứng dụng di động</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 6: IT -->
+          <div class="mega-col">
+            <h4>IT</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Lập trình</a></li>
+              <li><a href="#chuyen-muc">Quản trị mạng</a></li>
+              <li><a href="#chuyen-muc">Cơ sở dữ liệu</a></li>
+              <li><a href="#chuyen-muc">DevOps</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 7: Giải pháp công nghệ -->
+          <div class="mega-col">
+            <h4>Giải pháp công nghệ</h4>
+            <ul>
+              <li><a href="#chuyen-muc">AI cho doanh nghiệp</a></li>
+              <li><a href="#chuyen-muc">Tự động hóa quy trình</a></li>
+              <li><a href="#chuyen-muc">Hạ tầng số</a></li>
+              <li><a href="#chuyen-muc">ERP & CRM</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 8: Casestudy -->
+          <div class="mega-col">
+            <h4>Casestudy</h4>
+            <ul>
+              <li><a href="#chuyen-muc">Thành công tiêu biểu</a></li>
+              <li><a href="#chuyen-muc">Phân tích thất bại</a></li>
+              <li><a href="#chuyen-muc">Khảo sát thực tế</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <main class="container">
+    <!-- Hero Quote Banner -->
+    <div class="hero-quote-block">
+      <div class="quote-icon">“</div>
+      <p class="hero-quote-text">Công nghệ không chỉ là xu hướng mà còn là động lực giúp nâng cao năng suất, tối ưu vận
+        hành và tạo ra lợi thế cạnh tranh bền vững.</p>
+      <p class="hero-sub-quote"><strong>TOPTECH</strong> - nền tảng blog chia sẻ kiến thức về công nghệ, trí tuệ nhân
+        tạo (AI), chuyển đổi số, phần mềm doanh nghiệp và các xu hướng công nghệ mới nhất, mang đến những bài viết
+        chuyên sâu, hướng dẫn thực tiễn và giải pháp giúp cá nhân, doanh nghiệp ứng dụng công nghệ hiệu quả vào công
+        việc và kinh doanh.</p>
+    </div>
+
+    <!-- 1. Full-width Main Hero Banner (Robot post) -->
+    <section class="hero-banner-full" id="hero-banner-container">
+      <!-- Rendered dynamically by JS -->
+    </section>
+
+    <!-- 2. Hero Grid: 1 Big Laptop Featured & Side List -->
+    <section class="hero-grid" id="blog">
+      <!-- Left: Laptop Post -->
+      <div class="featured-big" id="hero-left-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <!-- Right: Vertically stacked posts -->
+      <div class="featured-side-list" id="hero-side-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Bottom of Hero: Horizontal Grid of 4 Small Cards -->
+    <section class="small-post-grid" id="hero-small-grid-container">
+      <!-- Rendered dynamically by JS -->
+    </section>
+
+    <!-- Section: Bài viết nổi bật -->
+    <section class="section-padding" id="noi-bat">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Bài viết nổi bật</h2>
+        <a href="#chuyen-muc" class="view-more-btn">
+          Đọc thêm
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Numbered List 1-6 -->
+      <div class="featured-numbers-grid" id="featured-numbers-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Section: Mới cập nhật, AI (Giữa), Xu hướng (Phải) -->
+    <section class="section-padding" style="border-top: 1px solid var(--border-color); padding-top: 3rem;">
+      <div class="split-sections-grid">
+        <!-- Column 1: Mới cập nhật (Trái) -->
+        <div class="split-col" id="col-new-updates">
+          <div class="sub-section-title-wrapper">
+            <h3 class="sub-section-title">Mới cập nhật</h3>
+          </div>
+          <div class="split-col" id="new-updates-content" style="gap: 1.2rem;">
+            <!-- Rendered dynamically by JS -->
+          </div>
+          <button class="refresh-btn" id="refresh-new-updates" aria-label="Refresh updates">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+              <path d="M16 16h5v5"></path>
+            </svg>
+            Cập nhật
+          </button>
+        </div>
+
+        <!-- Column 2: AI Featured (Giữa) -->
+        <div class="split-col-center" id="col-center-ai">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Column 3: Xu hướng (Phải) -->
+        <div class="split-col" id="col-trending">
+          <div class="sub-section-title-wrapper">
+            <h3 class="sub-section-title">Xu hướng</h3>
+          </div>
+          <div class="split-col" id="trending-content" style="gap: 1.2rem;">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Review (Full-width dưới cụm tin) -->
+    <section class="section-padding" style="border-top: 1px solid var(--border-color); padding-top: 3rem;">
+      <div class="sub-section-title-wrapper">
+        <h3 class="sub-section-title">Review</h3>
+      </div>
+      <div class="review-grid-four" id="reviews-content">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Section: Bảng tin chuyên mục -->
+    <section class="section-padding" id="chuyen-muc">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Bảng tin chuyên mục</h2>
+      </div>
+
+      <!-- Categories Columns (8 categories in grid) -->
+      <div class="categories-tabs-grid" id="category-columns-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Section: Đội ngũ tác giả -->
+    <section class="section-padding authors-section-bg" id="tac-gia">
+      <div class="container">
+        <div class="section-title-wrapper">
+          <h2 class="section-title">Đội ngũ tác giả</h2>
+        </div>
+        <div class="authors-grid">
+          <div class="author-card">
+            <div class="author-avatar-wrapper">
+              <img class="author-avatar" src="/assets/phuonglinh.png">
+            </div>
+            <h4 class="author-name">Ms. Phương Linh</h4>
+            <span class="author-role">Content writer</span>
+          </div>
+          <div class="author-card">
+            <div class="author-avatar-wrapper">
+              <img class="author-avatar" src="/assets/phuonglinh.png">
+            </div>
+            <h4 class="author-name">Ms. Ngọc Thanh</h4>
+            <span class="author-role">Content writer</span>
+          </div>
+          <div class="author-card">
+            <div class="author-avatar-wrapper">
+              <img class="author-avatar" src="/assets/phuonglinh.png">
+            </div>
+            <h4 class="author-name">Mr. Lê Mạnh</h4>
+            <span class="author-role">CEO</span>
+          </div>
+          <div class="author-card">
+            <div class="author-avatar-wrapper">
+              <img class="author-avatar" src="/assets/phuonglinh.png">
+            </div>
+            <h4 class="author-name">Ms. Kim Phượng</h4>
+            <span class="author-role">Content writer</span>
+          </div>
+          <div class="author-card">
+            <div class="author-avatar-wrapper">
+              <img class="author-avatar" src="/assets/phuonglinh.png">
+            </div>
+            <h4 class="author-name">Ms. Trà My</h4>
+            <span class="author-role">Developer</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="#" class="view-more-btn" style="display: inline-flex;">Tìm hiểu thêm</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <!-- Top part: Logo & Description (Row Layout) -->
+      <div class="footer-top-row">
+        <a href="#" class="logo">
+          <img class="logo-img-footer" src="/assets/logo-toptech-monochrome.svg" alt="TopTech Logo Đơn Sắc">
+        </a>
+        <p class="footer-desc">Với tầm nhìn trở thành một trong những website chia sẻ kiến thức công nghệ và giải pháp
+          số uy tín tại Việt Nam, đồng hành cùng doanh nghiệp trên hành trình chuyển đổi số, TopTech mang trong mình sứ
+          mệnh cao cả - mang công nghệ đến gần hơn với doanh nghiệp và cộng đồng thông qua những nội dung dễ hiểu, chính
+          xác và có giá trị ứng dụng cao.</p>
+      </div>
+
+      <!-- Middle part: Columns Grid -->
+      <div class="footer-links-grid">
+        <!-- Col 1 -->
+        <div>
+          <h4 class="footer-col-title">Chuyên mục</h4>
+          <ul class="footer-links">
+            <li><a href="#chuyen-muc">Tin công nghệ</a></li>
+            <li><a href="#chuyen-muc">AI</a></li>
+            <li><a href="#chuyen-muc">Chuyển đổi số</a></li>
+            <li><a href="#chuyen-muc">Review</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h4 class="footer-col-title">Chuyên mục</h4>
+          <ul class="footer-links">
+            <li><a href="#chuyen-muc">Phần mềm</a></li>
+            <li><a href="#chuyen-muc">IT</a></li>
+            <li><a href="#chuyen-muc">Giải pháp công nghệ</a></li>
+            <li><a href="#chuyen-muc">Casestudy</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h4 class="footer-col-title">Chuyên mục</h4>
+          <ul class="footer-links">
+            <li><a href="#chuyen-muc">Tin công nghệ</a></li>
+            <li><a href="#chuyen-muc">AI</a></li>
+            <li><a href="#chuyen-muc">Chuyển đổi số</a></li>
+            <li><a href="#chuyen-muc">Review</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div>
+          <h4 class="footer-col-title">Chuyên mục</h4>
+          <ul class="footer-links">
+            <li><a href="#chuyen-muc">Phần mềm</a></li>
+            <li><a href="#chuyen-muc">IT</a></li>
+            <li><a href="#chuyen-muc">Giải pháp công nghệ</a></li>
+            <li><a href="#chuyen-muc">Casestudy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom part: Socials & Copyright -->
+      <div class="footer-bottom">
+        <div class="social-links">
+          <a href="#" class="social-icon-btn" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-icon-btn" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-icon-btn" aria-label="Pinterest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+              <circle cx="12" cy="12" r="10"></circle>
+            </svg>
+          </a>
+          <a href="#" class="social-icon-btn" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.54a29 29 0 0 0 .46 5.12 2.78 2.78 0 0 0 1.95 1.96c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.12 29 29 0 0 0-.46-5.12z">
+              </path>
+              <polygon points="9.75 15.02 15.5 11.54 9.75 8.06 9.75 15.02"></polygon>
+            </svg>
+          </a>
+          <a href="#" class="social-icon-btn" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" class="social-icon-btn" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="copyright">&copy; 2026 toptech.com. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+      <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm bài viết..."
+        aria-label="Search posts">
+      <button class="search-close-btn" id="search-close" aria-label="Close search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</body>
+
+</html>
