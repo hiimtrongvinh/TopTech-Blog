@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './', // Ensures relative assets resolution in built HTML and CSS
+  base: '/TopTech-Blog/', // Correct path format for GitHub Pages (starts and ends with slash)
 });
