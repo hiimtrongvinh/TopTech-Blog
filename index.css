@@ -4,49 +4,49 @@
 /* Declare local TT Commons Pro fonts */
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Regular.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Italic.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Italic.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Medium.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_DemiBold.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_DemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Bold.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_ExtraBold.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_ExtraBold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'TT Commons Pro';
-  src: url("./public/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Black.ttf") format("truetype");
+  src: url("/TT Commons Pro Font Family/TT Commons Pro Trial 3-500/TT_Commons_Pro_Trial_Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
 }
@@ -644,7 +644,8 @@ header .nav-links a.active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: none; /* Removed bottom border line */
+  border-bottom: none;
+  /* Removed bottom border line */
   margin-bottom: 2.5rem;
   position: relative;
   width: 100%;
@@ -654,13 +655,16 @@ header .nav-links a.active {
   font-size: 1.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--primary-color); /* Brand blue color */
+  color: var(--primary-color);
+  /* Brand blue color */
   text-align: center;
-  margin: 0 auto; /* Force absolute centering relative to container width */
+  margin: 0 auto;
+  /* Force absolute centering relative to container width */
 }
 
 .section-title::after {
-  display: none; /* Removed underline */
+  display: none;
+  /* Removed underline */
 }
 
 .view-more-btn {
@@ -1245,7 +1249,8 @@ header .nav-links a.active {
 footer {
   background-color: #111827;
   color: #f9fafb;
-  padding: 2.5rem 0 2rem 0; /* Reduced top padding from 4rem */
+  padding: 2.5rem 0 2rem 0;
+  /* Reduced top padding from 4rem */
   font-size: 0.9rem;
 }
 
@@ -1257,9 +1262,11 @@ body.dark footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start; /* Place logo and desc close together */
+  justify-content: flex-start;
+  /* Place logo and desc close together */
   gap: 2.5rem;
-  margin: 0 auto 2rem auto; /* Reduced bottom margin from 3rem */
+  margin: 0 auto 2rem auto;
+  /* Reduced bottom margin from 3rem */
   width: 100%;
 }
 
@@ -1268,8 +1275,10 @@ body.dark footer {
   width: auto;
   display: block;
   flex-shrink: 0;
-  margin-top: -35px; /* Offset the empty top padding inside the SVG canvas */
-  margin-bottom: -35px; /* Offset the empty bottom padding inside the SVG canvas */
+  margin-top: -35px;
+  /* Offset the empty top padding inside the SVG canvas */
+  margin-bottom: -35px;
+  /* Offset the empty bottom padding inside the SVG canvas */
 }
 
 .footer-desc {
@@ -1277,7 +1286,8 @@ body.dark footer {
   line-height: 1.7;
   font-size: 0.95rem;
   text-align: left;
-  max-width: 950px; /* Expanded from 800px to fill the empty space on the right */
+  max-width: 950px;
+  /* Expanded from 800px to fill the empty space on the right */
   flex-grow: 1;
 }
 
