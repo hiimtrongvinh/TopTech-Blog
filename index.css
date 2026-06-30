@@ -801,33 +801,62 @@ header .nav-links a.active {
   height: 100%;
 }
 
-.sub-section-title-wrapper {
+.sub-section-title-wrapper,
+.category-header-wrapper {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
   border-bottom: 3px solid var(--primary-color);
-  margin-bottom: 1.5rem;
-  height: 40px;
-  /* Fixed height for sub-pixel straight alignment */
-  box-sizing: border-box;
+  margin-bottom: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  padding-top: 6px; /* Extra height to prevent clipping Vietnamese capital accents */
 }
 
-.sub-section-title {
-  font-size: 1rem;
-  text-transform: uppercase;
+.sub-section-title,
+.category-title-header {
+  font-size: 0.9rem;
   font-weight: 700;
-  background-color: var(--primary-color);
+  text-transform: uppercase;
   color: #ffffff;
-  padding: 0 1.5rem;
+  background-color: var(--primary-color);
+  padding: 0 1.2rem;
   border-radius: 0;
-  /* Square corners like screenshot */
-  height: 40px;
-  line-height: 40px;
-  /* Perfect vertical alignment */
+  height: 38px;
+  line-height: 38px;
   margin-bottom: 0px;
-  /* Overlap border exactly */
   display: inline-block;
+  white-space: nowrap;
   box-sizing: border-box;
+  text-decoration: none !important;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.sub-section-title::after,
+.category-title-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 1000px;
+  height: 100%;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.sub-section-title:hover::after,
+.category-title-header:hover::after {
+  transform: scaleX(1);
+}
+
+.sub-section-title:hover,
+.category-title-header:hover {
+  color: #ffffff !important;
 }
 
 .refresh-btn {
@@ -1127,36 +1156,7 @@ header .nav-links a.active {
   gap: 1.2rem;
 }
 
-.category-header-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  border-bottom: 3px solid var(--primary-color);
-  /* Blue line stretching across column */
-  margin-bottom: 1.2rem;
-  height: 36px;
-  /* Fixed height for sub-pixel straight alignment */
-  box-sizing: border-box;
-}
-
-.category-title-header {
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #ffffff;
-  background-color: var(--primary-color);
-  padding: 0 1.2rem;
-  border-radius: 0;
-  /* Square corners like screenshot */
-  height: 36px;
-  line-height: 36px;
-  /* Perfect vertical alignment */
-  margin-bottom: 0px;
-  /* Align bottom to cover border-bottom exactly */
-  display: inline-block;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
+/* Category headers styling grouped in section above */
 
 .cat-post-card {
   display: flex;
@@ -1945,6 +1945,8 @@ body.dark footer {
 .post-main-content {
   display: flex;
   flex-direction: column;
+  font-size: 1.125rem;
+  transition: font-size var(--transition-fast);
 }
 
 .post-detail-header {
@@ -1955,7 +1957,7 @@ body.dark footer {
   display: inline-block;
   background-color: #3530ff15;
   color: var(--primary-color);
-  font-size: 0.75rem;
+  font-size: 0.7em;
   font-weight: 700;
   text-transform: uppercase;
   padding: 0.35rem 0.8rem;
@@ -1964,7 +1966,7 @@ body.dark footer {
 }
 
 .post-detail-title {
-  font-size: 2.8rem;
+  font-size: 2.2em;
   font-weight: 850;
   line-height: 1.15;
   color: var(--text-primary);
@@ -1987,13 +1989,13 @@ body.dark footer {
 
 /* Post Body Typography */
 .post-detail-body {
-  font-size: 1.125rem;
+  font-size: 1em;
   line-height: 1.8;
   color: var(--text-primary);
 }
 
 .post-lead {
-  font-size: 1.3rem;
+  font-size: 1.15em !important;
   font-weight: 500;
   line-height: 1.6;
   color: var(--text-secondary);
@@ -2002,12 +2004,14 @@ body.dark footer {
   padding-left: 1.2rem;
 }
 
-.post-detail-body p {
+.post-detail-body p,
+.post-detail-body li {
+  font-size: 1em !important;
   margin-bottom: 1.5rem;
 }
 
 .post-detail-body h2 {
-  font-size: 1.7rem;
+  font-size: 1.5em;
   font-weight: 700;
   margin: 2.5rem 0 1rem;
   color: var(--text-primary);
@@ -2024,7 +2028,7 @@ body.dark footer {
 
 .post-blockquote {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.15em;
   font-weight: 600;
   font-style: italic;
   line-height: 1.5;
@@ -2121,7 +2125,7 @@ body.dark footer {
 }
 
 .comments-title {
-  font-size: 1.4rem;
+  font-size: 1.25em;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 2rem;
@@ -2145,7 +2149,7 @@ body.dark footer {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.85em;
   background-color: var(--bg-main);
   color: var(--text-primary);
   outline: none;
@@ -2163,7 +2167,7 @@ body.dark footer {
   color: #fff;
   border: none;
   padding: 0.8rem 2rem;
-  font-size: 0.95rem;
+  font-size: 0.85em;
   font-weight: 700;
   border-radius: 30px;
   cursor: pointer;
@@ -2199,7 +2203,7 @@ body.dark footer {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   padding: 1.2rem 1.5rem;
-  border-radius: 0 16px 16px 16px;
+  border-radius: 12px;
   flex-grow: 1;
 }
 
@@ -2213,18 +2217,18 @@ body.dark footer {
 }
 
 .comment-author {
-  font-size: 0.95rem;
+  font-size: 0.85em;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .comment-date {
-  font-size: 0.75rem;
+  font-size: 0.7em;
   color: var(--text-muted);
 }
 
 .comment-text-p {
-  font-size: 0.95rem;
+  font-size: 0.85em;
   color: var(--text-secondary);
   line-height: 1.5;
 }
@@ -2281,32 +2285,37 @@ body.dark footer {
   transform: translateY(-1px);
 }
 
-.category-title-header {
-  text-decoration: none !important;
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 2px;
+/* Category hover transitions grouped in section above */
+
+/* Breadcrumb navigation for article details */
+.post-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+
+.post-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.category-title-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--primary-color);
-  transition: width var(--transition-fast);
+.post-breadcrumb a:hover {
+  color: var(--primary-color);
 }
 
-.category-title-header:hover::after {
-  width: 100%;
+.post-breadcrumb .breadcrumb-separator {
+  font-size: 0.75em;
+  opacity: 0.6;
 }
 
-.category-title-header:hover {
-  color: var(--text-primary) !important;
+.post-breadcrumb .breadcrumb-current {
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 /* ==========================================================================
@@ -2858,7 +2867,7 @@ body.dark .form-row textarea:focus {
 
 /* Markdown Compiled Content CSS inside detail blocks */
 .post-detail-body h2.post-subheading-2 {
-  font-size: 1.5rem;
+  font-size: 1.3em;
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -2869,7 +2878,7 @@ body.dark .form-row textarea:focus {
 }
 
 .post-detail-body h3.post-subheading-3 {
-  font-size: 1.2rem;
+  font-size: 1.1em;
   font-weight: 700;
   margin-top: 1.5rem;
   margin-bottom: 0.8rem;
@@ -2878,7 +2887,7 @@ body.dark .form-row textarea:focus {
 }
 
 .post-detail-body blockquote.post-blockquote {
-  font-size: 1.1rem;
+  font-size: 1em;
   font-style: italic;
   margin: 1.5rem 0;
   padding: 1rem 1.5rem;
@@ -2909,7 +2918,7 @@ body.dark .form-row textarea:focus {
 
 .post-detail-body pre.post-code-block code {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.85rem;
+  font-size: 0.8em;
   color: var(--text-primary);
   background: transparent;
   padding: 0;
@@ -2917,7 +2926,7 @@ body.dark .form-row textarea:focus {
 
 .post-detail-body code.post-inline-code {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 0.85rem;
+  font-size: 0.8em;
   background-color: var(--bg-surface-secondary);
   border: 1px solid var(--border-color);
   padding: 0.15rem 0.35rem;
@@ -2950,7 +2959,7 @@ body.dark .form-row textarea:focus {
 }
 
 .post-detail-body figcaption.post-figcaption {
-  font-size: 0.85rem;
+  font-size: 0.8em;
   color: var(--text-muted);
   font-style: italic;
   text-align: center;
@@ -3011,12 +3020,11 @@ body.dark .form-row textarea:focus {
   position: relative;
 }
 
-/* Article details table style */
 .post-detail-body .post-detail-table {
   width: 100%;
   border-collapse: collapse;
   margin: 2rem 0;
-  font-size: 0.95rem;
+  font-size: 0.9em;
 }
 
 .post-detail-body .post-detail-table th {
@@ -3124,4 +3132,216 @@ body.dark .form-row textarea:focus {
 
 .subcat-pill:hover:not(.active-pill) {
   color: var(--primary-color) !important;
+}
+
+/* ==========================================================================
+   POST FLOATING ACTIONS TOOLBAR
+   ========================================================================== */
+.post-floating-actions {
+  position: fixed;
+  left: 2rem;
+  bottom: 50%;
+  transform: translateY(50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 0.8rem 0.6rem;
+  border-radius: 50px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-xl);
+  transition: all var(--transition-normal);
+}
+
+.post-action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.post-action-btn:hover {
+  background-color: var(--bg-surface-secondary);
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.post-action-btn.active {
+  color: #ffffff !important;
+  background-color: var(--primary-color) !important;
+  box-shadow: 0 4px 10px rgba(53, 48, 255, 0.4);
+}
+
+.post-action-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.2px;
+}
+
+/* Tooltip Styles */
+.post-action-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 58px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.85);
+  opacity: 0;
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: left center;
+  box-shadow: var(--shadow-md);
+}
+
+.post-action-btn:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Theme Adaptation for Tooltips */
+body.dark .post-action-btn::after {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Post Body Font Size Adjuster Utility */
+.post-detail-body {
+  transition: font-size var(--transition-fast);
+}
+
+/* Web Toast Notifications */
+.post-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  z-index: 10000;
+  box-shadow: var(--shadow-lg);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+body.dark .post-toast {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Responsive CSS for Mobile view */
+@media (max-width: 768px) {
+  .post-floating-actions {
+    right: auto;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 50px;
+    width: max-content;
+    max-width: 90vw;
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .post-action-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .post-action-btn::after {
+    display: none; /* Hide tooltips on mobile device */
+  }
+  
+  .post-toast {
+    bottom: 5.5rem; /* Elevate toast so it doesn't overlap the toolbar */
+  }
+}
+
+/* ==========================================================================
+   PRINT STYLES FOR CLEAN READING / PDF DOWNLOAD
+   ========================================================================== */
+@media print {
+  /* Hide unnecessary elements */
+  #app-header, 
+  #app-footer, 
+  .post-sidebar-content, 
+  .post-comments-section, 
+  .post-floating-actions, 
+  .reading-progress-container, 
+  .hero-quote-block, 
+  .view-more-btn, 
+  #quick-edit-post-btn,
+  .post-meta span:has(#quick-edit-post-btn) {
+    display: none !important;
+  }
+  
+  /* Reset layout constraints */
+  .post-layout-grid {
+    display: block !important;
+  }
+  
+  .post-main-content {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+  
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .post-detail-img-wrapper {
+    max-height: 350px !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  .post-detail-title {
+    font-size: 24pt !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Prevent page breaks inside figures and blockquotes */
+  figure, blockquote, table, pre {
+    page-break-inside: avoid;
+  }
 }

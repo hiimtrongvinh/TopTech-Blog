@@ -1,5 +1,15 @@
 import { getAssetUrl } from '../utils.js';
 
+// Pre-load SpeechSynthesis voices as early as possible to fix Chrome empty voices array issue
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  window.speechSynthesis.getVoices();
+  if ('onvoiceschanged' in window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  }
+}
+
 function compileMarkdown(markdown) {
   if (!markdown) return "";
   
@@ -123,10 +133,20 @@ export function renderPostPage(container, postId, articles) {
         <main class="post-main-content">
           <!-- Category & Metadata -->
           <div class="post-detail-header">
-            <a href="#/chuyen-muc/${article.category}" class="post-detail-category">${article.category}</a>
+            <!-- Breadcrumbs -->
+            <div class="post-breadcrumb">
+              <a href="#/">Trang chủ</a> 
+              <span class="breadcrumb-separator">&gt;</span> 
+              <a href="#/chuyen-muc/${article.category}">${article.category}</a>
+              ${article.subcategory ? `
+                <span class="breadcrumb-separator">&gt;</span> 
+                <span class="breadcrumb-current">${article.subcategory}</span>
+              ` : ''}
+            </div>
+
             <h1 class="post-detail-title">${article.title}</h1>
             
-            <div class="post-meta" style="font-size: 0.9rem; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div class="post-meta" style="font-size: 0.8em; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
               <div class="post-author" style="display: flex; align-items: center; gap: 0.3rem;">
                 <span>Tác giả: <strong>${article.author}</strong> ${article.authorTag || ''}</span>
               </div>
@@ -239,6 +259,56 @@ export function renderPostPage(container, postId, articles) {
         </aside>
       </div>
     </div>
+
+    <!-- Floating actions toolbar -->
+    <div class="post-floating-actions">
+      <button class="post-action-btn" id="post-action-audio" data-tooltip="Nghe đọc bài viết">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="audio-icon-play">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="audio-icon-pause" style="display: none;">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </button>
+      <button class="post-action-btn" id="post-action-font-inc" data-tooltip="Tăng cỡ chữ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 18L10 4L16 18M6 14H14M18 9h4M20 7v4"></path>
+        </svg>
+      </button>
+      <button class="post-action-btn" id="post-action-font-dec" data-tooltip="Giảm cỡ chữ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 18L10 4L16 18M6 14H14M18 10h4"></path>
+        </svg>
+      </button>
+      <button class="post-action-btn" id="post-action-share" data-tooltip="Chia sẻ bài viết">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+      <button class="post-action-btn" id="post-action-print" data-tooltip="In / Tải xuống PDF">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+      </button>
+      <button class="post-action-btn" id="post-action-comments" data-tooltip="Cuộn xuống bình luận">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Web Toast alerts container -->
+    <div class="post-toast" id="post-toast">
+      <span class="toast-message">Đã sao chép liên kết!</span>
+    </div>
   `;
 
   // Display Comments Function
@@ -248,7 +318,6 @@ export function renderPostPage(container, postId, articles) {
 
     list.innerHTML = article.commentsList.map(comment => `
       <div class="comment-item">
-        <img class="comment-avatar" src="${comment.avatar}" alt="${comment.author}">
         <div class="comment-content">
           <div class="comment-header">
             <span class="comment-author">${comment.author}</span>
@@ -405,4 +474,269 @@ export function renderPostPage(container, postId, articles) {
     sessionStorage.setItem("toptech_editing_article_id", article.id);
     window.location.hash = "#/admin";
   });
+
+  // ==========================================================================
+  // FLOATING ACTIONS BAR FUNCTIONALITIES
+  // ==========================================================================
+
+  const postBodyEl = container.querySelector(".post-detail-body");
+
+  // Toast notifications helper
+  function showToast(message) {
+    const toast = document.getElementById("post-toast");
+    if (!toast) return;
+
+    const toastMsg = toast.querySelector(".toast-message");
+    if (toastMsg) toastMsg.textContent = message;
+
+    toast.classList.add("show");
+    
+    if (toast.timeoutId) {
+      clearTimeout(toast.timeoutId);
+    }
+
+    toast.timeoutId = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
+  // 1. Text-to-Speech (TTS) - Nghe đọc bài viết
+  let isSpeaking = false;
+  let isPaused = false;
+  let ttsUtterance = null;
+  let voicesLoadingAttempt = 0;
+
+  const audioBtn = document.getElementById("post-action-audio");
+  const playIcon = audioBtn?.querySelector(".audio-icon-play");
+  const pauseIcon = audioBtn?.querySelector(".audio-icon-pause");
+
+  function stopTTS() {
+    if (typeof responsiveVoice !== 'undefined') {
+      responsiveVoice.cancel();
+    } else if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    isSpeaking = false;
+    isPaused = false;
+    audioBtn?.classList.remove("active");
+    if (playIcon) playIcon.style.display = "block";
+    if (pauseIcon) pauseIcon.style.display = "none";
+  }
+
+  function startTTS() {
+    if (!postBodyEl) return;
+
+    // Concatenate title and body text with a clear pause.
+    const textToRead = `${article.title}. ${postBodyEl.innerText.trim()}`;
+    if (!textToRead) return;
+
+    // Cancel any active speech
+    if (typeof responsiveVoice !== 'undefined') {
+      responsiveVoice.cancel();
+    } else if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    isSpeaking = true;
+    isPaused = false;
+    audioBtn?.classList.add("active");
+    if (playIcon) playIcon.style.display = "none";
+    if (pauseIcon) pauseIcon.style.display = "block";
+
+    // 1. Try ResponsiveVoice (Cloud voice, works on all devices without local voice packs)
+    if (typeof responsiveVoice !== 'undefined') {
+      showToast("Đang đọc: Giọng trực tuyến (ResponsiveVoice)");
+      responsiveVoice.speak(textToRead, "Vietnamese Female", {
+        rate: 1.1, // slightly faster
+        onend: stopTTS,
+        onerror: (err) => {
+          console.error("ResponsiveVoice Error:", err);
+          stopTTS();
+        }
+      });
+    } 
+    // 2. Fallback to native Web Speech API (SpeechSynthesis)
+    else if ('speechSynthesis' in window) {
+      const voices = window.speechSynthesis.getVoices();
+
+      // Chrome async loading fix: retry if empty
+      if (voices.length === 0 && voicesLoadingAttempt < 3) {
+        voicesLoadingAttempt++;
+        window.speechSynthesis.getVoices();
+        setTimeout(startTTS, 250);
+        return;
+      }
+      voicesLoadingAttempt = 0;
+
+      ttsUtterance = new SpeechSynthesisUtterance(textToRead);
+      ttsUtterance.lang = 'vi-VN'; // Vietnamese language config
+      ttsUtterance.rate = 1.1; // slightly faster
+
+      // Attempt to locate matching Vietnamese system voice
+      const viVoice = voices.find(voice => 
+        voice.lang.toLowerCase().replace('_', '-').includes('vi-vn') || 
+        voice.lang.toLowerCase() === 'vi' ||
+        voice.name.toLowerCase().includes('viet') || 
+        voice.name.toLowerCase().includes('việt')
+      );
+      if (viVoice) {
+        ttsUtterance.voice = viVoice;
+        showToast(`Đang đọc: Giọng hệ thống ${viVoice.name}`);
+      } else {
+        showToast("Dùng giọng hệ thống mặc định (Hãy cài giọng tiếng Việt để đọc chuẩn).");
+      }
+
+      ttsUtterance.onend = () => {
+        stopTTS();
+      };
+
+      ttsUtterance.onerror = (e) => {
+        console.error("Native TTS Error:", e);
+        stopTTS();
+      };
+
+      window.speechSynthesis.speak(ttsUtterance);
+    } else {
+      showToast("Trình duyệt không hỗ trợ nghe đọc bài viết.");
+      stopTTS();
+    }
+  }
+
+  audioBtn?.addEventListener("click", () => {
+    if (isSpeaking) {
+      if (isPaused) {
+        if (typeof responsiveVoice !== 'undefined') {
+          responsiveVoice.resume();
+        } else if ('speechSynthesis' in window) {
+          window.speechSynthesis.resume();
+        }
+        isPaused = false;
+        audioBtn?.classList.add("active");
+        if (playIcon) playIcon.style.display = "none";
+        if (pauseIcon) pauseIcon.style.display = "block";
+      } else {
+        if (typeof responsiveVoice !== 'undefined') {
+          responsiveVoice.pause();
+        } else if ('speechSynthesis' in window) {
+          window.speechSynthesis.pause();
+        }
+        isPaused = true;
+        audioBtn?.classList.remove("active");
+        if (playIcon) playIcon.style.display = "block";
+        if (pauseIcon) pauseIcon.style.display = "none";
+      }
+    } else {
+      startTTS();
+    }
+  });
+
+  // 2. Font Size Adjustment - Tăng/Giảm cỡ chữ
+  const postMainEl = container.querySelector(".post-main-content");
+  let currentFontSize = parseInt(localStorage.getItem("toptech_post_font_size"), 10) || 18;
+
+  function applyFontSize() {
+    if (postMainEl) {
+      postMainEl.style.fontSize = `${currentFontSize}px`;
+      localStorage.setItem("toptech_post_font_size", currentFontSize);
+    }
+  }
+
+  // Set font size on load
+  applyFontSize();
+
+  const fontIncBtn = document.getElementById("post-action-font-inc");
+  const fontDecBtn = document.getElementById("post-action-font-dec");
+
+  fontIncBtn?.addEventListener("click", () => {
+    if (currentFontSize < 26) {
+      currentFontSize += 2;
+      applyFontSize();
+      showToast(`Đã tăng cỡ chữ: ${currentFontSize}px`);
+    } else {
+      showToast("Đã đạt cỡ chữ tối đa.");
+    }
+  });
+
+  fontDecBtn?.addEventListener("click", () => {
+    if (currentFontSize > 14) {
+      currentFontSize -= 2;
+      applyFontSize();
+      showToast(`Đã giảm cỡ chữ: ${currentFontSize}px`);
+    } else {
+      showToast("Đã đạt cỡ chữ tối thiểu.");
+    }
+  });
+
+  // 3. Social Share API - Chia sẻ bài viết
+  const shareBtn = document.getElementById("post-action-share");
+  
+  function copyLinkToClipboard() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        showToast("Đã sao chép liên kết vào bộ nhớ tạm!");
+      })
+      .catch(() => {
+        const textarea = document.createElement("textarea");
+        textarea.value = window.location.href;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          showToast("Đã sao chép liên kết vào bộ nhớ tạm!");
+        } catch (err) {
+          showToast("Không thể sao chép liên kết.");
+        }
+        document.body.removeChild(textarea);
+      });
+  }
+
+  shareBtn?.addEventListener("click", () => {
+    const shareData = {
+      title: article.title,
+      text: article.description || "",
+      url: window.location.href
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      navigator.share(shareData)
+        .then(() => showToast("Chia sẻ bài viết thành công!"))
+        .catch((err) => {
+          if (err.name !== "AbortError") {
+            copyLinkToClipboard();
+          }
+        });
+    } else {
+      copyLinkToClipboard();
+    }
+  });
+
+  // 4. Print / PDF Download - In & Tải xuống PDF
+  const printBtn = document.getElementById("post-action-print");
+  printBtn?.addEventListener("click", () => {
+    window.print();
+  });
+
+  // 5. Scroll to Comments - Cuộn nhanh xuống bình luận
+  const commentsBtn = document.getElementById("post-action-comments");
+  commentsBtn?.addEventListener("click", () => {
+    const commentsSection = container.querySelector(".post-comments-section");
+    if (commentsSection) {
+      const headerOffset = 100;
+      const elementPosition = commentsSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  });
+
+  // 6. Navigation cleanup extension to clear SpeechSynthesis
+  const originalCleanup = container.cleanup;
+  container.cleanup = () => {
+    if (originalCleanup) originalCleanup();
+    stopTTS();
+  };
 }
