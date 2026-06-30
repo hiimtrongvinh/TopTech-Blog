@@ -184,8 +184,15 @@ export function renderHomePage(container, articles, categories) {
 // ----------------------------------------------------
 
 function populateHeroSection(articles) {
-  // 1. Full-width Hero Banner (Robot post, ID 1)
-  const robotPost = articles.find(a => a.id === 1);
+  // Find featured articles dynamically
+  const featuredList = articles.filter(a => a.featured);
+  const robotPost = featuredList[0] || articles.find(a => a.id === 1) || articles[0];
+  let laptopPost = featuredList[1] || articles.find(a => a.id === 2) || articles[1];
+  if (laptopPost && robotPost && laptopPost.id === robotPost.id) {
+    laptopPost = articles.find(a => a.id !== robotPost.id) || articles[1];
+  }
+
+  // 1. Full-width Hero Banner
   const heroBannerContainer = document.getElementById("hero-banner-container");
   if (robotPost && heroBannerContainer) {
     heroBannerContainer.innerHTML = `
@@ -196,7 +203,7 @@ function populateHeroSection(articles) {
         <h3 class="hero-banner-full-title"><a href="#/bai-viet/${robotPost.id}">${robotPost.title}</a></h3>
         <div class="post-meta">
           <div class="post-author">
-            <span>${robotPost.author} ${robotPost.authorTag}</span>
+            <span>${robotPost.author} ${robotPost.authorTag || ''}</span>
           </div>
           <span>&bull;&nbsp; ${robotPost.date}</span>
           <span>&bull;&nbsp; ${robotPost.readTime}</span>
@@ -211,8 +218,7 @@ function populateHeroSection(articles) {
     `;
   }
 
-  // 2. Left Medium post in Grid (Laptop post, ID 2)
-  const laptopPost = articles.find(a => a.id === 2);
+  // 2. Left Medium post in Grid
   const heroLeftContainer = document.getElementById("hero-left-container");
   if (laptopPost && heroLeftContainer) {
     heroLeftContainer.innerHTML = `
@@ -223,7 +229,7 @@ function populateHeroSection(articles) {
         <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
         <div class="post-meta">
           <div class="post-author">
-            <span>${laptopPost.author} ${laptopPost.authorTag}</span>
+            <span>${laptopPost.author} ${laptopPost.authorTag || ''}</span>
           </div>
           <span>&bull;&nbsp; ${laptopPost.date}</span>
           <span>&bull;&nbsp; ${laptopPost.readTime}</span>
@@ -240,13 +246,12 @@ function populateHeroSection(articles) {
 
   // 3. Right side list (4 posts stacked, unique)
   const heroSideContainer = document.getElementById("hero-side-container");
+  let sidePosts = [];
   if (heroSideContainer) {
-    const sidePosts = [
-      articles.find(a => a.id === 3),
-      articles.find(a => a.id === 6),
-      articles.find(a => a.id === 15),
-      articles.find(a => a.id === 16)
-    ].filter(Boolean);
+    const usedIds = [robotPost?.id, laptopPost?.id].filter(Boolean);
+    sidePosts = articles
+      .filter(a => !usedIds.includes(a.id))
+      .slice(0, 4);
 
     heroSideContainer.innerHTML = sidePosts.map(post => `
       <div class="side-post-card">
@@ -254,7 +259,7 @@ function populateHeroSection(articles) {
         <div class="side-post-info">
           <h4 class="side-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
           <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-            <span>${post.author} ${post.authorTag} &bull; ${post.date}</span>
+            <span>${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
           </div>
           <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
             <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
@@ -268,12 +273,10 @@ function populateHeroSection(articles) {
   // 4. Bottom 4 Small Cards (unique)
   const heroSmallGridContainer = document.getElementById("hero-small-grid-container");
   if (heroSmallGridContainer) {
-    const smallPosts = [
-      articles.find(a => a.id === 4),
-      articles.find(a => a.id === 11),
-      articles.find(a => a.id === 12),
-      articles.find(a => a.id === 17)
-    ].filter(Boolean);
+    const usedIds = [robotPost?.id, laptopPost?.id, ...sidePosts.map(p => p.id)].filter(Boolean);
+    const smallPosts = articles
+      .filter(a => !usedIds.includes(a.id))
+      .slice(0, 4);
 
     heroSmallGridContainer.innerHTML = smallPosts.map(post => `
       <div class="small-post-card">
@@ -297,7 +300,11 @@ function populateFeaturedNumbers(articles) {
   const featuredNumbersContainer = document.getElementById("featured-numbers-container");
   if (!featuredNumbersContainer) return;
 
-  const numbersData = articles.slice(2, 8);
+  // Render the top 6 most popular/recent articles excluding the main featured ones
+  const robotPost = articles.filter(a => a.featured)[0] || articles.find(a => a.id === 1);
+  const numbersData = articles
+    .filter(a => a.id !== robotPost?.id)
+    .slice(0, 6);
 
   featuredNumbersContainer.innerHTML = numbersData.map((post, index) => `
     <div class="number-post-card">
@@ -308,7 +315,7 @@ function populateFeaturedNumbers(articles) {
       <div class="number-post-info">
         <h4 class="number-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
         <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-          <span>${post.author} ${post.authorTag} &bull; ${post.date}</span>
+          <span>${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
         </div>
         <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
           <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
@@ -325,13 +332,13 @@ function populateSplitSections(articles) {
   const trendingContent = document.getElementById("trending-content");
   const reviewsContent = document.getElementById("reviews-content");
 
-  // 1. Column 1: Left Updates (3 small posts)
+  // 1. Column 1: Left Updates (3 newest posts)
   if (newUpdatesContent) {
-    const sideNew1 = articles.find(a => a.id === 3);
-    const sideNew2 = articles.find(a => a.id === 4);
-    const sideNew3 = articles.find(a => a.id === 7);
+    const sideNew1 = articles[0] || articles.find(a => a.id === 3);
+    const sideNew2 = articles[1] || articles.find(a => a.id === 4);
+    const sideNew3 = articles[2] || articles.find(a => a.id === 7);
     
-    newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].map(post => `
+    newUpdatesContent.innerHTML = [sideNew1, sideNew2, sideNew3].filter(Boolean).map(post => `
       <div class="post-card-mini">
         <img class="post-card-mini-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
         <div class="post-card-mini-info">
@@ -345,9 +352,10 @@ function populateSplitSections(articles) {
 
   // 2. Column 2: Center AI Highlights (1 Big featured, 2 sub cards)
   if (colCenterAi) {
-    const mainNew = articles.find(a => a.id === 5);
-    const subNewLeft = articles.find(a => a.id === 6);
-    const subNewRight = articles.find(a => a.id === 8);
+    const aiArticles = articles.filter(a => a.category === "AI");
+    const mainNew = aiArticles[0] || articles.find(a => a.id === 5);
+    const subNewLeft = aiArticles[1] || articles.find(a => a.id === 6);
+    const subNewRight = aiArticles[2] || articles.find(a => a.id === 8);
     
     colCenterAi.innerHTML = `
       <!-- Main Center Post -->
@@ -355,7 +363,7 @@ function populateSplitSections(articles) {
         <a href="#/chuyen-muc/${mainNew.category}" class="center-main-tag">${mainNew.category}</a>
         <h4 class="center-main-title"><a href="#/bai-viet/${mainNew.id}">${mainNew.title}</a></h4>
         <div class="post-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
-          <span>${mainNew.author} ${mainNew.authorTag} &bull; ${mainNew.date}</span>
+          <span>${mainNew.author} ${mainNew.authorTag || ''} &bull; ${mainNew.date}</span>
         </div>
         <div class="center-main-img-wrapper">
           <img src="${getAssetUrl(mainNew.image)}" alt="${mainNew.title}">
@@ -381,20 +389,16 @@ function populateSplitSections(articles) {
     `;
   }
 
-  // 3. Column 3: Right Trending (5 text posts stacked)
+  // 3. Column 3: Right Trending (Top 5 viewed articles)
   if (trendingContent) {
-    const trendPosts = [
-      articles.find(a => a.id === 9),
-      articles.find(a => a.id === 10),
-      articles.find(a => a.id === 11),
-      articles.find(a => a.id === 12),
-      articles.find(a => a.id === 14)
-    ].filter(Boolean);
+    const trendPosts = [...articles]
+      .sort((a, b) => (b.views || 0) - (a.views || 0))
+      .slice(0, 5);
 
     trendingContent.innerHTML = trendPosts.map(post => `
       <div class="trending-post-card">
         <h4 class="trending-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} ${post.authorTag} &bull; ${post.date}</span>
+        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
       </div>
     `).join('');
   }

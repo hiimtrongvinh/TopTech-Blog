@@ -32,6 +32,12 @@ export function renderHeader(container) {
             <li><a href="#/ #tac-gia">Tác giả</a></li>
           </ul>
 
+          <!-- Admin write shortcut -->
+          <a href="#/admin" class="write-post-btn" title="Cổng quản trị blog">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span class="desktop-only" style="margin-left: 0.3rem;">Viết bài</span>
+          </a>
+
           <!-- Dark Mode Toggle -->
           <button class="theme-toggle-btn" id="theme-toggle" aria-label="Chuyển chế độ tối/sáng">
             <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -86,10 +92,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Tin công nghệ">Tin công nghệ</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Tin công nghệ">Điện thoại</a></li>
-                <li><a href="#/chuyen-muc/Tin công nghệ">Máy tính</a></li>
-                <li><a href="#/chuyen-muc/Tin công nghệ">Thiết bị thông minh</a></li>
-                <li><a href="#/chuyen-muc/Tin công nghệ">Xe điện</a></li>
+                <li><a href="#/chuyen-muc/Điện thoại">Điện thoại</a></li>
+                <li><a href="#/chuyen-muc/Máy tính">Máy tính</a></li>
+                <li><a href="#/chuyen-muc/Thiết bị thông minh">Thiết bị thông minh</a></li>
+                <li><a href="#/chuyen-muc/Xe điện">Xe điện</a></li>
               </ul>
             </div>
 
@@ -97,10 +103,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/AI">AI</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/AI">Machine Learning</a></li>
-                <li><a href="#/chuyen-muc/AI">Generative AI</a></li>
-                <li><a href="#/chuyen-muc/AI">ChatGPT & LLMs</a></li>
-                <li><a href="#/chuyen-muc/AI">Thị giác máy tính</a></li>
+                <li><a href="#/chuyen-muc/Machine Learning">Machine Learning</a></li>
+                <li><a href="#/chuyen-muc/Generative AI">Generative AI</a></li>
+                <li><a href="#/chuyen-muc/ChatGPT & LLMs">ChatGPT & LLMs</a></li>
+                <li><a href="#/chuyen-muc/Thị giác máy tính">Thị giác máy tính</a></li>
               </ul>
             </div>
 
@@ -108,10 +114,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Chuyển đổi số">Chuyển đổi số</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Chuyển đổi số">Doanh nghiệp</a></li>
-                <li><a href="#/chuyen-muc/Chuyển đổi số">Giải pháp đám mây</a></li>
-                <li><a href="#/chuyen-muc/Chuyển đổi số">IoT & Automation</a></li>
-                <li><a href="#/chuyen-muc/Chuyển đổi số">Bảo mật dữ liệu</a></li>
+                <li><a href="#/chuyen-muc/Doanh nghiệp">Doanh nghiệp</a></li>
+                <li><a href="#/chuyen-muc/Giải pháp đám mây">Giải pháp đám mây</a></li>
+                <li><a href="#/chuyen-muc/IoT & Automation">IoT & Automation</a></li>
+                <li><a href="#/chuyen-muc/Bảo mật dữ liệu">Bảo mật dữ liệu</a></li>
               </ul>
             </div>
 
@@ -119,10 +125,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Review">Review</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Review">Đánh giá Laptop</a></li>
-                <li><a href="#/chuyen-muc/Review">Đánh giá Smartphone</a></li>
-                <li><a href="#/chuyen-muc/Review">Đồ công nghệ khác</a></li>
-                <li><a href="#/chuyen-muc/Review">Trải nghiệm dịch vụ</a></li>
+                <li><a href="#/chuyen-muc/Đánh giá Laptop">Đánh giá Laptop</a></li>
+                <li><a href="#/chuyen-muc/Đánh giá Smartphone">Đánh giá Smartphone</a></li>
+                <li><a href="#/chuyen-muc/Đồ công nghệ khác">Đồ công nghệ khác</a></li>
+                <li><a href="#/chuyen-muc/Trải nghiệm dịch vụ">Trải nghiệm dịch vụ</a></li>
               </ul>
             </div>
 
@@ -130,10 +136,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Phần mềm">Phần mềm</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Phần mềm">Công cụ lập trình</a></li>
-                <li><a href="#/chuyen-muc/Phần mềm">Phần mềm văn phòng</a></li>
-                <li><a href="#/chuyen-muc/Phần mềm">Hệ điều hành</a></li>
-                <li><a href="#/chuyen-muc/Phần mềm">Ứng dụng di động</a></li>
+                <li><a href="#/chuyen-muc/Công cụ lập trình">Công cụ lập trình</a></li>
+                <li><a href="#/chuyen-muc/Phần mềm văn phòng">Phần mềm văn phòng</a></li>
+                <li><a href="#/chuyen-muc/Hệ điều hành">Hệ điều hành</a></li>
+                <li><a href="#/chuyen-muc/Ứng dụng di động">Ứng dụng di động</a></li>
               </ul>
             </div>
 
@@ -141,10 +147,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/IT">IT</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/IT">Lập trình</a></li>
-                <li><a href="#/chuyen-muc/IT">Quản trị mạng</a></li>
-                <li><a href="#/chuyen-muc/IT">Cơ sở dữ liệu</a></li>
-                <li><a href="#/chuyen-muc/IT">DevOps</a></li>
+                <li><a href="#/chuyen-muc/Lập trình">Lập trình</a></li>
+                <li><a href="#/chuyen-muc/Quản trị mạng">Quản trị mạng</a></li>
+                <li><a href="#/chuyen-muc/Cơ sở dữ liệu">Cơ sở dữ liệu</a></li>
+                <li><a href="#/chuyen-muc/DevOps">DevOps</a></li>
               </ul>
             </div>
 
@@ -152,10 +158,10 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Giải pháp công nghệ">Giải pháp công nghệ</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Giải pháp công nghệ">AI cho doanh nghiệp</a></li>
-                <li><a href="#/chuyen-muc/Giải pháp công nghệ">Tự động hóa quy trình</a></li>
-                <li><a href="#/chuyen-muc/Giải pháp công nghệ">Hạ tầng số</a></li>
-                <li><a href="#/chuyen-muc/Giải pháp công nghệ">ERP & CRM</a></li>
+                <li><a href="#/chuyen-muc/AI cho doanh nghiệp">AI cho doanh nghiệp</a></li>
+                <li><a href="#/chuyen-muc/Tự động hóa quy trình">Tự động hóa quy trình</a></li>
+                <li><a href="#/chuyen-muc/Hạ tầng số">Hạ tầng số</a></li>
+                <li><a href="#/chuyen-muc/ERP & CRM">ERP & CRM</a></li>
               </ul>
             </div>
 
@@ -163,9 +169,9 @@ export function renderHeader(container) {
             <div class="mega-col">
               <h4><a href="#/chuyen-muc/Casestudy">Casestudy</a></h4>
               <ul>
-                <li><a href="#/chuyen-muc/Casestudy">Thành công tiêu biểu</a></li>
-                <li><a href="#/chuyen-muc/Casestudy">Phân tích thất bại</a></li>
-                <li><a href="#/chuyen-muc/Casestudy">Khảo sát thực tế</a></li>
+                <li><a href="#/chuyen-muc/Thành công tiêu biểu">Thành công tiêu biểu</a></li>
+                <li><a href="#/chuyen-muc/Phân tích thất bại">Phân tích thất bại</a></li>
+                <li><a href="#/chuyen-muc/Khảo sát thực tế">Khảo sát thực tế</a></li>
               </ul>
             </div>
           </div>
@@ -176,15 +182,18 @@ export function renderHeader(container) {
     <!-- Search Modal Overlay -->
     <div class="search-overlay" id="search-overlay">
       <div class="search-container">
-        <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm bài viết..."
-          aria-label="Search posts">
-        <button class="search-close-btn" id="search-close" aria-label="Close search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+        <div class="search-modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-heading);">Tìm kiếm bài viết</h3>
+          <button class="search-close-btn" id="search-close" aria-label="Close search" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.2rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 28px; height: 28px; transition: background-color var(--transition-fast);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div style="position: relative;">
+          <input type="text" class="search-input" id="search-input" placeholder="Nhập từ khóa cần tìm..." aria-label="Search posts">
+          <div style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -285,13 +294,17 @@ export function initHeaderEvents(onSearch) {
 export function updateActiveNavLink(hash) {
   const homeLink = document.querySelector(".nav-home-link");
   const blogLink = document.querySelector(".nav-blog-link");
+  const writeLink = document.querySelector(".write-post-btn");
   
   homeLink?.classList.remove("active");
   blogLink?.classList.remove("active");
+  writeLink?.classList.remove("active");
 
   if (hash === "#/" || hash === "" || hash.startsWith("#/ #")) {
     homeLink?.classList.add("active");
   } else if (hash.startsWith("#/blog") || hash.includes("bai-viet")) {
     blogLink?.classList.add("active");
+  } else if (hash.startsWith("#/admin")) {
+    writeLink?.classList.add("active");
   }
 }

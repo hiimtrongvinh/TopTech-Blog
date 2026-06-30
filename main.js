@@ -3,9 +3,10 @@ import { renderFooter } from './src/components/Footer.js';
 import { renderHomePage } from './src/components/HomePage.js';
 import { renderCategoryPage } from './src/components/CategoryPage.js';
 import { renderPostPage } from './src/components/PostPage.js';
+import { renderPublishPage } from './src/components/PublishPage.js';
 
-// Central Database of Articles
-export const ARTICLES = [
+// Central Database of Articles (Initial Seed Data)
+const DEFAULT_ARTICLES = [
   {
     id: 1,
     title: "Top 20 công cụ AI tốt nhất năm 2026",
@@ -216,6 +217,19 @@ export const ARTICLES = [
   }
 ];
 
+// Load articles from localStorage or fallback to default
+export let ARTICLES = [];
+export function loadArticles() {
+  const stored = localStorage.getItem("toptech_articles");
+  if (stored) {
+    ARTICLES = JSON.parse(stored);
+  } else {
+    ARTICLES = DEFAULT_ARTICLES;
+    localStorage.setItem("toptech_articles", JSON.stringify(ARTICLES));
+  }
+}
+loadArticles();
+
 export const CATEGORIES = [
   "Tin công nghệ",
   "AI",
@@ -229,6 +243,7 @@ export const CATEGORIES = [
 
 // Single Page Application Routing Control
 function router() {
+  loadArticles(); // Always load fresh articles list on navigation
   const contentContainer = document.getElementById("app-content");
   if (!contentContainer) return;
 
@@ -268,6 +283,10 @@ function router() {
   } else if (hash.startsWith("#/bai-viet/")) {
     const postId = hash.replace("#/bai-viet/", "");
     renderPostPage(contentContainer, postId, ARTICLES);
+  } else if (hash === "#/admin" || hash.startsWith("#/admin")) {
+    renderPublishPage(contentContainer, ARTICLES, CATEGORIES, () => {
+      loadArticles();
+    });
   } else {
     // 404 Fallback, redirect to home page
     window.location.hash = "#/";
