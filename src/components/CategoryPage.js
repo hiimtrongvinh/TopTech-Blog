@@ -100,7 +100,7 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
     headerStyle = "display: block; text-align: center; width: 100%;";
     headerHtml = `
       <span class="category-eyebrow" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color); display: block; margin-bottom: 0.5rem;">KẾT QUẢ TÌM KIẾM</span>
-      <h1 class="category-page-title" style="font-size: 2.2rem; font-weight: 850; text-transform: uppercase; margin: 0; color: var(--text-primary);">"${decodedCategory.toUpperCase()}"</h1>
+      <h1 class="category-page-title search-title" style="font-weight: 850; text-transform: uppercase; margin: 0; color: var(--text-primary);">"${decodedCategory.toUpperCase()}"</h1>
     `;
   } else {
     const parentCatName = isSubcategory ? parentCategory : decodedCategory;
@@ -109,7 +109,7 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
     headerHtml = `
       <!-- Left: Major category title -->
       <div>
-        <h1 class="category-page-title" style="font-size: 2.5rem; font-weight: 850; text-transform: uppercase; margin: 0; line-height: 1.1; color: var(--text-primary);">
+        <h1 class="category-page-title" style="font-weight: 850; text-transform: uppercase; margin: 0; line-height: 1.1; color: var(--text-primary);">
           <a href="#/chuyen-muc/${parentCatName}" style="color: inherit; text-decoration: none;">${parentCatName.toUpperCase()}</a>
         </h1>
       </div>
