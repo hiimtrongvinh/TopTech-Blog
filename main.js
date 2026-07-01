@@ -268,6 +268,17 @@ function router() {
 
   const hash = window.location.hash || "#/";
 
+  // Hide header and footer for admin route
+  const headerContainer = document.getElementById("app-header");
+  const footerContainer = document.getElementById("app-footer");
+  if (hash === "#/admin" || hash.startsWith("#/admin")) {
+    if (headerContainer) headerContainer.style.display = "none";
+    if (footerContainer) footerContainer.style.display = "none";
+  } else {
+    if (headerContainer) headerContainer.style.display = "block";
+    if (footerContainer) footerContainer.style.display = "block";
+  }
+
   // Update Navigation Active state
   updateActiveNavLink(hash);
 

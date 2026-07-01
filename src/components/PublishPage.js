@@ -207,8 +207,11 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         <!-- Top bar with Welcome and Logout -->
         <div class="admin-header-bar">
           <div>
-            <h1 class="admin-dashboard-title">Bảng Điều Khiển Quản Trị</h1>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">Quản lý bài viết, chuyên mục và thông tin đội ngũ tác giả.</p>
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+              <h1 class="admin-dashboard-title" style="margin: 0;">Bảng Điều Khiển Quản Trị</h1>
+              <a href="#/" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); text-decoration: none; border: 1.5px solid var(--primary-color); padding: 0.35rem 0.8rem; border-radius: 20px; transition: all var(--transition-fast);" onmouseover="this.style.backgroundColor='var(--primary-color)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--primary-color)';">← Quay lại Trang chủ</a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.3rem;">Quản lý bài viết, chuyên mục và thông tin đội ngũ tác giả.</p>
           </div>
           <button class="logout-btn" id="admin-logout-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
@@ -331,13 +334,15 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
                         💬 <strong>${post.comments || 0}</strong> bình luận
                       </div>
                     </td>
-                    <td>
-                      <button class="edit-post-btn" data-id="${post.id}" style="margin-right: 0.5rem; background-color: var(--primary-color); border-color: var(--primary-color); color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px; border: none; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 2px;">
-                        Sửa
-                      </button>
-                      <button class="delete-post-btn" data-id="${post.id}">
-                        Xóa
-                      </button>
+                    <td style="white-space: nowrap;">
+                      <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: nowrap;">
+                        <button class="edit-post-btn" data-id="${post.id}" style="background-color: var(--primary-color); border: none; color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+                          Sửa
+                        </button>
+                        <button class="delete-post-btn" data-id="${post.id}" style="margin: 0; display: inline-flex; align-items: center; justify-content: center;">
+                          Xóa
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 `).join('')}
