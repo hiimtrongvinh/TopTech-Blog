@@ -1,4 +1,17 @@
 import { getAssetUrl } from '../utils.js';
+import {
+  compileMarkdown,
+  createBlockquoteHtml,
+  createFigureHtml,
+  createImageRowHtml,
+  createEmptyImageRowHtml,
+  createTableHtml,
+  cleanPastedHtml,
+  getClipboardImageFiles,
+  insertHtmlAtCursor,
+  migrateArticleContent,
+  setupEditorBlockHandlers
+} from '../utils/articleContent.js';
 
 // Pre-defined high quality technology image options for users to select quickly
 const PRESET_IMAGES = [
@@ -21,7 +34,7 @@ export function renderPublishPage(container, articles, categories, onUpdate) {
   }
 }
 
-// 1. Sleek login screen for admin authentication
+// 1. Sleek login screen for admin authentication with Homepage Back button
 function renderLoginScreen(container, articles, categories, onUpdate) {
   container.innerHTML = `
     <div class="admin-login-wrapper">
@@ -39,9 +52,14 @@ function renderLoginScreen(container, articles, categories, onUpdate) {
             <span class="error-msg" id="login-error-msg"></span>
           </div>
           
-          <button class="login-btn" id="login-submit-btn">
-            Đăng nhập
-          </button>
+          <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+            <button class="login-btn" id="login-submit-btn" style="width: 100%;">
+              Đăng nhập
+            </button>
+            <a href="#/" class="logout-btn" style="text-align: center; text-decoration: none; display: block; width: 100%; padding: 0.6rem 0; font-size: 0.9rem; font-weight: 600; border-radius: 30px; margin: 0; background: var(--bg-surface-secondary); color: var(--text-primary); border: 1px solid var(--border-color); cursor: pointer; transition: all var(--transition-fast);">
+              ← Quay lại trang chủ
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -71,71 +89,9 @@ function renderLoginScreen(container, articles, categories, onUpdate) {
   });
 }
 
-// Simple markdown compiler helper
-function compileMarkdown(markdown) {
-  if (!markdown) return "";
-  if (markdown.trim().startsWith('<') || markdown.includes('</p>') || markdown.includes('</div>') || markdown.includes('</td>') || markdown.includes('</figure>')) {
-    return markdown;
-  }
-  
-  const lines = markdown.split('\n');
-  let inTable = false;
-  let tableHtml = "";
-  let newLines = [];
-  
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
-    if (line.startsWith('|') && line.endsWith('|')) {
-      if (!inTable) {
-        inTable = true;
-        tableHtml = '<div class="table-responsive"><table class="post-detail-table">';
-      }
-      
-      const cells = line.split('|').slice(1, -1).map(c => c.trim());
-      const isSeparator = cells.every(c => /^:?-+:?$/.test(c));
-      if (isSeparator) continue;
-      
-      if (tableHtml.includes('<table class="post-detail-table">') && !tableHtml.includes('<thead>') && !tableHtml.includes('<tbody>')) {
-        tableHtml += '<thead><tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
-      } else {
-        tableHtml += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
-      }
-    } else {
-      if (inTable) {
-        inTable = false;
-        tableHtml += '</tbody></table></div>';
-        newLines.push(tableHtml);
-        tableHtml = "";
-      }
-      newLines.push(lines[i]);
-    }
-  }
-  if (inTable) {
-    tableHtml += '</tbody></table></div>';
-    newLines.push(tableHtml);
-  }
-  markdown = newLines.join('\n');
-
-  let html = markdown
-    .replace(/^### (.*$)/gim, '<h3 class="post-subheading-3">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="post-subheading-2">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="post-heading-1">$1</h1>')
-    .replace(/\!\[(.*?)\]\((.*?)\)/g, '<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^\> (.*$)/gim, '<blockquote class="post-blockquote">$1</blockquote>')
-    .replace(/^\- (.*$)/gim, '<li>$1</li>')
-    .replace(/\`\`\`([\s\S]*?)\`\`\?/g, '<pre class="post-code-block"><code>$1</code></pre>')
-    .replace(/\`(.*?)\`/g, '<code class="post-inline-code">$1</code>')
-    .replace(/\n\n/g, '</p><p>');
-
-  html = html.replace(/(<li>.*<\/li>)/gim, '<ul>$1</ul>');
-  return `<p>${html}</p>`;
-}
-
 // 2. Main Admin Dashboard View
 function renderAdminDashboard(container, articles, categories, onUpdate) {
   let activeTab = 'articles'; // 'articles' | 'categories' | 'authors'
-  let articleMode = 'list'; // 'list' | 'write'
   let editingArticleId = null;
   let selectedCoverUrl = PRESET_IMAGES[0].url;
 
@@ -150,7 +106,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     const postExists = articles.find(a => a.id === editId);
     if (postExists) {
       activeTab = 'articles';
-      articleMode = 'write';
       editingArticleId = editId;
       selectedCoverUrl = postExists.image;
     }
@@ -185,6 +140,25 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     localStorage.setItem("toptech_subcategories", JSON.stringify(subs));
   }
 
+  function getCategoryThumbnailsDb() {
+    const stored = localStorage.getItem("toptech_category_thumbnails");
+    const defaultThumbs = {
+      "AI": "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=600&h=400",
+      "Tin công nghệ": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400",
+      "Chuyển đổi số": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600&h=400",
+      "Review": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=600&h=400",
+      "Phần mềm": "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=800&h=450",
+      "IT": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600&h=400",
+      "Giải pháp công nghệ": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600&h=400",
+      "Casestudy": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600&h=400"
+    };
+    return stored ? JSON.parse(stored) : defaultThumbs;
+  }
+
+  function saveCategoryThumbnailsDb(thumbs) {
+    localStorage.setItem("toptech_category_thumbnails", JSON.stringify(thumbs));
+  }
+
   function getAuthorsDb() {
     const stored = localStorage.getItem("toptech_authors");
     const defaultAuthors = [
@@ -199,6 +173,357 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
   function saveAuthorsDb(authors) {
     localStorage.setItem("toptech_authors", JSON.stringify(authors));
+  }
+
+  // Modal open / close logic
+  function openModal(html, width = '600px') {
+    const modal = document.getElementById("admin-modal");
+    const content = document.getElementById("admin-modal-content");
+    const body = document.getElementById("admin-modal-body");
+    if (modal && content && body) {
+      body.innerHTML = html;
+      content.style.maxWidth = width;
+      modal.classList.add("is-active");
+      
+      // Focus within modal
+      content.focus();
+
+      // Bind events inside the modal depending on its content
+      if (document.getElementById("publish-post-btn")) {
+        bindArticlesWriteEvents();
+      } else if (document.getElementById("btn-save-category")) {
+        bindCategoriesFormEvents();
+      } else if (document.getElementById("btn-save-author")) {
+        bindAuthorsFormEvents();
+      }
+    }
+  }
+
+  function closeModal() {
+    const modal = document.getElementById("admin-modal");
+    if (modal) {
+      modal.classList.remove("is-active");
+      if (container.cleanup) {
+        container.cleanup();
+        container.cleanup = null;
+      }
+      editingCategoryName = null;
+      editingAuthorName = null;
+      editingArticleId = null;
+      renderView();
+    }
+  }
+
+  // Unified reusable HTML generator for multi-option media upload
+  function createMediaUploadHtml(idPrefix, currentUrl = "") {
+    return `
+      <div class="media-upload-control" id="${idPrefix}-media-control" style="display: flex; flex-direction: column; gap: 0.8rem; padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-surface-secondary); margin-top: 0.5rem;">
+        <div class="form-row" style="margin:0;">
+          <label style="font-weight:600; font-size:0.85rem; margin-bottom: 0.3rem;">Link địa chỉ ảnh (URL):</label>
+          <input type="url" class="media-url-input" value="${currentUrl.startsWith('data:') ? '' : currentUrl}" placeholder="Nhập hoặc dán link ảnh (https://...)" style="margin:0; padding: 0.5rem 0.8rem; font-size: 0.85rem;">
+        </div>
+        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-media-upload-file" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; background: var(--primary-color); color: #fff; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+            📁 Tải lên từ máy
+          </button>
+          <button type="button" class="btn-media-paste-clipboard" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+            📋 Dán ảnh từ Clipboard
+          </button>
+          <span class="media-upload-status" style="font-size: 0.8rem; color: var(--text-muted); font-style: italic; font-weight: 600;">
+            ${currentUrl ? '✓ Đã chọn ảnh' : 'Chưa có ảnh'}
+          </span>
+        </div>
+        <div class="media-upload-dropzone" style="border: 2px dashed var(--border-color); border-radius: 8px; padding: 0.8rem; text-align: center; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; font-weight: 500;">
+          Hoặc kéo thả ảnh vào khu vực này
+        </div>
+        <input type="file" class="media-file-input" accept="image/*" style="display:none;">
+      </div>
+    `;
+  }
+
+  // Unified reusable event binder for multi-option media upload
+  function setupMediaUploadControl(wrapper, onImageSelected) {
+    if (!wrapper) return;
+    const urlInput = wrapper.querySelector(".media-url-input");
+    const uploadBtn = wrapper.querySelector(".btn-media-upload-file");
+    const pasteBtn = wrapper.querySelector(".btn-media-paste-clipboard");
+    const dropzone = wrapper.querySelector(".media-upload-dropzone");
+    const fileInput = wrapper.querySelector(".media-file-input");
+    const statusSpan = wrapper.querySelector(".media-upload-status");
+
+    const handleFile = (file) => {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target.result;
+        if (urlInput) urlInput.value = '';
+        if (statusSpan) {
+          statusSpan.textContent = `✓ Đã dán/tải ảnh!`;
+          statusSpan.style.color = "var(--primary-color)";
+        }
+        if (dropzone) {
+          dropzone.style.borderColor = "var(--primary-color)";
+          dropzone.innerHTML = `<span style="color:var(--primary-color); font-weight:700;">✓ Đã tải ảnh thành công!</span>`;
+        }
+        onImageSelected(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    };
+
+    urlInput?.addEventListener("input", (e) => {
+      const url = e.target.value.trim();
+      if (url) {
+        if (statusSpan) {
+          statusSpan.textContent = "✓ Đã dùng Link";
+          statusSpan.style.color = "var(--primary-color)";
+        }
+        onImageSelected(url);
+      }
+    });
+
+    uploadBtn?.addEventListener("click", () => fileInput?.click());
+    fileInput?.addEventListener("change", (e) => handleFile(e.target.files[0]));
+
+    pasteBtn?.addEventListener("click", async () => {
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        for (const item of clipboardItems) {
+          for (const type of item.types) {
+            if (type.startsWith("image/")) {
+              const blob = await item.getType(type);
+              const file = new File([blob], "clipboard-image.png", { type });
+              handleFile(file);
+              return;
+            }
+          }
+        }
+        alert("Không tìm thấy ảnh trong Clipboard. Vui lòng Sao chép (Copy) ảnh trước.");
+      } catch (err) {
+        console.error("Lỗi khi đọc clipboard:", err);
+        alert("Vui lòng sao chép ảnh và bấm phím Ctrl + V trực tiếp trên form này.");
+      }
+    });
+
+    dropzone?.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "var(--primary-color)";
+    });
+
+    dropzone?.addEventListener("dragleave", () => {
+      dropzone.style.borderColor = "var(--border-color)";
+    });
+
+    dropzone?.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = "var(--border-color)";
+      handleFile(e.dataTransfer.files[0]);
+    });
+
+    wrapper.addEventListener("paste", (e) => {
+      const imageFiles = getClipboardImageFiles(e.clipboardData);
+      if (imageFiles.length > 0) {
+        e.preventDefault();
+        handleFile(imageFiles[0]);
+      }
+    });
+  }
+
+  function renderCategoryFormHtml() {
+    const thumbsMap = getCategoryThumbnailsDb();
+    const editingThumb = editingCategoryName ? (thumbsMap[editingCategoryName] || '') : '';
+    return `
+      <h3 class="panel-subtitle" style="margin-bottom: 1.5rem; font-size: 1.35rem; font-weight: 800; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem;">
+        ${editingCategoryName ? `Sửa chuyên mục: ${editingCategoryName}` : 'Thêm chuyên mục mới'}
+      </h3>
+      <div class="login-form" style="gap: 1.2rem; display: flex; flex-direction: column;">
+        <div class="form-row">
+          <label for="input-cat-name" style="font-weight:600; font-size:0.85rem;">Tên chuyên mục <span style="color:var(--secondary-color)">*</span></label>
+          <input type="text" id="input-cat-name" value="${editingCategoryName || ''}" placeholder="Ví dụ: AI, Review, IT..." required>
+        </div>
+
+        <div class="form-row">
+          <label style="font-weight:600; font-size:0.85rem;">Ảnh đại diện chuyên mục (Thumbnail)</label>
+          ${createMediaUploadHtml('cat-thumbnail', editingThumb)}
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <button class="login-btn" id="btn-save-category" style="flex: 1; padding: 0.75rem; font-size: 0.9rem; border-radius: 8px; font-weight: 700;">
+            ${editingCategoryName ? 'Cập nhật' : 'Thêm chuyên mục'}
+          </button>
+          <button class="logout-btn" id="btn-cancel-category-modal" style="padding: 0.75rem; font-size: 0.9rem; border-radius: 8px; font-weight: 700; margin: 0;">
+            Hủy
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAuthorFormHtml() {
+    const authors = getAuthorsDb();
+    const editAuthor = editingAuthorName ? authors.find(a => a.name === editingAuthorName) : null;
+    return `
+      <h3 class="panel-subtitle" style="margin-bottom: 1.5rem; font-size: 1.35rem; font-weight: 800; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem;">
+        ${editAuthor ? `Sửa thông tin: ${editAuthor.name}` : 'Thêm tác giả mới'}
+      </h3>
+      <div class="login-form" style="gap: 1.2rem; display: flex; flex-direction: column;">
+        <div class="form-row">
+          <label for="input-author-name" style="font-weight:600; font-size:0.85rem;">Họ và tên <span style="color:var(--secondary-color)">*</span></label>
+          <input type="text" id="input-author-name" value="${editAuthor ? editAuthor.name : ''}" placeholder="Ví dụ: Khánh Nam, Phương Linh..." ${editAuthor ? 'disabled' : ''} required>
+        </div>
+        
+        <div class="form-row">
+          <label for="input-author-role" style="font-weight:600; font-size:0.85rem;">Chức danh / Vai trò <span style="color:var(--secondary-color)">*</span></label>
+          <input type="text" id="input-author-role" value="${editAuthor ? editAuthor.role : ''}" placeholder="Ví dụ: Content Writer, Tech Lead..." required>
+        </div>
+
+        <div class="form-row">
+          <label style="font-weight:600; font-size:0.85rem;">Ảnh đại diện tác giả <span style="color:var(--secondary-color)">*</span></label>
+          ${createMediaUploadHtml('author-avatar', editAuthor ? editAuthor.avatar : '')}
+        </div>
+
+        <div class="form-row">
+          <label for="input-author-desc" style="font-weight:600; font-size:0.85rem;">Mô tả giới thiệu / Tiểu sử <span style="color:var(--secondary-color)">*</span></label>
+          <textarea id="input-author-desc" rows="3" placeholder="Nhập tiểu sử tóm tắt giới thiệu tác giả..." required>${editAuthor ? editAuthor.desc : ''}</textarea>
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <button class="login-btn" id="btn-save-author" style="flex: 1; padding: 0.75rem; font-size: 0.9rem; border-radius: 8px; font-weight: 700;">
+            ${editAuthor ? 'Cập nhật' : 'Thêm tác giả'}
+          </button>
+          <button class="logout-btn" id="btn-cancel-author-modal" style="padding: 0.75rem; font-size: 0.9rem; border-radius: 8px; font-weight: 700; margin: 0;">
+            Hủy
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderArticleFormHtml() {
+    const editPost = editingArticleId ? articles.find(a => a.id === editingArticleId) : null;
+    const cats = getCategoriesDb();
+    const authors = getAuthorsDb();
+    return `
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1.5rem;">
+        <h3 class="panel-subtitle" style="margin: 0; font-size: 1.35rem; font-weight: 800; color: var(--text-primary);">${editPost ? 'Chỉnh sửa bài viết' : 'Nội dung bài viết mới'}</h3>
+        <button class="logout-btn" id="btn-cancel-post-modal" style="padding: 0.5rem 1rem; font-weight: 700; border-radius: 8px; margin: 0;">
+          Đóng
+        </button>
+      </div>
+
+      <div class="create-post-layout-grid">
+        <div class="publish-form-panel">
+          <div class="login-form" style="gap: 1.2rem; display: flex; flex-direction: column;">
+            <!-- Title -->
+            <div class="form-row">
+              <label for="post-title" style="font-weight:600; font-size:0.85rem;">Tiêu đề bài viết <span style="color:var(--secondary-color)">*</span></label>
+              <input type="text" id="post-title" value="${editPost ? editPost.title : ''}" placeholder="Nhập tiêu đề hấp dẫn..." required>
+            </div>
+
+            <!-- Categories -->
+            <div class="create-post-categories-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-row">
+                <label for="post-category" style="font-weight:600; font-size:0.85rem;">Chuyên mục chính <span style="color:var(--secondary-color)">*</span></label>
+                <select id="post-category" required>
+                  ${cats.map(cat => `<option value="${cat}" ${editPost && editPost.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label for="post-subcategory" style="font-weight:600; font-size:0.85rem;">Chuyên mục con</label>
+                <select id="post-subcategory">
+                  <!-- Dynamic render -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row" style="display:flex; align-items:center; gap: 0.5rem; margin-top: 0.5rem; cursor:pointer;">
+              <input type="checkbox" id="post-featured" ${editPost && editPost.featured ? 'checked' : ''} style="width: 18px; height: 18px; margin:0;">
+              <label for="post-featured" style="margin:0; font-weight:600; font-size: 0.85rem;">Bài viết nổi bật (Featured)</label>
+            </div>
+
+            <div class="form-row">
+              <label for="post-author-name" style="font-weight:600; font-size:0.85rem;">Tác giả <span style="color:var(--secondary-color)">*</span></label>
+              <select id="post-author-name" required>
+                ${authors.map(aut => `<option value="${aut.name}" ${editPost && editPost.author === aut.name ? 'selected' : ''}>${aut.name} (${aut.role})</option>`).join('')}
+              </select>
+            </div>
+
+            <!-- Cover Image Selector -->
+            <div class="form-row">
+              <label style="font-weight:600; font-size:0.85rem;">Ảnh bìa bài viết <span style="color:var(--secondary-color)">*</span></label>
+              ${createMediaUploadHtml('post-cover', editPost ? editPost.image : selectedCoverUrl)}
+            </div>
+
+            <div class="form-row">
+              <label for="post-description" style="font-weight:600; font-size:0.85rem;">Tóm tắt bài viết (Sapo) <span style="color:var(--secondary-color)">*</span></label>
+              <textarea id="post-description" rows="2" placeholder="Viết tóm tắt ngắn..." required>${editPost ? editPost.description : ''}</textarea>
+            </div>
+
+            <!-- WYSIWYG Editor Block -->
+            <div class="form-row" style="margin-top: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                <label style="font-weight:600; font-size:0.85rem; margin: 0;">Nội dung bài viết <span style="color:var(--secondary-color)">*</span></label>
+                <div class="editor-tabs" style="display: flex; gap: 0.2rem; background: var(--bg-surface-secondary); padding: 0.2rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                  <button class="editor-tab-btn active" id="editor-write-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Soạn thảo</button>
+                  <button class="editor-tab-btn" id="editor-preview-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Xem trước</button>
+                </div>
+              </div>
+
+              <div id="editor-textarea-wrapper">
+                <div class="editor-toolbar" style="display: flex; gap: 0.4rem; background-color: var(--bg-surface-secondary); padding: 0.5rem; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; flex-wrap: wrap; align-items: center;">
+                  <button class="toolbar-btn" data-cmd="bold" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chữ đậm (B)">B</button>
+                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h2" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục lớn (H2)">H2</button>
+                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h3" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục nhỏ (H3)">H3</button>
+                  <button class="toolbar-btn" data-cmd="insertBlockquote" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Trích dẫn (Quote)">Q</button>
+                  <button class="toolbar-btn" data-cmd="insertUnorderedList" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Dòng liệt kê (-)">•</button>
+                  <button class="toolbar-btn" data-cmd="createLink" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn liên kết">🔗</button>
+                  <button class="toolbar-btn" data-cmd="insertHTML-table" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn bảng">田</button>
+                  <button class="toolbar-btn" id="btn-insert-inline-img" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn ảnh đơn">📷 Ảnh đơn</button>
+                  <button class="toolbar-btn" id="btn-insert-image-row" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn nhóm ảnh">⊞ Nhóm ảnh</button>
+                  <button class="toolbar-btn" id="btn-clear-format" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Hủy định dạng (Heading, List, Blockquote, Bold...)">🧹 Hủy định dạng</button>
+                </div>
+                <div id="post-content" class="rich-text-editor post-detail-body" contenteditable="true" style="border-top-left-radius: 0; border-top-right-radius: 0; min-height: 320px; border: 1px solid var(--border-color); padding: 1.2rem; outline: none; background-color: var(--bg-main);" placeholder="Soạn thảo tại đây..."></div>
+                <input type="file" id="inline-img-file-input" accept="image/*" style="display:none;">
+                <input type="file" id="image-row-file-input" accept="image/*" multiple style="display:none;">
+              </div>
+
+              <div id="editor-preview-wrapper" class="markdown-preview-container post-detail-body" style="display:none; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; background-color: var(--bg-main); min-height: 320px; overflow-y: auto;"></div>
+            </div>
+
+            <div class="editor-status-bar" style="margin-top: 0.4rem; display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
+              <span id="word-count-indicator">0 từ</span>
+              <span id="reading-time-indicator">0 phút đọc</span>
+            </div>
+
+            <button class="submit-comment-btn" id="publish-post-btn" style="margin-top: 1.2rem; width:100%; font-size: 0.95rem; font-weight:700; padding: 0.75rem 1.5rem; background-color: var(--primary-color); color:#fff; border-color: var(--primary-color); border-radius: 30px;">
+              ${editPost ? '💾 Cập nhật bài viết' : '🚀 Xuất bản bài viết'}
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Preview -->
+        <div class="preview-sidebar-panel" style="flex: 0 0 320px;">
+          <h3 class="panel-subtitle" style="margin-bottom: 1.2rem; font-size:1.1rem;">Xem trước thẻ tin</h3>
+          <div class="cat-article-card" style="box-shadow: var(--shadow-lg); background-color: var(--bg-surface); border: 1px solid var(--border-color); pointer-events: none; border-radius:12px; overflow:hidden;">
+            <div class="cat-card-img-wrapper" style="position:relative;">
+              <img id="sidebar-preview-img" src="${editPost ? editPost.image : selectedCoverUrl}" alt="Cover Preview" style="height: 180px; width: 100%; object-fit: cover;">
+              <span id="sidebar-preview-cat" class="cat-card-category" style="position:absolute; top:0.8rem; left:0.8rem;">TIN CÔNG NGHỆ</span>
+            </div>
+            <div class="cat-card-content" style="padding: 1.2rem;">
+              <h3 id="sidebar-preview-title" class="cat-card-title" style="font-size: 1.05rem; line-height:1.4; font-weight:750; margin-bottom:0.5rem;">Chưa nhập tiêu đề...</h3>
+              <p id="sidebar-preview-desc" class="cat-card-description" style="margin-bottom: 1.2rem; font-size:0.85rem; line-height:1.4;">Nhập sapo để xem...</p>
+              <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border-color); padding-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div class="meta-left" style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap;">
+                  <span id="sidebar-preview-author">Tác giả</span>
+                  <span class="meta-dot">&bull;</span>
+                  <span id="sidebar-preview-time">0 phút đọc</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   function renderView() {
@@ -219,17 +544,35 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           </button>
         </div>
 
-        <!-- Tabs selectors -->
-        <div class="admin-tabs" style="margin-bottom: 2.5rem;">
-          <button class="admin-tab-btn ${activeTab === 'articles' ? 'active' : ''}" id="tab-articles-btn">
-            Quản lý bài viết
-          </button>
-          <button class="admin-tab-btn ${activeTab === 'categories' ? 'active' : ''}" id="tab-categories-btn">
-            Quản lý chuyên mục
-          </button>
-          <button class="admin-tab-btn ${activeTab === 'authors' ? 'active' : ''}" id="tab-authors-btn">
-            Quản lý tác giả
-          </button>
+        <!-- Tab header row -->
+        <div class="admin-tabs-row">
+          <div class="admin-tabs">
+            <button class="admin-tab-btn ${activeTab === 'articles' ? 'active' : ''}" id="tab-articles-btn">
+              Quản lý bài viết
+            </button>
+            <button class="admin-tab-btn ${activeTab === 'categories' ? 'active' : ''}" id="tab-categories-btn">
+              Quản lý chuyên mục
+            </button>
+            <button class="admin-tab-btn ${activeTab === 'authors' ? 'active' : ''}" id="tab-authors-btn">
+              Quản lý tác giả
+            </button>
+          </div>
+          
+          <div class="admin-tab-action">
+            ${activeTab === 'articles' ? `
+              <button class="write-post-btn active" id="btn-goto-write-article" style="padding: 0.6rem 1.4rem; font-size: 0.9rem; font-weight: 700; border-radius: 8px;">
+                + Viết bài mới
+              </button>
+            ` : activeTab === 'categories' ? `
+              <button class="write-post-btn active" id="btn-add-category-modal" style="padding: 0.6rem 1.4rem; font-size: 0.9rem; font-weight: 700; border-radius: 8px;">
+                + Thêm chuyên mục lớn
+              </button>
+            ` : `
+              <button class="write-post-btn active" id="btn-add-author-modal" style="padding: 0.6rem 1.4rem; font-size: 0.9rem; font-weight: 700; border-radius: 8px;">
+                + Thêm tác giả
+              </button>
+            `}
+          </div>
         </div>
 
         <!-- Tab content area -->
@@ -237,7 +580,25 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           ${activeTab === 'articles' ? renderArticlesTab() : activeTab === 'categories' ? renderCategoriesTab() : renderAuthorsTab()}
         </div>
       </div>
+
+      <!-- Popup Modal Container -->
+      <div class="admin-modal" id="admin-modal" tabindex="-1">
+        <div class="admin-modal-content" id="admin-modal-content" tabindex="0">
+          <button type="button" class="admin-modal-close-btn" id="admin-modal-close-btn" style="position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); font-weight: bold; line-height: 1;">&times;</button>
+          <div id="admin-modal-body"></div>
+        </div>
+      </div>
     `;
+
+    // Bind modal backdrop click to close
+    const modal = document.getElementById("admin-modal");
+    modal?.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.getElementById("admin-modal-close-btn")?.addEventListener("click", closeModal);
 
     // Bind tab clicks
     document.getElementById("admin-logout-btn")?.addEventListener("click", () => {
@@ -247,7 +608,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
     document.getElementById("tab-articles-btn")?.addEventListener("click", () => {
       activeTab = 'articles';
-      articleMode = 'list';
       renderView();
     });
 
@@ -265,15 +625,16 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
     // Bind events based on active tab
     if (activeTab === 'articles') {
-      if (articleMode === 'list') {
-        bindArticlesListEvents();
-      } else {
-        bindArticlesWriteEvents();
-      }
+      bindArticlesListEvents();
     } else if (activeTab === 'categories') {
       bindCategoriesEvents();
     } else if (activeTab === 'authors') {
       bindAuthorsEvents();
+    }
+
+    // Auto open editor modal if redirectEditId was set
+    if (redirectEditId) {
+      openModal(renderArticleFormHtml(), '1100px');
     }
   }
 
@@ -281,255 +642,51 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
   // TAB: ARTICLES
   // --------------------------------------------------------------------------
   function renderArticlesTab() {
-    if (articleMode === 'list') {
-      return `
-        <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-          <button class="write-post-btn active" id="btn-goto-write-article" style="padding: 0.6rem 1.5rem;">
-            + Viết bài mới
-          </button>
-        </div>
-        
-        <!-- Mobile Card List View -->
-        <div class="mobile-only" style="margin-bottom: 2rem;">
-          ${articles.length === 0 ? `
-            <div style="text-align: center; padding: 2rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; color: var(--text-muted);">
-              Chưa có bài viết nào trong hệ thống.
-            </div>
-          ` : articles.map(post => `
-            <div class="admin-post-card" id="article-card-${post.id}">
-              <div style="display: flex; gap: 0.8rem; align-items: flex-start;">
-                <img src="${post.image.startsWith('http') || post.image.startsWith('data:') ? post.image : getAssetUrl(post.image)}" alt="Thumbnail" style="width: 70px; aspect-ratio: 16/10; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border-color);">
-                <div style="flex: 1; min-width: 0;">
-                  <h4 style="font-size: 0.9rem; font-weight: 700; line-height: 1.3; margin: 0 0 0.2rem 0; word-break: break-word;"><a href="#/bai-viet/${post.id}" target="_blank" style="color: var(--text-primary);">${post.title}</a></h4>
-                  <span class="badge badge-cat" style="font-size: 0.65rem; padding: 0.15rem 0.4rem;">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
-                  ${post.featured ? '<span class="badge badge-featured" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; margin-left: 0.3rem;">Nổi bật</span>' : ''}
-                </div>
-              </div>
-              
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border-color); padding-top: 0.5rem; margin-top: 0.6rem; font-size: 0.75rem; color: var(--text-muted);">
-                <div>Tác giả: <strong>${post.author}</strong></div>
-                <div style="display: flex; gap: 0.6rem;">
-                  <span>👀 ${post.views || 0}</span>
-                  <span>💬 ${post.comments || 0}</span>
-                </div>
-              </div>
-              
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.7rem; border-top: 1px solid var(--border-color); padding-top: 0.6rem;">
-                <button class="edit-post-btn" data-id="${post.id}" style="flex: 1; background-color: var(--primary-color); border: none; color: #fff; padding: 0.4rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
-                  Sửa
-                </button>
-                <button class="delete-post-btn" data-id="${post.id}" style="flex: 1; margin: 0; padding: 0.4rem; display: inline-flex; align-items: center; justify-content: center;">
-                  Xóa
-                </button>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-
-        <!-- Desktop Table View -->
-        <div class="admin-list-panel glass-panel desktop-only">
-          <div class="table-responsive">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Ảnh bìa</th>
-                  <th>Tiêu đề bài viết</th>
-                  <th>Chuyên mục</th>
-                  <th>Tác giả</th>
-                  <th>Lượt xem / Bình luận</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${articles.length === 0 ? `
-                  <tr>
-                    <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-muted);">
-                      Chưa có bài viết nào trong hệ thống.
-                    </td>
-                  </tr>
-                ` : articles.map(post => `
-                  <tr id="article-row-${post.id}">
-                    <td>
-                      <img class="table-post-thumb" src="${post.image.startsWith('http') || post.image.startsWith('data:') ? post.image : getAssetUrl(post.image)}" alt="Thumbnail">
-                    </td>
-                    <td>
-                      <div style="font-weight: 600; line-height: 1.4;">
-                        <a href="#/bai-viet/${post.id}" target="_blank" class="table-post-title-link">${post.title}</a>
-                      </div>
-                      ${post.featured ? '<span class="badge badge-featured">Nổi bật</span>' : ''}
-                    </td>
-                    <td>
-                      <span class="badge badge-cat">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
-                    </td>
-                    <td>
-                      <strong>${post.author}</strong>
-                    </td>
-                    <td>
-                      <div style="font-size: 0.85rem;">
-                        👀 <strong>${post.views || 0}</strong> lượt xem
-                      </div>
-                      <div style="font-size: 0.85rem;">
-                        💬 <strong>${post.comments || 0}</strong> bình luận
-                      </div>
-                    </td>
-                    <td style="white-space: nowrap;">
-                      <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: nowrap;">
-                        <button class="edit-post-btn" data-id="${post.id}" style="background-color: var(--primary-color); border: none; color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
-                          Sửa
-                        </button>
-                        <button class="delete-post-btn" data-id="${post.id}" style="margin: 0; display: inline-flex; align-items: center; justify-content: center;">
-                          Xóa
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
+    return `
+      <!-- Articles Grid (Mobile & Desktop Card Layout) -->
+      <div class="admin-articles-grid" style="margin-bottom: 2rem;">
+        ${articles.length === 0 ? `
+          <div style="text-align: center; padding: 3rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; color: var(--text-muted); grid-column: 1 / -1;">
+            Chưa có bài viết nào trong hệ thống.
           </div>
-        </div>
-      `;
-    } else {
-      // Editor view
-      const editPost = editingArticleId ? articles.find(a => a.id === editingArticleId) : null;
-      const cats = getCategoriesDb();
-      const authors = getAuthorsDb();
-
-      return `
-        <div style="margin-bottom: 1.5rem;">
-          <button class="logout-btn" id="btn-back-to-articles" style="padding: 0.5rem 1rem;">
-            ← Quay lại danh sách
-          </button>
-        </div>
-
-        <div class="create-post-layout-grid">
-          <div class="publish-form-panel glass-panel">
-            <h3 class="panel-subtitle">${editPost ? 'Chỉnh sửa bài viết' : 'Nội dung bài viết mới'}</h3>
+        ` : articles.map(post => `
+          <div class="admin-post-card" id="article-card-${post.id}">
+            <div style="display: flex; gap: 0.8rem; align-items: flex-start;">
+              <img src="${post.image && (post.image.startsWith('http') || post.image.startsWith('data:')) ? post.image : getAssetUrl(post.image || '')}" alt="Thumbnail" style="width: 80px; aspect-ratio: 16/10; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border-color);">
+              <div style="flex: 1; min-width: 0;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin: 0 0 0.3rem 0; word-break: break-word;"><a href="#/bai-viet/${post.id}" target="_blank" style="color: var(--text-primary); transition: color var(--transition-fast);">${post.title}</a></h4>
+                <span class="badge badge-cat" style="font-size: 0.65rem; padding: 0.15rem 0.4rem;">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
+                ${post.featured ? '<span class="badge badge-featured" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; margin-left: 0.3rem;">Nổi bật</span>' : ''}
+              </div>
+            </div>
             
-            <div class="login-form" style="margin-top: 1.5rem;">
-              <div class="form-row">
-                <label for="post-title">Tiêu đề bài viết <span style="color:var(--secondary-color)">*</span></label>
-                <input type="text" id="post-title" value="${editPost ? editPost.title : ''}" placeholder="Nhập tiêu đề..." required>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border-color); padding-top: 0.6rem; margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-muted);">
+              <div>Tác giả: <strong>${post.author}</strong></div>
+              <div style="display: flex; gap: 0.8rem;">
+                <span>👀 ${post.views || 0}</span>
+                <span>💬 ${post.comments || 0}</span>
               </div>
-
-              <div class="form-grid-3">
-                <div class="form-row">
-                  <label for="post-category">Chuyên mục chính <span style="color:var(--secondary-color)">*</span></label>
-                  <select id="post-category" required>
-                    ${cats.map(cat => `<option value="${cat}" ${editPost && editPost.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
-                  </select>
-                </div>
-
-                <div class="form-row">
-                  <label for="post-subcategory">Chuyên mục con</label>
-                  <select id="post-subcategory">
-                    <option value="">-- Không có --</option>
-                  </select>
-                </div>
-
-                <div class="form-row" style="display:flex; align-items:center; gap: 0.5rem; margin-top: 1.8rem; cursor:pointer;">
-                  <input type="checkbox" id="post-featured" ${editPost && editPost.featured ? 'checked' : ''} style="width: 20px; height: 20px; margin:0;">
-                  <label for="post-featured" style="margin:0; font-weight:600; font-size: 0.85rem;">Bài viết nổi bật (Featured)</label>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <label for="post-author-name">Tác giả <span style="color:var(--secondary-color)">*</span></label>
-                <select id="post-author-name" required>
-                  ${authors.map(aut => `<option value="${aut.name}" ${editPost && editPost.author === aut.name ? 'selected' : ''}>${aut.name} (${aut.role})</option>`).join('')}
-                </select>
-              </div>
-
-              <!-- Cover Image Selector -->
-              <div class="form-row" style="margin-top: 1rem;">
-                <label>Ảnh bìa bài viết <span style="color:var(--secondary-color)">*</span></label>
-                
-                <div class="upload-dropzone" id="upload-dropzone" style="min-height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed var(--border-color); border-radius: 8px; cursor: pointer; padding: 1.5rem; background-color: var(--bg-main);">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); margin-bottom: 0.5rem;"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
-                  <p style="font-weight:600; font-size: 0.9rem; margin-bottom: 0.2rem;">Kéo thả ảnh, click chọn file hoặc dán ảnh (Ctrl+V)</p>
-                  <input type="file" id="cover-file-input" accept="image/*" style="display:none;">
-                </div>
-                
-                <div style="margin-top: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap;">Hoặc nhập URL ảnh:</span>
-                  <input type="url" id="post-cover-url" value="${editPost && editPost.image.startsWith('http') ? editPost.image : ''}" placeholder="Dán link ảnh bìa (https://...)" style="margin: 0; padding: 0.5rem 0.8rem; font-size: 0.9rem;">
-                </div>
-              </div>
-
-              <div class="form-row">
-                <label for="post-description">Tóm tắt bài viết (Sapo) <span style="color:var(--secondary-color)">*</span></label>
-                <textarea id="post-description" rows="3" placeholder="Viết tóm tắt ngắn..." required>${editPost ? editPost.description : ''}</textarea>
-              </div>
-
-              <!-- Content Area -->
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.4rem;">
-                <label style="margin-bottom:0;">Nội dung bài viết (Hỗ trợ Markdown) <span style="color:var(--secondary-color)">*</span></label>
-                <div class="editor-tabs">
-                  <button class="editor-tab-btn active" id="editor-write-tab" type="button">Soạn thảo</button>
-                  <button class="editor-tab-btn" id="editor-preview-tab" type="button">Xem trước</button>
-                </div>
-              </div>
-
-              <div id="editor-textarea-wrapper">
-                <div class="editor-toolbar" style="display: flex; gap: 0.4rem; background-color: var(--bg-surface-secondary); padding: 0.5rem; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; flex-wrap: wrap; align-items: center;">
-                  <button class="toolbar-btn" data-cmd="bold" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chữ đậm (B)">B</button>
-                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h2" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục lớn (H2)">H2</button>
-                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h3" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục nhỏ (H3)">H3</button>
-                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="blockquote" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Trích dẫn (>)">“</button>
-                  <button class="toolbar-btn" data-cmd="insertUnorderedList" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Dòng liệt kê (-)">•</button>
-                  <button class="toolbar-btn" data-cmd="createLink" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn liên kết">🔗</button>
-                  <button class="toolbar-btn" data-cmd="insertHTML-table" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn bảng">田</button>
-                  <button class="toolbar-btn" id="btn-insert-inline-img" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Tải ảnh lên và chèn">📷</button>
-                </div>
-                <div id="post-content" class="rich-text-editor" contenteditable="true" style="border-top-left-radius: 0; border-top-right-radius: 0; min-height: 380px; border: 1px solid var(--border-color); padding: 1.5rem; outline: none; background-color: var(--bg-main);" placeholder="Soạn thảo tại đây..."></div>
-                <input type="file" id="inline-img-file-input" accept="image/*" style="display:none;">
-              </div>
-
-              <div id="editor-preview-wrapper" class="markdown-preview-container" style="display:none; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background-color: var(--bg-main); min-height: 380px;"></div>
-
-              <div class="editor-status-bar" style="margin-top: 0.5rem; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
-                <span id="word-count-indicator">0 từ</span>
-                <span id="reading-time-indicator">0 phút đọc</span>
-              </div>
-
-              <button class="submit-comment-btn" id="publish-post-btn" style="margin-top: 1.5rem; width:100%; font-size: 1rem; padding: 0.8rem 1.5rem; background-color: var(--primary-color); color:#fff; border-color: var(--primary-color); border-radius: 30px;">
-                ${editPost ? '💾 Cập nhật bài viết' : '🚀 Xuất bản bài viết'}
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 0.8rem;">
+              <button class="edit-post-btn" data-id="${post.id}" style="flex: 1; background-color: var(--primary-color); border: none; color: #fff; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.2rem;">
+                📝 Sửa
+              </button>
+              <button class="delete-post-btn" data-id="${post.id}" style="flex: 1; margin: 0; padding: 0.5rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.2rem; font-size: 0.8rem; font-weight: 600;">
+                ❌ Xóa
               </button>
             </div>
           </div>
-
-          <!-- Sidebar Preview -->
-          <div class="preview-sidebar-panel">
-            <h3 class="panel-subtitle" style="margin-bottom: 1.5rem;">Xem trước thẻ tin</h3>
-            <div class="cat-article-card" style="box-shadow: var(--shadow-lg); background-color: var(--bg-surface); border: 1px solid var(--border-color); pointer-events: none;">
-              <div class="cat-card-img-wrapper">
-                <img id="sidebar-preview-img" src="${selectedCoverUrl}" alt="Cover Preview" style="height: 200px; width: 100%; object-fit: cover;">
-                <span id="sidebar-preview-cat" class="cat-card-category">TIN CÔNG NGHỆ</span>
-              </div>
-              <div class="cat-card-content" style="padding: 1.5rem;">
-                <h3 id="sidebar-preview-title" class="cat-card-title" style="font-size: 1.1rem; line-height:1.4;">Chưa nhập tiêu đề...</h3>
-                <p id="sidebar-preview-desc" class="cat-card-description" style="margin-bottom: 1.5rem;">Nhập sapo để xem...</p>
-                <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                  <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                    <span id="sidebar-preview-author">Tác giả</span>
-                    <span class="meta-dot">&bull;</span>
-                    <span id="sidebar-preview-time">0 phút đọc</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+        `).join('')}
+      </div>
+    `;
   }
 
   function bindArticlesListEvents() {
     document.getElementById("btn-goto-write-article")?.addEventListener("click", () => {
-      articleMode = 'write';
       editingArticleId = null;
       selectedCoverUrl = PRESET_IMAGES[0].url;
-      renderView();
+      openModal(renderArticleFormHtml(), '1100px');
     });
 
     container.querySelectorAll(".edit-post-btn").forEach(btn => {
@@ -539,8 +696,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         if (postExists) {
           editingArticleId = id;
           selectedCoverUrl = postExists.image;
-          articleMode = 'write';
-          renderView();
+          openModal(renderArticleFormHtml(), '1100px');
         }
       });
     });
@@ -553,12 +709,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           const updated = articles.filter(a => a.id !== id);
           localStorage.setItem("toptech_articles", JSON.stringify(updated));
           
-          const row = document.getElementById(`article-row-${id}`);
           const card = document.getElementById(`article-card-${id}`);
-          if (row) {
-            row.style.transition = "opacity 0.3s ease";
-            row.style.opacity = "0";
-          }
           if (card) {
             card.style.transition = "opacity 0.3s ease";
             card.style.opacity = "0";
@@ -574,12 +725,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
   }
 
   function bindArticlesWriteEvents() {
-    document.getElementById("btn-back-to-articles")?.addEventListener("click", () => {
-      articleMode = 'list';
-      editingArticleId = null;
-      renderView();
-    });
-
     const postTitle = document.getElementById("post-title");
     const postCategory = document.getElementById("post-category");
     const postSubcategory = document.getElementById("post-subcategory");
@@ -601,25 +746,21 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
     if (editPost && postContent) {
       postContent.innerHTML = editPost.content;
+      migrateArticleContent(postContent, { isEditor: true });
       selectedCoverUrl = editPost.image;
       if (previewImg) previewImg.src = selectedCoverUrl;
       if (previewCat) previewCat.textContent = (editPost.subcategory || editPost.category).toUpperCase();
       if (previewTitle) previewTitle.textContent = editPost.title;
       if (previewDesc) previewDesc.textContent = editPost.description;
       if (previewAuthor) previewAuthor.textContent = editPost.author;
-
-      const dropzone = document.getElementById("upload-dropzone");
-      if (dropzone) {
-        dropzone.style.borderColor = "var(--primary-color)";
-        dropzone.innerHTML = `
-          <div style="text-align: center; color: var(--primary-color);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <p style="font-weight:600; font-size:0.85rem;">Đã chọn ảnh bìa hiện tại!</p>
-            <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">(Click hoặc kéo thả để đổi)</p>
-          </div>
-        `;
-      }
     }
+
+    // Set up cover media upload control
+    const uploadWrapper = document.getElementById("post-cover-media-control");
+    setupMediaUploadControl(uploadWrapper, (url) => {
+      selectedCoverUrl = url;
+      if (previewImg) previewImg.src = url;
+    });
 
     const updateSubcategories = (parentCat, selectedSub = "") => {
       if (!postSubcategory) return;
@@ -633,7 +774,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     }
 
     function updateWordAndReadTime() {
-      const text = postContent?.innerText.trim() || "";
+      const text = (postContent?.innerText || postContent?.textContent || "").trim();
       const wordCount = text ? text.split(/\s+/).length : 0;
       const readMinutes = Math.max(1, Math.ceil(wordCount / 200));
       
@@ -689,119 +830,162 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         if (cmd === 'createLink') {
           const url = prompt("Nhập đường dẫn:");
           if (url) executeCommand(cmd, url);
+        } else if (cmd === 'insertBlockquote') {
+          insertHtmlAtCursor(postContent, createBlockquoteHtml());
         } else if (cmd === 'insertHTML-table') {
-          const tableHtml = `
-            <table class="post-detail-table" style="width: 100%;">
-              <thead><tr><th>Tiêu đề 1</th><th>Tiêu đề 2</th></tr></thead>
-              <tbody>
-                <tr><td>Nội dung 1</td><td>Nội dung 2</td></tr>
-                <tr><td>Nội dung 3</td><td>Nội dung 4</td></tr>
-              </tbody>
-            </table><p><br></p>
-          `;
-          executeCommand('insertHTML', tableHtml);
+          const rows = parseInt(prompt("Số hàng (bao gồm tiêu đề):", "3"), 10) || 3;
+          const cols = parseInt(prompt("Số cột:", "3"), 10) || 3;
+          insertHtmlAtCursor(postContent, createTableHtml(rows, cols));
         } else {
           executeCommand(cmd, val);
         }
       });
     });
 
+    let pendingImageRow = null;
+
     const insertImgBtn = document.getElementById("btn-insert-inline-img");
+    const insertImageRowBtn = document.getElementById("btn-insert-image-row");
     const inlineImgInput = document.getElementById("inline-img-file-input");
+    const imageRowInput = document.getElementById("image-row-file-input");
+
+    const readFilesAsDataUrls = (files) => Promise.all(
+      Array.from(files).map(file => new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event.target.result);
+        reader.readAsDataURL(file);
+      }))
+    );
+
+    const appendFigureToImageRow = (rowEl, src) => {
+      const items = rowEl?.querySelector('.post-image-row-items');
+      if (!items) return;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = createFigureHtml(src, '', { inRow: true });
+      items.appendChild(wrapper.firstElementChild);
+      rowEl?.classList.remove('post-image-row-empty');
+      postContent?.dispatchEvent(new Event('input'));
+    };
+
+    const appendFilesToImageRow = async (rowEl, files) => {
+      if (!rowEl || !files?.length) return;
+      const sources = await readFilesAsDataUrls(files);
+      sources.forEach(src => appendFigureToImageRow(rowEl, src));
+    };
 
     const processInlineImageFile = (file) => {
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (event) => {
-        const imgHtml = `
-          <figure class="post-inline-figure">
-            <img src="${event.target.result}" alt="Ảnh">
-            <figcaption class="post-figcaption">Chú thích ảnh</figcaption>
-          </figure><p><br></p>
-        `;
-        executeCommand('insertHTML', imgHtml);
+        if (pendingImageRow) {
+          appendFigureToImageRow(pendingImageRow, event.target.result);
+        } else {
+          insertHtmlAtCursor(postContent, createFigureHtml(event.target.result));
+        }
       };
       reader.readAsDataURL(file);
     };
 
-    insertImgBtn?.addEventListener("click", () => inlineImgInput?.click());
-    inlineImgInput?.addEventListener("change", (e) => processInlineImageFile(e.target.files[0]));
-
-    postContent?.addEventListener("paste", (e) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf("image") !== -1) {
-          e.preventDefault();
-          processInlineImageFile(items[i].getAsFile());
-          break;
-        }
+    const processInlineImageFiles = async (files) => {
+      if (!files?.length) return;
+      if (pendingImageRow) {
+        await appendFilesToImageRow(pendingImageRow, files);
+        return;
       }
-    });
-
-    const dropzone = document.getElementById("upload-dropzone");
-    const fileInput = document.getElementById("cover-file-input");
-    const inputCoverUrl = document.getElementById("post-cover-url");
-
-    dropzone?.addEventListener("click", () => fileInput?.click());
-
-    const processCoverImageFile = (file) => {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        selectedCoverUrl = event.target.result;
-        if (previewImg) previewImg.src = selectedCoverUrl;
-        if (dropzone) {
-          dropzone.style.borderColor = "var(--primary-color)";
-          dropzone.innerHTML = `
-            <div style="text-align: center; color: var(--primary-color);">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <p style="font-weight:600; font-size:0.85rem;">Đã chọn ảnh bìa thành công!</p>
-              <p style="font-size:0.7rem; color:var(--text-muted);">${file.name || 'Ảnh tải lên'}</p>
-            </div>
-          `;
-        }
-      };
-      reader.readAsDataURL(file);
+      if (files.length === 1) {
+        processInlineImageFile(files[0]);
+      } else {
+        const sources = await readFilesAsDataUrls(files);
+        insertHtmlAtCursor(postContent, createImageRowHtml(sources));
+        migrateArticleContent(postContent, { isEditor: true });
+      }
     };
 
-    fileInput?.addEventListener("change", (e) => processCoverImageFile(e.target.files[0]));
+    const processImageRowFiles = async (files) => {
+      if (!files?.length) return;
+      const sources = await readFilesAsDataUrls(files);
+      if (sources.length === 1) {
+        insertHtmlAtCursor(postContent, createFigureHtml(sources[0]));
+      } else {
+        insertHtmlAtCursor(postContent, createImageRowHtml(sources));
+      }
+    };
 
-    dropzone?.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      if (dropzone) dropzone.style.borderColor = "var(--primary-color)";
+    insertImgBtn?.addEventListener("click", () => {
+      pendingImageRow = null;
+      postContent?.querySelectorAll('.post-image-row.is-selected').forEach(r => r.classList.remove('is-selected'));
+      inlineImgInput?.click();
+    });
+    insertImageRowBtn?.addEventListener("click", () => {
+      insertHtmlAtCursor(postContent, createEmptyImageRowHtml());
+      const rows = postContent?.querySelectorAll('.post-image-row');
+      pendingImageRow = rows?.[rows.length - 1] || null;
+      migrateArticleContent(postContent, { isEditor: true });
+    });
+    inlineImgInput?.addEventListener("change", (e) => {
+      processInlineImageFile(e.target.files[0]);
+      e.target.value = '';
+    });
+    imageRowInput?.addEventListener("change", (e) => {
+      processImageRowFiles(e.target.files);
+      e.target.value = '';
     });
 
-    dropzone?.addEventListener("dragleave", () => {
-      if (dropzone) dropzone.style.borderColor = "var(--border-color)";
+    const clearFormatBtn = document.getElementById("btn-clear-format");
+    clearFormatBtn?.addEventListener("click", () => {
+      document.execCommand('removeFormat', false, null);
+      document.execCommand('formatBlock', false, 'p');
+      postContent?.focus();
+      postContent?.dispatchEvent(new Event('input'));
     });
 
-    dropzone?.addEventListener("drop", (e) => {
-      e.preventDefault();
-      if (dropzone) dropzone.style.borderColor = "var(--border-color)";
-      processCoverImageFile(e.dataTransfer.files[0]);
+    setupEditorBlockHandlers(postContent, {
+      onImageRowAdd: (rowEl) => {
+        pendingImageRow = rowEl;
+        imageRowInput?.click();
+      },
+      onImageRowSelect: (rowEl) => {
+        pendingImageRow = rowEl;
+      },
+      onChange: () => postContent?.dispatchEvent(new Event('input'))
     });
 
-    if (dropzone) {
-      dropzone.setAttribute("tabindex", "0");
-      dropzone.addEventListener("paste", (e) => {
-        const items = e.clipboardData?.items;
-        if (!items) return;
-        for (let i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf("image") !== -1) {
-            e.preventDefault();
-            processCoverImageFile(items[i].getAsFile());
-            break;
-          }
-        }
-      });
+    if (postContent && !editPost) {
+      migrateArticleContent(postContent, { isEditor: true });
     }
 
-    inputCoverUrl?.addEventListener("input", (e) => {
-      const url = e.target.value.trim();
-      if (url) {
-        selectedCoverUrl = url;
-        if (previewImg) previewImg.src = selectedCoverUrl;
+    updateWordAndReadTime();
+
+    postContent?.addEventListener("paste", (e) => {
+      const captionZone = e.target.closest?.('.post-figcaption-zone');
+      if (captionZone) {
+        e.preventDefault();
+        const text = e.clipboardData?.getData('text/plain') || '';
+        document.execCommand('insertText', false, text);
+        return;
+      }
+
+      const imageFiles = getClipboardImageFiles(e.clipboardData);
+      if (imageFiles.length > 0) {
+        e.preventDefault();
+        processInlineImageFiles(imageFiles);
+        return;
+      }
+
+      const html = e.clipboardData?.getData('text/html');
+      if (html) {
+        e.preventDefault();
+        const cleaned = cleanPastedHtml(html);
+        insertHtmlAtCursor(postContent, cleaned);
+        migrateArticleContent(postContent, { isEditor: true });
+        return;
+      }
+
+      const text = e.clipboardData?.getData('text/plain');
+      if (text) {
+        e.preventDefault();
+        document.execCommand('insertText', false, text);
+        postContent?.dispatchEvent(new Event('input'));
       }
     });
 
@@ -825,7 +1009,12 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         previewWrapper.style.display = "block";
         const contentVal = postContent?.innerHTML || "";
         previewWrapper.innerHTML = contentVal ? compileMarkdown(contentVal) : '<p style="color:var(--text-muted); font-style:italic;">Chưa soạn thảo nội dung...</p>';
+        migrateArticleContent(previewWrapper, { isEditor: false });
       }
+    });
+
+    document.getElementById("btn-cancel-post-modal")?.addEventListener("click", () => {
+      closeModal();
     });
 
     publishBtn?.addEventListener("click", () => {
@@ -835,9 +1024,11 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       const author = postAuthor?.value;
       const description = postDesc?.value.trim();
       const rawContent = postContent?.innerHTML.trim();
+      migrateArticleContent(postContent, { isEditor: true });
+      const normalizedContent = postContent?.innerHTML.trim();
       const isFeatured = postFeatured?.checked;
 
-      if (!title || !category || !author || !description || !rawContent) {
+      if (!title || !category || !author || !description || !normalizedContent) {
         alert("Vui lòng điền đầy đủ thông tin bắt buộc (*).");
         return;
       }
@@ -857,7 +1048,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
             postToEdit.image = selectedCoverUrl;
             postToEdit.author = author;
             postToEdit.description = description;
-            postToEdit.content = rawContent;
+            postToEdit.content = normalizedContent;
             postToEdit.featured = isFeatured;
             postToEdit.readTime = readTime;
           }
@@ -876,7 +1067,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
             comments: 0,
             featured: isFeatured,
             description: description,
-            content: rawContent,
+            content: normalizedContent,
             commentsList: []
           };
           const updatedList = [newPost, ...articles];
@@ -889,8 +1080,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         publishBtn.style.borderColor = "#10b981";
         publishBtn.innerHTML = "✓ Lưu bài viết thành công!";
         setTimeout(() => {
-          articleMode = 'list';
-          renderView();
+          closeModal();
         }, 800);
       }, 800);
     });
@@ -902,140 +1092,67 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
   function renderCategoriesTab() {
     const cats = getCategoriesDb();
     const subsMap = getSubcategoriesDb();
+    const thumbsMap = getCategoryThumbnailsDb();
+
+    const listHtml = cats.map(cat => {
+      const subs = subsMap[cat] || [];
+      const thumb = thumbsMap[cat] || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400";
+      return `
+        <div class="category-manage-row" style="border: 1px solid var(--border-color); padding: 1.2rem; border-radius: 12px; background: var(--bg-surface); display: flex; flex-direction: column; gap: 1rem;" id="cat-manage-${cat}">
+          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <img src="${thumb}" alt="${cat}" style="width: 80px; height: 55px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="flex: 1; min-width: 0;">
+              <strong style="font-size: 1.15rem; color: var(--text-primary);">${cat}</strong>
+              <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">(${subs.length} chuyên mục con)</span>
+            </div>
+            <div style="display: flex; gap: 0.4rem;">
+              <button class="edit-cat-btn" data-cat="${cat}" style="background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.2rem;">📝 Sửa</button>
+              <button class="delete-cat-btn" data-cat="${cat}" style="background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: #ef4444; display: inline-flex; align-items: center; gap: 0.2rem;">❌ Xóa</button>
+            </div>
+          </div>
+          
+          <!-- Subcategories tags list -->
+          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            ${subs.map(sub => `
+              <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);">
+                ${sub}
+                <button class="delete-sub-btn" data-cat="${cat}" data-sub="${sub}" style="background:none; border:none; cursor:pointer; color: var(--text-muted); font-weight:bold; font-size: 0.9rem; padding: 0; display: inline-flex; align-items: center;">&times;</button>
+              </span>
+            `).join('')}
+            ${subs.length === 0 ? '<span style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Chưa có chuyên mục con.</span>' : ''}
+          </div>
+
+          <!-- Add inline Subcategory input -->
+          <div style="display: flex; gap: 0.5rem; max-width: 320px; margin-top: 0.2rem;">
+            <input type="text" placeholder="Thêm chuyên mục con..." class="inline-sub-input" data-cat="${cat}" style="margin:0; padding: 0.5rem 0.8rem; font-size: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); width: 100%;">
+            <button class="btn-add-subcategory" data-cat="${cat}" style="background: var(--primary-color); border: none; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; font-weight: bold;">+</button>
+          </div>
+        </div>
+      `;
+    }).join('');
 
     return `
-      <div class="create-post-layout-grid">
-        <!-- Add/Edit Category Form (Left) -->
-        <div class="publish-form-panel glass-panel" style="padding: 2rem;">
-          <h3 class="panel-subtitle">${editingCategoryName ? `Sửa chuyên mục: ${editingCategoryName}` : 'Thêm chuyên mục mới'}</h3>
-          
-          <div class="login-form" style="margin-top: 1rem; gap: 1rem;">
-            <div class="form-row">
-              <label for="input-cat-name">Tên chuyên mục <span style="color:var(--secondary-color)">*</span></label>
-              <input type="text" id="input-cat-name" value="${editingCategoryName || ''}" placeholder="Ví dụ: AI, Review, IT..." required>
-            </div>
-            
-            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-              <button class="login-btn" id="btn-save-category" style="flex: 1; padding: 0.7rem; font-size: 0.9rem; border-radius: 8px;">
-                ${editingCategoryName ? 'Cập nhật' : 'Thêm chuyên mục'}
-              </button>
-              ${editingCategoryName ? `
-                <button class="logout-btn" id="btn-cancel-edit-category" style="padding: 0.7rem; font-size: 0.9rem; border-radius: 8px;">
-                  Hủy
-                </button>
-              ` : ''}
-            </div>
+      <div class="admin-categories-grid" style="margin-bottom: 2rem;">
+        ${cats.length === 0 ? `
+          <div style="text-align: center; padding: 3rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; color: var(--text-muted); grid-column: 1 / -1;">
+            Chưa có chuyên mục nào trong hệ thống.
           </div>
-        </div>
-
-        <!-- Categories List (Right) -->
-        <div class="publish-form-panel glass-panel" style="padding: 2rem;">
-          <h3 class="panel-subtitle">Tất cả chuyên mục & chuyên mục con</h3>
-          
-          <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1.5rem;">
-            ${cats.map(cat => {
-              const subs = subsMap[cat] || [];
-              return `
-                <div class="category-manage-row" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1.2rem;" id="cat-manage-${cat}">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                    <div>
-                      <strong style="font-size: 1.15rem; color: var(--text-primary);">${cat}</strong>
-                      <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">(${subs.length} chuyên mục con)</span>
-                    </div>
-                    <div style="display: flex; gap: 0.4rem;">
-                      <button class="edit-cat-btn" data-cat="${cat}" style="background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; color: var(--text-secondary);">Sửa</button>
-                      <button class="delete-cat-btn" data-cat="${cat}" style="background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; color: #ef4444;">Xóa</button>
-                    </div>
-                  </div>
-                  
-                  <!-- Subcategories tags list -->
-                  <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem;">
-                    ${subs.map(sub => `
-                      <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 500; color: var(--text-secondary);">
-                        ${sub}
-                        <button class="delete-sub-btn" data-cat="${cat}" data-sub="${sub}" style="background:none; border:none; cursor:pointer; color: var(--text-muted); font-weight:bold; font-size: 0.85rem; padding: 0; display: inline-flex; align-items: center;">&times;</button>
-                      </span>
-                    `).join('')}
-                    ${subs.length === 0 ? '<span style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Chưa có chuyên mục con.</span>' : ''}
-                  </div>
-
-                  <!-- Add inline Subcategory input -->
-                  <div style="display: flex; gap: 0.3rem; max-width: 280px;">
-                    <input type="text" placeholder="Thêm chuyên mục con..." class="inline-sub-input" data-cat="${cat}" style="margin:0; padding: 0.4rem 0.6rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); width: 100%;">
-                    <button class="btn-add-subcategory" data-cat="${cat}" style="background: var(--primary-color); border: none; color: #fff; border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; font-weight: bold;">+</button>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
+        ` : listHtml}
       </div>
     `;
   }
 
   function bindCategoriesEvents() {
-    const inputCatName = document.getElementById("input-cat-name");
-    const saveCatBtn = document.getElementById("btn-save-category");
-    const cancelCatBtn = document.getElementById("btn-cancel-edit-category");
-
-    // Add / Edit Category Name
-    saveCatBtn?.addEventListener("click", () => {
-      const catName = inputCatName?.value.trim();
-      if (!catName) {
-        alert("Vui lòng nhập tên chuyên mục.");
-        return;
-      }
-
-      let cats = getCategoriesDb();
-      let subsMap = getSubcategoriesDb();
-
-      if (editingCategoryName) {
-        // Edit Mode
-        const idx = cats.indexOf(editingCategoryName);
-        if (idx !== -1) {
-          cats[idx] = catName;
-          
-          // Migrate subcategories
-          if (subsMap[editingCategoryName]) {
-            subsMap[catName] = subsMap[editingCategoryName];
-            delete subsMap[editingCategoryName];
-          }
-
-          // Migrate articles with this category
-          articles.forEach(art => {
-            if (art.category === editingCategoryName) {
-              art.category = catName;
-            }
-          });
-          localStorage.setItem("toptech_articles", JSON.stringify(articles));
-        }
-        editingCategoryName = null;
-      } else {
-        // Add Mode
-        if (cats.includes(catName)) {
-          alert("Chuyên mục đã tồn tại!");
-          return;
-        }
-        cats.push(catName);
-        subsMap[catName] = [];
-      }
-
-      saveCategoriesDb(cats);
-      saveSubcategoriesDb(subsMap);
-      onUpdate();
-      renderView();
-    });
-
-    cancelCatBtn?.addEventListener("click", () => {
+    document.getElementById("btn-add-category-modal")?.addEventListener("click", () => {
       editingCategoryName = null;
-      renderView();
+      openModal(renderCategoryFormHtml(), '600px');
     });
 
     // Edit button clicks
     container.querySelectorAll(".edit-cat-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         editingCategoryName = btn.dataset.cat;
-        renderView();
+        openModal(renderCategoryFormHtml(), '600px');
       });
     });
 
@@ -1047,6 +1164,10 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           let cats = getCategoriesDb().filter(c => c !== catName);
           let subsMap = getSubcategoriesDb();
           delete subsMap[catName];
+
+          let thumbsMap = getCategoryThumbnailsDb();
+          delete thumbsMap[catName];
+          saveCategoryThumbnailsDb(thumbsMap);
 
           saveCategoriesDb(cats);
           saveSubcategoriesDb(subsMap);
@@ -1098,132 +1219,124 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     });
   }
 
+  function bindCategoriesFormEvents() {
+    const inputCatName = document.getElementById("input-cat-name");
+    const saveCatBtn = document.getElementById("btn-save-category");
+    const cancelCatBtn = document.getElementById("btn-cancel-category-modal");
+
+    let selectedThumbnail = editingCategoryName ? (getCategoryThumbnailsDb()[editingCategoryName] || "") : "";
+
+    const uploadWrapper = document.getElementById("cat-thumbnail-media-control");
+    setupMediaUploadControl(uploadWrapper, (url) => {
+      selectedThumbnail = url;
+    });
+
+    saveCatBtn?.addEventListener("click", () => {
+      const catName = inputCatName?.value.trim();
+      if (!catName) {
+        alert("Vui lòng nhập tên chuyên mục.");
+        return;
+      }
+
+      let cats = getCategoriesDb();
+      let subsMap = getSubcategoriesDb();
+      let thumbsMap = getCategoryThumbnailsDb();
+
+      if (editingCategoryName) {
+        // Edit Mode
+        const idx = cats.indexOf(editingCategoryName);
+        if (idx !== -1) {
+          cats[idx] = catName;
+          
+          if (subsMap[editingCategoryName]) {
+            subsMap[catName] = subsMap[editingCategoryName];
+            delete subsMap[editingCategoryName];
+          }
+
+          if (selectedThumbnail) {
+            thumbsMap[catName] = selectedThumbnail;
+          } else {
+            delete thumbsMap[catName];
+          }
+          if (editingCategoryName !== catName) {
+            delete thumbsMap[editingCategoryName];
+          }
+
+          articles.forEach(art => {
+            if (art.category === editingCategoryName) {
+              art.category = catName;
+            }
+          });
+          localStorage.setItem("toptech_articles", JSON.stringify(articles));
+        }
+        editingCategoryName = null;
+      } else {
+        // Add Mode
+        if (cats.includes(catName)) {
+          alert("Chuyên mục đã tồn tại!");
+          return;
+        }
+        cats.push(catName);
+        subsMap[catName] = [];
+        if (selectedThumbnail) {
+          thumbsMap[catName] = selectedThumbnail;
+        }
+      }
+
+      saveCategoriesDb(cats);
+      saveSubcategoriesDb(subsMap);
+      saveCategoryThumbnailsDb(thumbsMap);
+      onUpdate();
+      closeModal();
+    });
+
+    cancelCatBtn?.addEventListener("click", () => {
+      closeModal();
+    });
+  }
+
   // --------------------------------------------------------------------------
   // TAB: AUTHORS
   // --------------------------------------------------------------------------
   function renderAuthorsTab() {
     const authors = getAuthorsDb();
-    const editAuthor = editingAuthorName ? authors.find(a => a.name === editingAuthorName) : null;
+
+    const listHtml = authors.map(aut => `
+      <div class="author-manage-row" style="display: flex; align-items: center; gap: 1.2rem; border: 1px solid var(--border-color); padding: 1.2rem; border-radius: 12px; background: var(--bg-surface);" id="author-manage-${aut.name}">
+        <img src="${aut.avatar}" alt="${aut.name}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--primary-color); flex-shrink: 0;">
+        <div style="flex: 1; min-width: 0;">
+          <strong style="color: var(--text-primary); font-size: 1.1rem;">${aut.name}</strong>
+          <div style="font-size: 0.85rem; color: var(--primary-color); font-weight: 600; margin-top: 0.1rem;">${aut.role}</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 0.3rem; line-height: 1.4;">${aut.desc}</div>
+        </div>
+        <div style="display: flex; gap: 0.4rem; flex-shrink: 0;">
+          <button class="edit-author-btn" data-name="${aut.name}" style="background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.2rem;">📝 Sửa</button>
+          <button class="delete-author-btn" data-name="${aut.name}" style="background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: #ef4444; display: inline-flex; align-items: center; gap: 0.2rem;">❌ Xóa</button>
+        </div>
+      </div>
+    `).join('');
 
     return `
-      <div class="create-post-layout-grid">
-        <!-- Add/Edit Author Form (Left) -->
-        <div class="publish-form-panel glass-panel" style="padding: 2rem;">
-          <h3 class="panel-subtitle">${editAuthor ? `Sửa thông tin: ${editAuthor.name}` : 'Thêm tác giả mới'}</h3>
-          
-          <div class="login-form" style="margin-top: 1rem; gap: 1rem;">
-            <div class="form-row">
-              <label for="input-author-name">Họ và tên <span style="color:var(--secondary-color)">*</span></label>
-              <input type="text" id="input-author-name" value="${editAuthor ? editAuthor.name : ''}" placeholder="Ví dụ: Khánh Nam, Phương Linh..." ${editAuthor ? 'disabled' : ''} required>
-            </div>
-            
-            <div class="form-row">
-              <label for="input-author-role">Chức danh / Vai trò <span style="color:var(--secondary-color)">*</span></label>
-              <input type="text" id="input-author-role" value="${editAuthor ? editAuthor.role : ''}" placeholder="Ví dụ: Content Writer, Tech Lead..." required>
-            </div>
-
-            <div class="form-row">
-              <label for="input-author-avatar">Đường dẫn ảnh đại diện <span style="color:var(--secondary-color)">*</span></label>
-              <input type="url" id="input-author-avatar" value="${editAuthor ? editAuthor.avatar : ''}" placeholder="Dán link ảnh đại diện (https://...)" required>
-            </div>
-
-            <div class="form-row">
-              <label for="input-author-desc">Mô tả giới thiệu / Tiểu sử <span style="color:var(--secondary-color)">*</span></label>
-              <textarea id="input-author-desc" rows="4" placeholder="Nhập tiểu sử tóm tắt giới thiệu tác giả..." required>${editAuthor ? editAuthor.desc : ''}</textarea>
-            </div>
-            
-            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-              <button class="login-btn" id="btn-save-author" style="flex: 1; padding: 0.7rem; font-size: 0.9rem; border-radius: 8px;">
-                ${editAuthor ? 'Cập nhật' : 'Thêm tác giả'}
-              </button>
-              ${editAuthor ? `
-                <button class="logout-btn" id="btn-cancel-edit-author" style="padding: 0.7rem; font-size: 0.9rem; border-radius: 8px;">
-                  Hủy
-                </button>
-              ` : ''}
-            </div>
+      <div class="admin-authors-grid" style="margin-bottom: 2rem;">
+        ${authors.length === 0 ? `
+          <div style="text-align: center; padding: 3rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; color: var(--text-muted); grid-column: 1 / -1;">
+            Chưa có tác giả nào trong hệ thống.
           </div>
-        </div>
-
-        <!-- Authors Grid (Right) -->
-        <div class="publish-form-panel glass-panel" style="padding: 2rem;">
-          <h3 class="panel-subtitle">Đội ngũ tác giả TopTech</h3>
-          
-          <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
-            ${authors.map(aut => `
-              <div class="author-manage-row" style="display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;" id="author-manage-${aut.name}">
-                <img src="${aut.avatar}" alt="${aut.name}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color);">
-                <div style="flex: 1;">
-                  <strong style="color: var(--text-primary); font-size: 1rem;">${aut.name}</strong>
-                  <div style="font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">${aut.role}</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; margin-top: 0.1rem;">${aut.desc}</div>
-                </div>
-                <div style="display: flex; gap: 0.3rem;">
-                  <button class="edit-author-btn" data-name="${aut.name}" style="background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; color: var(--text-secondary);">Sửa</button>
-                  <button class="delete-author-btn" data-name="${aut.name}" style="background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; color: #ef4444;">Xóa</button>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
+        ` : listHtml}
       </div>
     `;
   }
 
   function bindAuthorsEvents() {
-    const inputName = document.getElementById("input-author-name");
-    const inputRole = document.getElementById("input-author-role");
-    const inputAvatar = document.getElementById("input-author-avatar");
-    const inputDesc = document.getElementById("input-author-desc");
-    const saveBtn = document.getElementById("btn-save-author");
-    const cancelBtn = document.getElementById("btn-cancel-edit-author");
-
-    saveBtn?.addEventListener("click", () => {
-      const name = inputName?.value.trim();
-      const role = inputRole?.value.trim();
-      const avatar = inputAvatar?.value.trim();
-      const desc = inputDesc?.value.trim();
-
-      if (!name || !role || !avatar || !desc) {
-        alert("Vui lòng điền đầy đủ các thông tin bắt buộc (*).");
-        return;
-      }
-
-      let authors = getAuthorsDb();
-
-      if (editingAuthorName) {
-        // Edit Mode
-        const author = authors.find(a => a.name === editingAuthorName);
-        if (author) {
-          author.role = role;
-          author.avatar = avatar;
-          author.desc = desc;
-        }
-        editingAuthorName = null;
-      } else {
-        // Add Mode
-        const exists = authors.find(a => a.name.toLowerCase() === name.toLowerCase());
-        if (exists) {
-          alert("Tên tác giả đã tồn tại trong danh sách!");
-          return;
-        }
-        authors.push({ name, role, avatar, desc });
-      }
-
-      saveAuthorsDb(authors);
-      onUpdate();
-      renderView();
-    });
-
-    cancelBtn?.addEventListener("click", () => {
+    document.getElementById("btn-add-author-modal")?.addEventListener("click", () => {
       editingAuthorName = null;
-      renderView();
+      openModal(renderAuthorFormHtml(), '600px');
     });
 
     container.querySelectorAll(".edit-author-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         editingAuthorName = btn.dataset.name;
-        renderView();
+        openModal(renderAuthorFormHtml(), '600px');
       });
     });
 
@@ -1237,6 +1350,62 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           renderView();
         }
       });
+    });
+  }
+
+  function bindAuthorsFormEvents() {
+    const inputName = document.getElementById("input-author-name");
+    const inputRole = document.getElementById("input-author-role");
+    const inputDesc = document.getElementById("input-author-desc");
+    const saveBtn = document.getElementById("btn-save-author");
+    const cancelBtn = document.getElementById("btn-cancel-author-modal");
+
+    const editAuthor = editingAuthorName ? getAuthorsDb().find(a => a.name === editingAuthorName) : null;
+    let selectedAvatar = editAuthor ? editAuthor.avatar : "";
+
+    const uploadWrapper = document.getElementById("author-avatar-media-control");
+    setupMediaUploadControl(uploadWrapper, (url) => {
+      selectedAvatar = url;
+    });
+
+    saveBtn?.addEventListener("click", () => {
+      const name = inputName?.value.trim();
+      const role = inputRole?.value.trim();
+      const desc = inputDesc?.value.trim();
+
+      if (!name || !role || !selectedAvatar || !desc) {
+        alert("Vui lòng điền đầy đủ các thông tin bắt buộc (*).");
+        return;
+      }
+
+      let authors = getAuthorsDb();
+
+      if (editingAuthorName) {
+        // Edit Mode
+        const author = authors.find(a => a.name === editingAuthorName);
+        if (author) {
+          author.role = role;
+          author.avatar = selectedAvatar;
+          author.desc = desc;
+        }
+        editingAuthorName = null;
+      } else {
+        // Add Mode
+        const exists = authors.find(a => a.name.toLowerCase() === name.toLowerCase());
+        if (exists) {
+          alert("Tên tác giả đã tồn tại trong danh sách!");
+          return;
+        }
+        authors.push({ name, role, avatar: selectedAvatar, desc });
+      }
+
+      saveAuthorsDb(authors);
+      onUpdate();
+      closeModal();
+    });
+
+    cancelBtn?.addEventListener("click", () => {
+      closeModal();
     });
   }
 

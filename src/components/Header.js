@@ -4,7 +4,7 @@ export function renderHeader(container) {
   container.innerHTML = `
     <header>
       <div class="container nav-container">
-        <!-- Left: Hamburger Menu & Links -->
+        <!-- Left: Hamburger, Trang chủ, Blog, Viết bài -->
         <div class="nav-left">
           <button class="menu-toggle-btn" id="menu-toggle" aria-label="Mở danh mục">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -14,17 +14,16 @@ export function renderHeader(container) {
               <line x1="4" y1="18" x2="20" y2="18"></line>
             </svg>
           </button>
-          
-          <!-- Admin write shortcut moved here -->
-          <a href="#/admin" class="write-post-btn" title="Cổng quản trị blog">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            <span class="desktop-only" style="margin-left: 0.3rem;">Viết bài</span>
-          </a>
 
           <ul class="nav-links desktop-only">
             <li><a href="#/" class="nav-home-link active">Trang chủ</a></li>
             <li><a href="#/" class="nav-blog-link">Blog</a></li>
           </ul>
+
+          <a href="#/admin" class="write-post-btn" title="Cổng quản trị blog">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span class="write-post-label">Viết bài</span>
+          </a>
         </div>
 
         <!-- Center: Logo -->
@@ -32,9 +31,9 @@ export function renderHeader(container) {
           <img class="logo-img" src="${getAssetUrl('/logo-toptech-color.svg')}" alt="TopTech Logo">
         </a>
 
-        <!-- Right: Desktop Links & Actions -->
+        <!-- Right: Chuyên mục, Tác giả, Theme, Search -->
         <div class="header-actions">
-          <ul class="nav-links desktop-only" style="margin-right: 0.5rem;">
+          <ul class="nav-links desktop-only">
             <li><a href="#/tat-ca-chuyen-muc" class="nav-chuyen-muc-link">Chuyên mục</a></li>
             <li><a href="#/tat-ca-tac-gia" class="nav-tac-gia-link">Tác giả</a></li>
           </ul>

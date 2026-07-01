@@ -12,10 +12,13 @@ const CATEGORY_THUMBNAILS = {
 };
 
 export function renderCategoriesListPage(container, articles, categories) {
+  const storedThumbs = localStorage.getItem("toptech_category_thumbnails");
+  const thumbsMap = storedThumbs ? JSON.parse(storedThumbs) : CATEGORY_THUMBNAILS;
+
   // Build category grid items
   const gridHtml = categories.map(cat => {
     const count = articles.filter(a => a.category === cat).length;
-    const thumbnail = CATEGORY_THUMBNAILS[cat] || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400";
+    const thumbnail = thumbsMap[cat] || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400";
     
     return `
       <a href="#/chuyen-muc/${cat}" class="category-list-card">

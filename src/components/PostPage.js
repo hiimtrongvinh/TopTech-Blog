@@ -1,4 +1,5 @@
 import { getAssetUrl } from '../utils.js';
+import { compileMarkdown, migrateArticleContent } from '../utils/articleContent.js';
 
 // Pre-load SpeechSynthesis voices as early as possible to fix Chrome empty voices array issue
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -8,82 +9,6 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.getVoices();
     };
   }
-}
-
-function compileMarkdown(markdown) {
-  if (!markdown) return "";
-  
-  // If it's already HTML (from WYSIWYG editor), return it directly!
-  if (markdown.trim().startsWith('<') || markdown.includes('</p>') || markdown.includes('</div>') || markdown.includes('</td>') || markdown.includes('</figure>')) {
-    return markdown;
-  }
-  
-  // Table compiler rule
-  const lines = markdown.split('\n');
-  let inTable = false;
-  let tableHtml = "";
-  let newLines = [];
-  
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
-    if (line.startsWith('|') && line.endsWith('|')) {
-      if (!inTable) {
-        inTable = true;
-        tableHtml = '<div class="table-responsive"><table class="post-detail-table">';
-      }
-      
-      const cells = line.split('|').slice(1, -1).map(c => c.trim());
-      const isSeparator = cells.every(c => /^:?-+:?$/.test(c));
-      
-      if (isSeparator) {
-        continue;
-      }
-      
-      if (tableHtml.includes('<table class="post-detail-table">') && !tableHtml.includes('<thead>') && !tableHtml.includes('<tbody>')) {
-        tableHtml += '<thead><tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
-      } else {
-        tableHtml += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
-      }
-    } else {
-      if (inTable) {
-        inTable = false;
-        tableHtml += '</tbody></table></div>';
-        newLines.push(tableHtml);
-        tableHtml = "";
-      }
-      newLines.push(lines[i]);
-    }
-  }
-  if (inTable) {
-    tableHtml += '</tbody></table></div>';
-    newLines.push(tableHtml);
-  }
-  markdown = newLines.join('\n');
-
-  let html = markdown
-    // Headings
-    .replace(/^### (.*$)/gim, '<h3 class="post-subheading-3">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="post-subheading-2">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="post-heading-1">$1</h1>')
-    // Inline Images with Captions: ![Caption](URL)
-    .replace(/\!\[(.*?)\]\((.*?)\)/g, '<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>')
-    // Bold
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Blockquote
-    .replace(/^\> (.*$)/gim, '<blockquote class="post-blockquote">$1</blockquote>')
-    // Bullet list items
-    .replace(/^\- (.*$)/gim, '<li>$1</li>')
-    // Code blocks
-    .replace(/\`\`\`([\s\S]*?)\`\`\`/g, '<pre class="post-code-block"><code>$1</code></pre>')
-    // Inline code
-    .replace(/\`(.*?)\`/g, '<code class="post-inline-code">$1</code>')
-    // Paragraph gaps
-    .replace(/\n\n/g, '</p><p>');
-
-  // Wrap lists
-  html = html.replace(/(<li>.*<\/li>)/gim, '<ul>$1</ul>');
-  
-  return `<p>${html}</p>`;
 }
 
 export function renderPostPage(container, postId, articles) {
@@ -547,6 +472,7 @@ export function renderPostPage(container, postId, articles) {
   // ==========================================================================
 
   const postBodyEl = container.querySelector(".post-detail-body");
+  migrateArticleContent(postBodyEl, { isEditor: false });
 
   // Toast notifications helper
   function showToast(message) {

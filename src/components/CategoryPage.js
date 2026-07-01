@@ -87,7 +87,7 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
         ${subCats.map(sub => {
           const isCurrent = decodedCategory.toLowerCase() === sub.toLowerCase();
           return `
-            <a href="#/chuyen-muc/${sub}" style="display: inline-block; padding: 0.45rem 1.1rem; font-size: 0.82rem; font-weight: 600; border-radius: 50px; text-decoration: none; border: 1.5px solid ${isCurrent ? 'var(--primary-color)' : 'var(--border-color)'}; background-color: ${isCurrent ? 'var(--primary-color)' : 'var(--bg-main)'}; color: ${isCurrent ? '#fff' : 'var(--text-secondary)'}; transition: all var(--transition-fast);" class="subcat-pill ${isCurrent ? 'active-pill' : ''}">
+            <a href="#/chuyen-muc/${isCurrent ? parentCatName : sub}" style="display: inline-block; padding: 0.45rem 1.1rem; font-size: 0.82rem; font-weight: 600; border-radius: 50px; text-decoration: none; border: 1.5px solid ${isCurrent ? 'var(--primary-color)' : 'var(--border-color)'}; background-color: ${isCurrent ? 'var(--primary-color)' : 'var(--bg-main)'}; color: ${isCurrent ? '#fff' : 'var(--text-secondary)'}; transition: all var(--transition-fast);" class="subcat-pill ${isCurrent ? 'active-pill' : ''}" ${isCurrent ? 'title="Bấm lại để quay về chuyên mục lớn"' : ''}>
               ${sub}
             </a>
           `;
