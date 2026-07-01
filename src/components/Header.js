@@ -35,8 +35,8 @@ export function renderHeader(container) {
         <!-- Right: Desktop Links & Actions -->
         <div class="header-actions">
           <ul class="nav-links desktop-only" style="margin-right: 0.5rem;">
-            <li><a href="javascript:void(0)" class="nav-chuyen-muc-trigger">Chuyên mục</a></li>
-            <li><a href="#/ #tac-gia">Tác giả</a></li>
+            <li><a href="#/tat-ca-chuyen-muc" class="nav-chuyen-muc-link">Chuyên mục</a></li>
+            <li><a href="#/tat-ca-tac-gia" class="nav-tac-gia-link">Tác giả</a></li>
           </ul>
 
           <!-- Dark Mode Toggle -->
@@ -290,13 +290,23 @@ export function updateActiveNavLink(hash) {
   const homeLink = document.querySelector(".nav-home-link");
   const blogLink = document.querySelector(".nav-blog-link");
   const writeLink = document.querySelector(".write-post-btn");
+  const chuyenMucLink = document.querySelector(".nav-chuyen-muc-link");
+  const tacGiaLink = document.querySelector(".nav-tac-gia-link");
   
   homeLink?.classList.remove("active");
   blogLink?.classList.remove("active");
   writeLink?.classList.remove("active");
+  chuyenMucLink?.classList.remove("active");
+  tacGiaLink?.classList.remove("active");
 
-  if (hash === "#/" || hash === "" || hash.startsWith("#/ #")) {
+  if (hash === "#/" || hash === "") {
     homeLink?.classList.add("active");
+  } else if (hash.startsWith("#/ #")) {
+    homeLink?.classList.add("active");
+  } else if (hash.startsWith("#/tat-ca-chuyen-muc") || hash.startsWith("#/chuyen-muc/")) {
+    chuyenMucLink?.classList.add("active");
+  } else if (hash.startsWith("#/tat-ca-tac-gia") || hash.startsWith("#/tac-gia/")) {
+    tacGiaLink?.classList.add("active");
   } else if (hash.startsWith("#/blog") || hash.includes("bai-viet")) {
     blogLink?.classList.add("active");
   } else if (hash.startsWith("#/admin")) {

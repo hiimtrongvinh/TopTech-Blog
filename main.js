@@ -4,6 +4,8 @@ import { renderHomePage } from './src/components/HomePage.js';
 import { renderCategoryPage } from './src/components/CategoryPage.js';
 import { renderPostPage } from './src/components/PostPage.js';
 import { renderPublishPage } from './src/components/PublishPage.js';
+import { renderCategoriesListPage } from './src/components/CategoriesListPage.js';
+import { renderAuthorsListPage, renderAuthorPage } from './src/components/AuthorsListPage.js';
 
 // Central Database of Articles (Initial Seed Data)
 const DEFAULT_ARTICLES = [
@@ -274,6 +276,13 @@ function router() {
   // Parse Routes
   if (hash === "#/" || hash === "") {
     renderHomePage(contentContainer, ARTICLES, CATEGORIES);
+  } else if (hash === "#/tat-ca-chuyen-muc") {
+    renderCategoriesListPage(contentContainer, ARTICLES, CATEGORIES);
+  } else if (hash === "#/tat-ca-tac-gia") {
+    renderAuthorsListPage(contentContainer, ARTICLES);
+  } else if (hash.startsWith("#/tac-gia/")) {
+    const authorName = decodeURIComponent(hash.replace("#/tac-gia/", ""));
+    renderAuthorPage(contentContainer, authorName, ARTICLES);
   } else if (hash.startsWith("#/chuyen-muc/")) {
     const categoryName = hash.replace("#/chuyen-muc/", "");
     renderCategoryPage(contentContainer, categoryName, ARTICLES, false);

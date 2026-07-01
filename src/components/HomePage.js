@@ -109,6 +109,13 @@ export function renderHomePage(container, articles, categories) {
     <section class="section-padding" id="chuyen-muc">
       <div class="section-title-wrapper">
         <h2 class="section-title">Bảng tin chuyên mục</h2>
+        <a href="#/tat-ca-chuyen-muc" class="view-more-btn">
+          Tất cả chuyên mục
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
       </div>
 
       <!-- Categories Columns (8 categories in grid) -->
@@ -122,6 +129,13 @@ export function renderHomePage(container, articles, categories) {
       <div class="container">
         <div class="section-title-wrapper">
           <h2 class="section-title">Đội ngũ tác giả</h2>
+          <a href="#/tat-ca-tac-gia" class="view-more-btn">
+            Tất cả tác giả
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
         </div>
         <div class="authors-grid">
           <div class="author-card">
@@ -161,7 +175,7 @@ export function renderHomePage(container, articles, categories) {
           </div>
         </div>
         <div style="text-align: center; margin-top: 3rem;">
-          <a href="#/chuyen-muc/AI" class="view-more-btn" style="display: inline-flex;">Tìm hiểu thêm</a>
+          <a href="#/tat-ca-tac-gia" class="view-more-btn" style="display: inline-flex;">Tìm hiểu thêm</a>
         </div>
       </div>
     </section>
