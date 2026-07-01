@@ -309,6 +309,19 @@ export function renderPostPage(container, postId, articles) {
     <div class="post-toast" id="post-toast">
       <span class="toast-message">Đã sao chép liên kết!</span>
     </div>
+
+    <!-- Mobile TOC Elements -->
+    <button class="mobile-toc-toggle-btn" id="mobile-toc-toggle" aria-label="Mở mục lục">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+    </button>
+    
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+      <div class="mobile-toc-header">
+        <h5>Mục lục bài viết</h5>
+        <button class="mobile-toc-close" id="mobile-toc-close" aria-label="Đóng">&times;</button>
+      </div>
+      <ul class="mobile-toc-list" id="mobile-toc-list"></ul>
+    </div>
   `;
 
   // Display Comments Function
@@ -402,41 +415,89 @@ export function renderPostPage(container, postId, articles) {
   const headings = container.querySelectorAll(".post-detail-body h2");
   const tocContainer = document.getElementById("post-toc-container");
   const tocList = document.getElementById("toc-list");
+  const mobileTocList = document.getElementById("mobile-toc-list");
 
-  if (headings.length > 0 && tocContainer && tocList) {
-    tocContainer.style.display = "block";
+  if (headings.length > 0) {
+    container.classList.add("has-toc");
     
     headings.forEach((h, idx) => {
       const id = `toc-section-${idx}`;
       h.id = id;
     });
-    
-    tocList.innerHTML = Array.from(headings).map((h, idx) => {
-      const text = h.textContent.trim();
-      return `<li><a href="javascript:void(0)" data-target="toc-section-${idx}" class="toc-link">${text}</a></li>`;
-    }).join('');
-    
-    const tocLinks = tocList.querySelectorAll(".toc-link");
-    tocLinks.forEach(link => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const targetId = link.dataset.target;
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-          const headerOffset = 100;
-          const elementPosition = targetEl.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-          });
-          
-          tocLinks.forEach(l => l.classList.remove("active"));
-          link.classList.add("active");
-        }
+
+    // Populate Sidebar TOC
+    if (tocContainer && tocList) {
+      tocContainer.style.display = "block";
+      tocList.innerHTML = Array.from(headings).map((h, idx) => {
+        const text = h.textContent.trim();
+        return `<li><a href="javascript:void(0)" data-target="toc-section-${idx}" class="toc-link">${text}</a></li>`;
+      }).join('');
+    }
+
+    // Populate Mobile TOC Drawer
+    if (mobileTocList) {
+      mobileTocList.innerHTML = Array.from(headings).map((h, idx) => {
+        const text = h.textContent.trim();
+        return `<li><a href="javascript:void(0)" data-target="toc-section-${idx}" class="mobile-toc-link">${text}</a></li>`;
+      }).join('');
+    }
+
+    const tocLinks = container.querySelectorAll(".toc-link");
+    const mobileTocLinks = container.querySelectorAll(".mobile-toc-link");
+
+    const setupLinks = (links) => {
+      links.forEach(link => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = link.dataset.target;
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            const headerOffset = 100;
+            const elementPosition = targetEl.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
+            
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+            
+            // Close mobile panel if open
+            document.getElementById("mobile-toc-panel")?.classList.remove("active");
+          }
+        });
       });
-    });
+    };
+
+    setupLinks(tocLinks);
+    setupLinks(mobileTocLinks);
+
+    // Bind Mobile Drawer toggle events
+    const mobileTocToggle = document.getElementById("mobile-toc-toggle");
+    const mobileTocPanel = document.getElementById("mobile-toc-panel");
+    const mobileTocClose = document.getElementById("mobile-toc-close");
+
+    const togglePanel = () => {
+      mobileTocPanel?.classList.toggle("active");
+    };
+
+    const closePanel = () => {
+      mobileTocPanel?.classList.remove("active");
+    };
+
+    mobileTocToggle?.addEventListener("click", togglePanel);
+    mobileTocClose?.addEventListener("click", closePanel);
+
+    const handleOutsideClick = (e) => {
+      if (mobileTocPanel?.classList.contains("active") && 
+          !mobileTocPanel.contains(e.target) && 
+          !mobileTocToggle.contains(e.target)) {
+        closePanel();
+      }
+    };
+    document.addEventListener("click", handleOutsideClick);
 
     // Scroll Spy for highlighting active heading
     const handleScrollSpy = () => {
@@ -449,22 +510,28 @@ export function renderPostPage(container, postId, articles) {
         }
       });
 
-      tocLinks.forEach((link, idx) => {
-        if (idx === activeIndex) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
+      const highlightActive = (links) => {
+        links.forEach((link, idx) => {
+          if (idx === activeIndex) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      };
+
+      highlightActive(tocLinks);
+      highlightActive(mobileTocLinks);
     };
 
     window.addEventListener('scroll', handleScrollSpy);
     
-    // Extend cleanup function to also remove scroll spy
+    // Extend cleanup function to also remove scroll spy and outside click listener
     const originalCleanup = container.cleanup;
     container.cleanup = () => {
       if (originalCleanup) originalCleanup();
       window.removeEventListener('scroll', handleScrollSpy);
+      document.removeEventListener('click', handleOutsideClick);
     };
   }
 

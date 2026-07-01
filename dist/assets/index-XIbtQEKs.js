@@ -1,4 +1,4 @@
-(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))o(t);new MutationObserver(t=>{for(const l of t)if(l.type==="childList")for(const r of l.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&o(r)}).observe(document,{childList:!0,subtree:!0});function s(t){const l={};return t.integrity&&(l.integrity=t.integrity),t.referrerPolicy&&(l.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?l.credentials="include":t.crossOrigin==="anonymous"?l.credentials="omit":l.credentials="same-origin",l}function o(t){if(t.ep)return;t.ep=!0;const l=s(t);fetch(t.href,l)}})();function M(e){return!e||e.startsWith("http")||e.startsWith("data:")?e:`/TopTech-Blog/${e.replace(/^\//,"")}`}function dt(e){e.innerHTML=`
+(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))o(t);new MutationObserver(t=>{for(const l of t)if(l.type==="childList")for(const r of l.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&o(r)}).observe(document,{childList:!0,subtree:!0});function s(t){const l={};return t.integrity&&(l.integrity=t.integrity),t.referrerPolicy&&(l.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?l.credentials="include":t.crossOrigin==="anonymous"?l.credentials="omit":l.credentials="same-origin",l}function o(t){if(t.ep)return;t.ep=!0;const l=s(t);fetch(t.href,l)}})();function S(e){return!e||e.startsWith("http")||e.startsWith("data:")?e:`/TopTech-Blog/${e.replace(/^\//,"")}`}function ht(e){e.innerHTML=`
     <header>
       <div class="container nav-container">
         <!-- Left: Hamburger Menu & Links -->
@@ -26,7 +26,7 @@
 
         <!-- Center: Logo -->
         <a href="#/" class="logo">
-          <img class="logo-img" src="${M("/logo-toptech-color.svg")}" alt="TopTech Logo">
+          <img class="logo-img" src="${S("/logo-toptech-color.svg")}" alt="TopTech Logo">
         </a>
 
         <!-- Right: Desktop Links & Actions -->
@@ -188,13 +188,13 @@
         </div>
       </div>
     </div>
-  `}function ht(e){const n=document.getElementById("theme-toggle"),s=document.getElementById("menu-toggle"),o=document.getElementById("mega-menu"),t=document.getElementById("mega-menu-close"),l=document.getElementById("mega-menu-backdrop"),r=document.getElementById("search-trigger"),a=document.getElementById("search-overlay"),i=document.getElementById("search-close"),w=document.getElementById("search-input"),C=document.querySelectorAll(".nav-chuyen-muc-trigger");function B(){const p=document.querySelector(".sun-icon"),u=document.querySelector(".moon-icon");!p||!u||(document.body.classList.contains("dark")?(p.style.display="block",u.style.display="none"):(p.style.display="none",u.style.display="block"))}(localStorage.getItem("theme")||"light")==="dark"?document.body.classList.add("dark"):document.body.classList.remove("dark"),B(),n&&n.addEventListener("click",()=>{document.body.classList.contains("dark")?(document.body.classList.remove("dark"),localStorage.setItem("theme","light")):(document.body.classList.add("dark"),localStorage.setItem("theme","dark")),B()});const h=()=>o==null?void 0:o.classList.add("active"),c=()=>o==null?void 0:o.classList.remove("active");s==null||s.addEventListener("click",h),C.forEach(p=>p.addEventListener("click",h)),t==null||t.addEventListener("click",c),l==null||l.addEventListener("click",c);const f=o==null?void 0:o.querySelectorAll("a");f==null||f.forEach(p=>p.addEventListener("click",c)),r&&a&&r.addEventListener("click",()=>{a.classList.add("active"),setTimeout(()=>w==null?void 0:w.focus(),100)});const L=()=>{a==null||a.classList.remove("active"),w&&(w.value="")};i==null||i.addEventListener("click",L),a==null||a.addEventListener("click",p=>{p.target===a&&L()}),w==null||w.addEventListener("keydown",p=>{if(p.key==="Enter"&&e){const u=w.value.trim();u&&(L(),e(u))}})}function gt(e){const n=document.querySelector(".nav-home-link"),s=document.querySelector(".nav-blog-link"),o=document.querySelector(".write-post-btn");n==null||n.classList.remove("active"),s==null||s.classList.remove("active"),o==null||o.classList.remove("active"),e==="#/"||e===""||e.startsWith("#/ #")?n==null||n.classList.add("active"):e.startsWith("#/blog")||e.includes("bai-viet")?s==null||s.classList.add("active"):e.startsWith("#/admin")&&(o==null||o.classList.add("active"))}function pt(e){e.innerHTML=`
+  `}function gt(e){const i=document.getElementById("theme-toggle"),s=document.getElementById("menu-toggle"),o=document.getElementById("mega-menu"),t=document.getElementById("mega-menu-close"),l=document.getElementById("mega-menu-backdrop"),r=document.getElementById("search-trigger"),a=document.getElementById("search-overlay"),n=document.getElementById("search-close"),x=document.getElementById("search-input"),k=document.querySelectorAll(".nav-chuyen-muc-trigger");function q(){const y=document.querySelector(".sun-icon"),p=document.querySelector(".moon-icon");!y||!p||(document.body.classList.contains("dark")?(y.style.display="block",p.style.display="none"):(y.style.display="none",p.style.display="block"))}(localStorage.getItem("theme")||"light")==="dark"?document.body.classList.add("dark"):document.body.classList.remove("dark"),q(),i&&i.addEventListener("click",()=>{document.body.classList.contains("dark")?(document.body.classList.remove("dark"),localStorage.setItem("theme","light")):(document.body.classList.add("dark"),localStorage.setItem("theme","dark")),q()});const d=()=>o==null?void 0:o.classList.add("active"),h=()=>o==null?void 0:o.classList.remove("active");s==null||s.addEventListener("click",d),k.forEach(y=>y.addEventListener("click",d)),t==null||t.addEventListener("click",h),l==null||l.addEventListener("click",h);const v=o==null?void 0:o.querySelectorAll("a");v==null||v.forEach(y=>y.addEventListener("click",h)),r&&a&&r.addEventListener("click",()=>{a.classList.add("active"),setTimeout(()=>x==null?void 0:x.focus(),100)});const L=()=>{a==null||a.classList.remove("active"),x&&(x.value="")};n==null||n.addEventListener("click",L),a==null||a.addEventListener("click",y=>{y.target===a&&L()}),x==null||x.addEventListener("keydown",y=>{if(y.key==="Enter"&&e){const p=x.value.trim();p&&(L(),e(p))}})}function mt(e){const i=document.querySelector(".nav-home-link"),s=document.querySelector(".nav-blog-link"),o=document.querySelector(".write-post-btn");i==null||i.classList.remove("active"),s==null||s.classList.remove("active"),o==null||o.classList.remove("active"),e==="#/"||e===""||e.startsWith("#/ #")?i==null||i.classList.add("active"):e.startsWith("#/blog")||e.includes("bai-viet")?s==null||s.classList.add("active"):e.startsWith("#/admin")&&(o==null||o.classList.add("active"))}function pt(e){e.innerHTML=`
     <footer>
       <div class="container footer-container">
         <!-- Top part: Logo & Description (Row Layout) -->
         <div class="footer-top-row">
           <a href="#/" class="logo">
-            <img class="logo-img-footer" src="${M("/logo-toptech-monochrome.svg")}" alt="TopTech Logo Đơn Sắc">
+            <img class="logo-img-footer" src="${S("/logo-toptech-monochrome.svg")}" alt="TopTech Logo Đơn Sắc">
           </a>
           <p class="footer-desc">Với tầm nhìn trở thành một trong những website chia sẻ kiến thức công nghệ và giải pháp
             số uy tín tại Việt Nam, đồng hành cùng doanh nghiệp trên hành trình chuyển đổi số, TopTech mang trong mình sứ
@@ -301,7 +301,7 @@
         </div>
       </div>
     </footer>
-  `}function rt(e,n,s){e.innerHTML=`
+  `}function rt(e,i,s){e.innerHTML=`
     <main class="container">
     <!-- Hero Quote Banner -->
     <div class="hero-quote-block">
@@ -465,67 +465,67 @@
       </div>
     </section>
     </main>
-  `;let o=0;function t(a){const i=n[a%n.length],w=[n[(a+1)%n.length],n[(a+2)%n.length],n[(a+3)%n.length],n[(a+4)%n.length]],C=document.getElementById("hero-left-container");i&&C&&(C.innerHTML=`
-        <img src="${M(i.image)}" alt="${i.title}">
+  `;let o=0;function t(a){const n=i[a%i.length],x=[i[(a+1)%i.length],i[(a+2)%i.length],i[(a+3)%i.length],i[(a+4)%i.length]],k=document.getElementById("hero-left-container");n&&k&&(k.innerHTML=`
+        <img src="${S(n.image)}" alt="${n.title}">
         <div class="featured-big-overlay"></div>
         <div class="featured-big-content">
-          <a href="#/chuyen-muc/${i.category}" class="featured-big-tag">${i.category}</a>
-          <h3 class="featured-big-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h3>
+          <a href="#/chuyen-muc/${n.category}" class="featured-big-tag">${n.category}</a>
+          <h3 class="featured-big-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h3>
           <div class="post-meta post-detail-meta">
             <div class="post-author">
-              <span>${i.author}</span>
+              <span>${n.author}</span>
             </div>
-            <span class="meta-dot">&bull;&nbsp;</span><span>${i.date}</span>
-            <span class="meta-dot">&bull;&nbsp;</span><span>${i.readTime||"02 phút để đọc"}</span>
+            <span class="meta-dot">&bull;&nbsp;</span><span>${n.date}</span>
+            <span class="meta-dot">&bull;&nbsp;</span><span>${n.readTime||"02 phút để đọc"}</span>
             <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${i.views}
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${n.views}
             </span>
             <span style="display: flex; align-items: center; gap: 0.3rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${i.comments}
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${n.comments}
             </span>
           </div>
         </div>
-      `);const B=document.getElementById("hero-side-container");B&&(B.innerHTML=w.filter(Boolean).map(I=>`
+      `);const q=document.getElementById("hero-side-container");q&&(q.innerHTML=x.filter(Boolean).map(M=>`
         <div class="side-post-card">
-          <img class="side-post-img" src="${M(I.image)}" alt="${I.title}">
+          <img class="side-post-img" src="${S(M.image)}" alt="${M.title}">
           <div class="side-post-info">
-            <h4 class="side-post-title"><a href="#/bai-viet/${I.id}">${I.title}</a></h4>
+            <h4 class="side-post-title"><a href="#/bai-viet/${M.id}">${M.title}</a></h4>
             <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                <span>${I.author}</span>
+                <span>${M.author}</span>
                 <span class="meta-dot">&bull;</span>
-                <span>${I.date}</span>
+                <span>${M.date}</span>
               </div>
               <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
-                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${I.views}</span>
-                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${I.comments}</span>
+                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${M.views}</span>
+                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${M.comments}</span>
               </div>
             </div>
           </div>
         </div>
-      `).join(""))}t(o);const l=setInterval(()=>{o=(o+1)%n.length;const a=document.getElementById("hero-left-container"),i=document.getElementById("hero-side-container");a&&i&&(a.style.opacity="0.1",i.style.opacity="0.1",setTimeout(()=>{t(o),a.style.opacity="1",i.style.opacity="1"},300))},5e3),r=document.getElementById("hero-small-grid-container");if(r){const a=n.slice(5,9);r.innerHTML=a.map(i=>`
+      `).join(""))}t(o);const l=setInterval(()=>{o=(o+1)%i.length;const a=document.getElementById("hero-left-container"),n=document.getElementById("hero-side-container");a&&n&&(a.style.opacity="0.1",n.style.opacity="0.1",setTimeout(()=>{t(o),a.style.opacity="1",n.style.opacity="1"},300))},5e3),r=document.getElementById("hero-small-grid-container");if(r){const a=i.slice(5,9);r.innerHTML=a.map(n=>`
       <div class="small-post-card">
         <div class="small-post-img-wrapper">
-          <img src="${M(i.image)}" alt="${i.title}">
+          <img src="${S(n.image)}" alt="${n.title}">
         </div>
-        <h4 class="small-post-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h4>
+        <h4 class="small-post-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h4>
         <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-            <span>${i.author}</span>
+            <span>${n.author}</span>
             <span class="meta-dot">&bull;</span>
-            <span>${i.date}</span>
+            <span>${n.date}</span>
           </div>
           <div class="meta-right" style="display: flex; align-items: center; gap: 0.5rem; margin-left: auto;">
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${i.views}</span>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${i.comments}</span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${n.views}</span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${n.comments}</span>
           </div>
         </div>
       </div>
-    `).join("")}mt(n),ut(n),vt(n,s),yt(n),e.cleanup=()=>{clearInterval(l)}}function mt(e){const n=document.getElementById("featured-numbers-container");if(!n)return;const s=e.filter(t=>t.featured)[0]||e.find(t=>t.id===1),o=e.filter(t=>t.id!==(s==null?void 0:s.id)).slice(0,6);n.innerHTML=o.map((t,l)=>`
+    `).join("")}ut(i),vt(i),yt(i,s),ft(i),e.cleanup=()=>{clearInterval(l)}}function ut(e){const i=document.getElementById("featured-numbers-container");if(!i)return;const s=e.filter(t=>t.featured)[0]||e.find(t=>t.id===1),o=e.filter(t=>t.id!==(s==null?void 0:s.id)).slice(0,6);i.innerHTML=o.map((t,l)=>`
     <div class="number-post-card">
       <span class="post-number">#${l+1}</span>
       <div class="number-post-img-wrapper">
-        <img src="${M(t.image)}" alt="${t.title}">
+        <img src="${S(t.image)}" alt="${t.title}">
       </div>
       <div class="number-post-info">
         <h4 class="number-post-title"><a href="#/bai-viet/${t.id}">${t.title}</a></h4>
@@ -542,22 +542,22 @@
         </div>
       </div>
     </div>
-  `).join("")}function ut(e){const n=document.getElementById("new-updates-content"),s=document.getElementById("col-center-ai"),o=document.getElementById("trending-content"),t=document.getElementById("reviews-content");if(n){const l=e[0]||e.find(i=>i.id===3),r=e[1]||e.find(i=>i.id===4),a=e[2]||e.find(i=>i.id===7);n.innerHTML=[l,r,a].filter(Boolean).map(i=>`
+  `).join("")}function vt(e){const i=document.getElementById("new-updates-content"),s=document.getElementById("col-center-ai"),o=document.getElementById("trending-content"),t=document.getElementById("reviews-content");if(i){const l=e[0]||e.find(n=>n.id===3),r=e[1]||e.find(n=>n.id===4),a=e[2]||e.find(n=>n.id===7);i.innerHTML=[l,r,a].filter(Boolean).map(n=>`
       <div class="post-card-mini">
-        <img class="post-card-mini-img" src="${M(i.image)}" alt="${i.title}">
+        <img class="post-card-mini-img" src="${S(n.image)}" alt="${n.title}">
         <div class="post-card-mini-info">
-          <a href="#/chuyen-muc/${i.category}" class="post-card-mini-tag">${i.category}</a>
-          <h4 class="post-card-mini-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h4>
+          <a href="#/chuyen-muc/${n.category}" class="post-card-mini-tag">${n.category}</a>
+          <h4 class="post-card-mini-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h4>
           <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
             <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-              <span>${i.author}</span>
+              <span>${n.author}</span>
               <span class="meta-dot">&bull;</span>
-              <span>${i.date}</span>
+              <span>${n.date}</span>
             </div>
           </div>
         </div>
       </div>
-    `).join("")}if(s){const l=e.filter(w=>w.category==="AI"),r=l[0]||e.find(w=>w.id===5),a=l[1]||e.find(w=>w.id===6),i=l[2]||e.find(w=>w.id===8);s.innerHTML=`
+    `).join("")}if(s){const l=e.filter(x=>x.category==="AI"),r=l[0]||e.find(x=>x.id===5),a=l[1]||e.find(x=>x.id===6),n=l[2]||e.find(x=>x.id===8);s.innerHTML=`
       <!-- Main Center Post -->
       <div class="center-main-post">
         <a href="#/chuyen-muc/${r.category}" class="center-main-tag">${r.category}</a>
@@ -566,7 +566,7 @@
           <span>${r.author} <span class="meta-dot">&bull;&nbsp;</span>${r.date}</span>
         </div>
         <div class="center-main-img-wrapper">
-          <img src="${M(r.image)}" alt="${r.title}">
+          <img src="${S(r.image)}" alt="${r.title}">
         </div>
       </div>
 
@@ -581,9 +581,9 @@
 
         <!-- Sub Right -->
         <div class="center-sub-card">
-          <a href="#/chuyen-muc/${i.category}" class="post-card-mini-tag" style="font-size: 0.65rem;">${i.category}</a>
-          <h5 class="center-sub-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h5>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">${i.author}</span>
+          <a href="#/chuyen-muc/${n.category}" class="post-card-mini-tag" style="font-size: 0.65rem;">${n.category}</a>
+          <h5 class="center-sub-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h5>
+          <span style="font-size: 0.7rem; color: var(--text-muted);">${n.author}</span>
         </div>
       </div>
     `}if(o){const l=[...e].sort((r,a)=>(a.views||0)-(r.views||0)).slice(0,5);o.innerHTML=l.map(r=>`
@@ -597,31 +597,31 @@
           </div>
         </div>
       </div>
-    `).join("")}if(t){const l=e.filter(i=>i.category==="Review"),r=e.filter(i=>i.category!=="Review"),a=[...l,...r].slice(0,4);t.innerHTML=a.map(i=>`
+    `).join("")}if(t){const l=e.filter(n=>n.category==="Review"),r=e.filter(n=>n.category!=="Review"),a=[...l,...r].slice(0,4);t.innerHTML=a.map(n=>`
       <div class="review-post-card">
         <div class="review-post-img-wrapper">
-          <img src="${M(i.image)}" alt="${i.title}">
+          <img src="${S(n.image)}" alt="${n.title}">
         </div>
-        <a href="#/chuyen-muc/${i.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${i.category}</a>
-        <h4 class="review-post-title"><a href="#/bai-viet/${i.id}">${i.title}</a></h4>
+        <a href="#/chuyen-muc/${n.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${n.category}</a>
+        <h4 class="review-post-title"><a href="#/bai-viet/${n.id}">${n.title}</a></h4>
         <div class="post-meta post-meta-stack" style="font-size: 0.7rem; color: var(--text-muted);">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-            <span>${i.author}</span>
+            <span>${n.author}</span>
             <span class="meta-dot">&bull;</span>
-            <span>${i.date}</span>
+            <span>${n.date}</span>
           </div>
         </div>
       </div>
-    `).join("")}}function vt(e,n){const s=document.getElementById("category-columns-container");s&&(s.innerHTML=n.map((o,t)=>{const l=e.filter(a=>a.category===o),r=[];for(let a=0;a<4;a++)r.push(l[a%l.length]||e[(t*2+a)%e.length]);return`
+    `).join("")}}function yt(e,i){const s=document.getElementById("category-columns-container");s&&(s.innerHTML=i.map((o,t)=>{const l=e.filter(a=>a.category===o),r=[];for(let a=0;a<4;a++)r.push(l[a%l.length]||e[(t*2+a)%e.length]);return`
       <div class="category-column">
         <div class="category-header-wrapper">
           <a href="#/chuyen-muc/${o}" class="category-title-header">${o}</a>
         </div>
         <div class="split-col" style="gap: 1rem;">
-          ${r.map((a,i)=>`
-            <div class="cat-post-card ${i===0?"has-image":""}">
+          ${r.map((a,n)=>`
+            <div class="cat-post-card ${n===0?"has-image":""}">
               <div class="cat-post-img-wrapper">
-                <img src="${M(a.image)}" alt="${a.title}">
+                <img src="${S(a.image)}" alt="${a.title}">
               </div>
               <div class="cat-post-text-wrapper">
                 <h4 class="cat-post-title"><a href="#/bai-viet/${a.id}">${a.title}</a></h4>
@@ -631,9 +631,9 @@
           `).join("")}
         </div>
       </div>
-    `}).join(""))}function yt(e){const n=document.getElementById("refresh-new-updates"),s=document.getElementById("new-updates-content");n&&n.addEventListener("click",()=>{n.classList.add("spinning"),setTimeout(()=>{n.classList.remove("spinning");const o=[...e].filter(a=>a.id!==5&&a.id!==6).sort(()=>.5-Math.random()),t=o[0],l=o[1],r=o[2];s&&(s.innerHTML=[t,l,r].map(a=>`
+    `}).join(""))}function ft(e){const i=document.getElementById("refresh-new-updates"),s=document.getElementById("new-updates-content");i&&i.addEventListener("click",()=>{i.classList.add("spinning"),setTimeout(()=>{i.classList.remove("spinning");const o=[...e].filter(a=>a.id!==5&&a.id!==6).sort(()=>.5-Math.random()),t=o[0],l=o[1],r=o[2];s&&(s.innerHTML=[t,l,r].map(a=>`
             <div class="post-card-mini">
-              <img class="post-card-mini-img" src="${M(a.image||"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250")}" alt="${a.title}">
+              <img class="post-card-mini-img" src="${S(a.image||"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250")}" alt="${a.title}">
               <div class="post-card-mini-info">
                 <a href="#/chuyen-muc/${a.category}" class="post-card-mini-tag">${a.category}</a>
                 <h4 class="post-card-mini-title"><a href="#/bai-viet/${a.id}">${a.title}</a></h4>
@@ -646,21 +646,21 @@
                 </div>
               </div>
             </div>
-          `).join(""))},600)})}const et={"Điện thoại":"Tin công nghệ","Máy tính":"Tin công nghệ","Thiết bị thông minh":"Tin công nghệ","Xe điện":"Tin công nghệ","Machine Learning":"AI","Generative AI":"AI","ChatGPT & LLMs":"AI","Thị giác máy tính":"AI","Doanh nghiệp":"Chuyển đổi số","Giải pháp đám mây":"Chuyển đổi số","IoT & Automation":"Chuyển đổi số","Bảo mật dữ liệu":"Chuyển đổi số","Đánh giá Laptop":"Review","Đánh giá Smartphone":"Review","Đồ công nghệ khác":"Review","Trải nghiệm dịch vụ":"Review","Công cụ lập trình":"Phần mềm","Phần mềm văn phòng":"Phần mềm","Hệ điều hành":"Phần mềm","Ứng dụng di động":"Phần mềm","Lập trình":"IT","Quản trị mạng":"IT","Cơ sở dữ liệu":"IT",DevOps:"IT","AI cho doanh nghiệp":"Giải pháp công nghệ","Tự động hóa quy trình":"Giải pháp công nghệ","Hạ tầng số":"Giải pháp công nghệ","ERP & CRM":"Giải pháp công nghệ","Thành công tiêu biểu":"Casestudy","Phân tích thất bại":"Casestudy","Khảo sát thực tế":"Casestudy"},ft={"Tin công nghệ":["Điện thoại","Máy tính","Thiết bị thông minh","Xe điện"],AI:["Machine Learning","Generative AI","ChatGPT & LLMs","Thị giác máy tính"],"Chuyển đổi số":["Doanh nghiệp","Giải pháp đám mây","IoT & Automation","Bảo mật dữ liệu"],Review:["Đánh giá Laptop","Đánh giá Smartphone","Đồ công nghệ khác","Trải nghiệm dịch vụ"],"Phần mềm":["Công cụ lập trình","Phần mềm văn phòng","Hệ điều hành","Ứng dụng di động"],IT:["Lập trình","Quản trị mạng","Cơ sở dữ liệu","DevOps"],"Giải pháp công nghệ":["AI cho doanh nghiệp","Tự động hóa quy trình","Hạ tầng số","ERP & CRM"],Casestudy:["Thành công tiêu biểu","Phân tích thất bại","Khảo sát thực tế"]};function ct(e,n,s,o=!1){const t=decodeURIComponent(n);let l=[],r=et[t],a=!!r;o?l=s.filter(c=>c.title.toLowerCase().includes(t.toLowerCase())||c.category.toLowerCase().includes(t.toLowerCase())||c.subcategory&&c.subcategory.toLowerCase().includes(t.toLowerCase())||c.description&&c.description.toLowerCase().includes(t.toLowerCase())):a?l=s.filter(c=>c.subcategory&&c.subcategory.toLowerCase()===t.toLowerCase()||c.category.toLowerCase()===t.toLowerCase()):l=s.filter(c=>c.category.toLowerCase()===t.toLowerCase()||c.subcategory&&et[c.subcategory]&&et[c.subcategory].toLowerCase()===t.toLowerCase());let i="newest",w=6,C="";if(o)C=`
+          `).join(""))},600)})}const nt={"Điện thoại":"Tin công nghệ","Máy tính":"Tin công nghệ","Thiết bị thông minh":"Tin công nghệ","Xe điện":"Tin công nghệ","Machine Learning":"AI","Generative AI":"AI","ChatGPT & LLMs":"AI","Thị giác máy tính":"AI","Doanh nghiệp":"Chuyển đổi số","Giải pháp đám mây":"Chuyển đổi số","IoT & Automation":"Chuyển đổi số","Bảo mật dữ liệu":"Chuyển đổi số","Đánh giá Laptop":"Review","Đánh giá Smartphone":"Review","Đồ công nghệ khác":"Review","Trải nghiệm dịch vụ":"Review","Công cụ lập trình":"Phần mềm","Phần mềm văn phòng":"Phần mềm","Hệ điều hành":"Phần mềm","Ứng dụng di động":"Phần mềm","Lập trình":"IT","Quản trị mạng":"IT","Cơ sở dữ liệu":"IT",DevOps:"IT","AI cho doanh nghiệp":"Giải pháp công nghệ","Tự động hóa quy trình":"Giải pháp công nghệ","Hạ tầng số":"Giải pháp công nghệ","ERP & CRM":"Giải pháp công nghệ","Thành công tiêu biểu":"Casestudy","Phân tích thất bại":"Casestudy","Khảo sát thực tế":"Casestudy"},bt={"Tin công nghệ":["Điện thoại","Máy tính","Thiết bị thông minh","Xe điện"],AI:["Machine Learning","Generative AI","ChatGPT & LLMs","Thị giác máy tính"],"Chuyển đổi số":["Doanh nghiệp","Giải pháp đám mây","IoT & Automation","Bảo mật dữ liệu"],Review:["Đánh giá Laptop","Đánh giá Smartphone","Đồ công nghệ khác","Trải nghiệm dịch vụ"],"Phần mềm":["Công cụ lập trình","Phần mềm văn phòng","Hệ điều hành","Ứng dụng di động"],IT:["Lập trình","Quản trị mạng","Cơ sở dữ liệu","DevOps"],"Giải pháp công nghệ":["AI cho doanh nghiệp","Tự động hóa quy trình","Hạ tầng số","ERP & CRM"],Casestudy:["Thành công tiêu biểu","Phân tích thất bại","Khảo sát thực tế"]};function lt(e,i,s,o=!1){const t=decodeURIComponent(i);let l=[],r=nt[t],a=!!r;o?l=s.filter(h=>h.title.toLowerCase().includes(t.toLowerCase())||h.category.toLowerCase().includes(t.toLowerCase())||h.subcategory&&h.subcategory.toLowerCase().includes(t.toLowerCase())||h.description&&h.description.toLowerCase().includes(t.toLowerCase())):a?l=s.filter(h=>h.subcategory&&h.subcategory.toLowerCase()===t.toLowerCase()||h.category.toLowerCase()===t.toLowerCase()):l=s.filter(h=>h.category.toLowerCase()===t.toLowerCase()||h.subcategory&&nt[h.subcategory]&&nt[h.subcategory].toLowerCase()===t.toLowerCase());let n="newest",x=6,k="";if(o)k=`
       <span class="category-eyebrow" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color); display: block; margin-bottom: 0.5rem;">KẾT QUẢ TÌM KIẾM</span>
       <h1 class="category-page-title search-title" style="font-weight: 850; text-transform: uppercase; margin: 0; color: var(--text-primary);">"${t.toUpperCase()}"</h1>
-    `;else{const c=a?r:t,f=ft[c]||[];C=`
+    `;else{const h=a?r:t,v=bt[h]||[];k=`
       <!-- Left: Major category title -->
       <div>
         <h1 class="category-page-title" style="font-weight: 850; text-transform: uppercase; margin: 0; line-height: 1.1; color: var(--text-primary);">
-          <a href="#/chuyen-muc/${c}" style="color: inherit; text-decoration: none;">${c.toUpperCase()}</a>
+          <a href="#/chuyen-muc/${h}" style="color: inherit; text-decoration: none;">${h.toUpperCase()}</a>
         </h1>
       </div>
       
       <!-- Right: Capsule subcategory tag pills list -->
       <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
-        ${f.map(L=>{const p=t.toLowerCase()===L.toLowerCase();return`
-            <a href="#/chuyen-muc/${L}" style="display: inline-block; padding: 0.45rem 1.1rem; font-size: 0.82rem; font-weight: 600; border-radius: 50px; text-decoration: none; border: 1.5px solid ${p?"var(--primary-color)":"var(--border-color)"}; background-color: ${p?"var(--primary-color)":"var(--bg-main)"}; color: ${p?"#fff":"var(--text-secondary)"}; transition: all var(--transition-fast);" class="subcat-pill ${p?"active-pill":""}">
+        ${v.map(L=>{const y=t.toLowerCase()===L.toLowerCase();return`
+            <a href="#/chuyen-muc/${L}" style="display: inline-block; padding: 0.45rem 1.1rem; font-size: 0.82rem; font-weight: 600; border-radius: 50px; text-decoration: none; border: 1.5px solid ${y?"var(--primary-color)":"var(--border-color)"}; background-color: ${y?"var(--primary-color)":"var(--bg-main)"}; color: ${y?"#fff":"var(--text-secondary)"}; transition: all var(--transition-fast);" class="subcat-pill ${y?"active-pill":""}">
               ${L}
             </a>
           `}).join("")}
@@ -668,7 +668,7 @@
     `}e.innerHTML=`
     <div class="category-page-header" style="padding: 2.5rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); transition: background-color var(--transition-normal), border-color var(--transition-normal);">
       <div class="container category-header-content ${o?"search-mode":""}">
-        ${C}
+        ${k}
       </div>
     </div>
 
@@ -678,9 +678,9 @@
         <span class="filters-label">Sắp xếp theo:</span>
         <div class="filters-select-wrapper">
           <select class="filter-select" id="filter-select">
-            <option value="newest" ${i==="newest"?"selected":""}>Mới nhất</option>
-            <option value="views" ${i==="views"?"selected":""}>Xem nhiều nhất</option>
-            <option value="comments" ${i==="comments"?"selected":""}>Bình luận nhiều nhất</option>
+            <option value="newest" ${n==="newest"?"selected":""}>Mới nhất</option>
+            <option value="views" ${n==="views"?"selected":""}>Xem nhiều nhất</option>
+            <option value="comments" ${n==="comments"?"selected":""}>Bình luận nhiều nhất</option>
           </select>
           <div class="select-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -701,42 +701,42 @@
         </button>
       </div>
     </div>
-  `;function B(){const c=document.getElementById("category-grid");if(!c)return;let f=[...l];i==="newest"?f.sort((u,v)=>v.id-u.id):i==="views"?f.sort((u,v)=>v.views-u.views):i==="comments"&&f.sort((u,v)=>v.comments-u.comments);const L=f.slice(0,w);c.innerHTML=L.length===0?`
+  `;function q(){const h=document.getElementById("category-grid");if(!h)return;let v=[...l];n==="newest"?v.sort((p,I)=>I.id-p.id):n==="views"?v.sort((p,I)=>I.views-p.views):n==="comments"&&v.sort((p,I)=>I.comments-p.comments);const L=v.slice(0,x);h.innerHTML=L.length===0?`
         <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; transition: background-color var(--transition-normal), border-color var(--transition-normal);">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); margin-bottom: 1rem;"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
           <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">Chưa có bài viết</h3>
           <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 400px; margin: 0 auto;">Chưa có bài viết nào thuộc chuyên mục này. Quản trị viên có thể đăng nhập vào trang Viết bài để cập nhật bài viết mới!</p>
         </div>
-      `:L.map(u=>`
+      `:L.map(p=>`
       <article class="cat-article-card">
         <div class="cat-card-img-wrapper">
-          <img src="${M(u.image)}" alt="${u.title}">
-          <a href="#/chuyen-muc/${u.subcategory||u.category}" class="cat-card-category">${u.subcategory||u.category}</a>
+          <img src="${S(p.image)}" alt="${p.title}">
+          <a href="#/chuyen-muc/${p.subcategory||p.category}" class="cat-card-category">${p.subcategory||p.category}</a>
         </div>
         <div class="cat-card-content">
-          <h3 class="cat-card-title"><a href="#/bai-viet/${u.id}">${u.title}</a></h3>
-          <p class="cat-card-description">${u.description||"Chưa có mô tả chi tiết cho bài viết này. Nhấp vào để đọc bài viết..."}</p>
+          <h3 class="cat-card-title"><a href="#/bai-viet/${p.id}">${p.title}</a></h3>
+          <p class="cat-card-description">${p.description||"Chưa có mô tả chi tiết cho bài viết này. Nhấp vào để đọc bài viết..."}</p>
           
           <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-              <span class="post-author-name">${u.author}</span>
+              <span class="post-author-name">${p.author}</span>
               <span class="meta-dot">&bull;</span>
-              <span>${u.date}</span>
+              <span>${p.date}</span>
             </div>
             <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
               <span style="display: flex; align-items: center; gap: 0.25rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${u.views}
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${p.views}
               </span>
               <span style="display: flex; align-items: center; gap: 0.25rem;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${u.comments}
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${p.comments}
               </span>
             </div>
           </div>
         </div>
       </article>
-    `).join("");const p=document.getElementById("load-more-container");p&&(f.length>w?p.style.display="block":p.style.display="none")}B();const I=document.getElementById("load-more-articles-btn");I&&I.addEventListener("click",()=>{w+=6,B()});const h=document.getElementById("filter-select");h&&h.addEventListener("change",c=>{i=c.target.value,w=6,B()})}typeof window<"u"&&"speechSynthesis"in window&&(window.speechSynthesis.getVoices(),"onvoiceschanged"in window.speechSynthesis&&(window.speechSynthesis.onvoiceschanged=()=>{window.speechSynthesis.getVoices()}));function bt(e){if(!e)return"";if(e.trim().startsWith("<")||e.includes("</p>")||e.includes("</div>")||e.includes("</td>")||e.includes("</figure>"))return e;const n=e.split(`
-`);let s=!1,o="",t=[];for(let r=0;r<n.length;r++){let a=n[r].trim();if(a.startsWith("|")&&a.endsWith("|")){s||(s=!0,o='<div class="table-responsive"><table class="post-detail-table">');const i=a.split("|").slice(1,-1).map(C=>C.trim());if(i.every(C=>/^:?-+:?$/.test(C)))continue;o.includes('<table class="post-detail-table">')&&!o.includes("<thead>")&&!o.includes("<tbody>")?o+="<thead><tr>"+i.map(C=>`<th>${C}</th>`).join("")+"</tr></thead><tbody>":o+="<tr>"+i.map(C=>`<td>${C}</td>`).join("")+"</tr>"}else s&&(s=!1,o+="</tbody></table></div>",t.push(o),o=""),t.push(n[r])}s&&(o+="</tbody></table></div>",t.push(o)),e=t.join(`
-`);let l=e.replace(/^### (.*$)/gim,'<h3 class="post-subheading-3">$1</h3>').replace(/^## (.*$)/gim,'<h2 class="post-subheading-2">$1</h2>').replace(/^# (.*$)/gim,'<h1 class="post-heading-1">$1</h1>').replace(/\!\[(.*?)\]\((.*?)\)/g,'<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>').replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/^\> (.*$)/gim,'<blockquote class="post-blockquote">$1</blockquote>').replace(/^\- (.*$)/gim,"<li>$1</li>").replace(/\`\`\`([\s\S]*?)\`\`\`/g,'<pre class="post-code-block"><code>$1</code></pre>').replace(/\`(.*?)\`/g,'<code class="post-inline-code">$1</code>').replace(/\n\n/g,"</p><p>");return l=l.replace(/(<li>.*<\/li>)/gim,"<ul>$1</ul>"),`<p>${l}</p>`}function wt(e,n,s){const o=parseInt(n,10),t=s.find(g=>g.id===o)||s[0];t.views+=1,localStorage.setItem("toptech_articles",JSON.stringify(s));const l=s.filter(g=>g.category===t.category&&g.id!==t.id).slice(0,4);t.commentsList||(t.commentsList=[{id:1,author:"Nguyễn Văn Hùng",date:"2 ngày trước",content:"Bài viết rất chi tiết và dễ hiểu! Tôi đang tìm hiểu về vấn đề này và thấy thông tin cực kỳ hữu ích cho công việc thực tế của mình.",avatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=80&h=80"},{id:2,author:"Lê Minh Hạnh",date:"1 ngày trước",content:"TopTech chia sẻ kiến thức chuẩn quá, thiết kế giao diện bài viết đọc rất sướng mắt. Mong nhóm tác giả ra thêm nhiều bài viết sâu hơn nữa!",avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=80&h=80"}]),e.innerHTML=`
+    `).join("");const y=document.getElementById("load-more-container");y&&(v.length>x?y.style.display="block":y.style.display="none")}q();const M=document.getElementById("load-more-articles-btn");M&&M.addEventListener("click",()=>{x+=6,q()});const d=document.getElementById("filter-select");d&&d.addEventListener("change",h=>{n=h.target.value,x=6,q()})}typeof window<"u"&&"speechSynthesis"in window&&(window.speechSynthesis.getVoices(),"onvoiceschanged"in window.speechSynthesis&&(window.speechSynthesis.onvoiceschanged=()=>{window.speechSynthesis.getVoices()}));function wt(e){if(!e)return"";if(e.trim().startsWith("<")||e.includes("</p>")||e.includes("</div>")||e.includes("</td>")||e.includes("</figure>"))return e;const i=e.split(`
+`);let s=!1,o="",t=[];for(let r=0;r<i.length;r++){let a=i[r].trim();if(a.startsWith("|")&&a.endsWith("|")){s||(s=!0,o='<div class="table-responsive"><table class="post-detail-table">');const n=a.split("|").slice(1,-1).map(k=>k.trim());if(n.every(k=>/^:?-+:?$/.test(k)))continue;o.includes('<table class="post-detail-table">')&&!o.includes("<thead>")&&!o.includes("<tbody>")?o+="<thead><tr>"+n.map(k=>`<th>${k}</th>`).join("")+"</tr></thead><tbody>":o+="<tr>"+n.map(k=>`<td>${k}</td>`).join("")+"</tr>"}else s&&(s=!1,o+="</tbody></table></div>",t.push(o),o=""),t.push(i[r])}s&&(o+="</tbody></table></div>",t.push(o)),e=t.join(`
+`);let l=e.replace(/^### (.*$)/gim,'<h3 class="post-subheading-3">$1</h3>').replace(/^## (.*$)/gim,'<h2 class="post-subheading-2">$1</h2>').replace(/^# (.*$)/gim,'<h1 class="post-heading-1">$1</h1>').replace(/\!\[(.*?)\]\((.*?)\)/g,'<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>').replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/^\> (.*$)/gim,'<blockquote class="post-blockquote">$1</blockquote>').replace(/^\- (.*$)/gim,"<li>$1</li>").replace(/\`\`\`([\s\S]*?)\`\`\`/g,'<pre class="post-code-block"><code>$1</code></pre>').replace(/\`(.*?)\`/g,'<code class="post-inline-code">$1</code>').replace(/\n\n/g,"</p><p>");return l=l.replace(/(<li>.*<\/li>)/gim,"<ul>$1</ul>"),`<p>${l}</p>`}function xt(e,i,s){const o=parseInt(i,10),t=s.find(m=>m.id===o)||s[0];t.views+=1,localStorage.setItem("toptech_articles",JSON.stringify(s));const l=s.filter(m=>m.category===t.category&&m.id!==t.id).slice(0,4);t.commentsList||(t.commentsList=[{id:1,author:"Nguyễn Văn Hùng",date:"2 ngày trước",content:"Bài viết rất chi tiết và dễ hiểu! Tôi đang tìm hiểu về vấn đề này và thấy thông tin cực kỳ hữu ích cho công việc thực tế của mình.",avatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=80&h=80"},{id:2,author:"Lê Minh Hạnh",date:"1 ngày trước",content:"TopTech chia sẻ kiến thức chuẩn quá, thiết kế giao diện bài viết đọc rất sướng mắt. Mong nhóm tác giả ra thêm nhiều bài viết sâu hơn nữa!",avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=80&h=80"}]),e.innerHTML=`
     <!-- Reading Progress Bar -->
     <div class="reading-progress-container">
       <div class="reading-progress-bar" id="reading-bar"></div>
@@ -784,14 +784,14 @@
 
           <!-- Feature Image -->
           <div class="post-detail-img-wrapper">
-            <img src="${M(t.image)}" alt="${t.title}">
+            <img src="${S(t.image)}" alt="${t.title}">
           </div>
 
           <!-- Rich Text Content Body -->
           <div class="post-detail-body">
             ${t.content?`
               <p class="post-lead">${t.description||""}</p>
-              ${bt(t.content)}
+              ${wt(t.content)}
             `:`
               <p class="post-lead">${t.description||"Bài viết phân tích chuyên sâu về xu hướng công nghệ mới, hướng dẫn thực hành và đưa ra các giải pháp chuyển đổi số tối ưu hiệu suất cho doanh nghiệp."}</p>
               
@@ -851,14 +851,14 @@
           <div class="sidebar-widget">
             <h4 class="widget-title">Bài viết liên quan</h4>
             <div class="related-posts-list">
-              ${l.length>0?l.map(g=>`
+              ${l.length>0?l.map(m=>`
                 <div class="related-post-card">
                   <div class="related-img-wrapper">
-                    <img src="${M(g.image)}" alt="${g.title}">
+                    <img src="${S(m.image)}" alt="${m.title}">
                   </div>
                   <div class="related-post-info">
-                    <h5 class="related-title"><a href="#/bai-viet/${g.id}">${g.title}</a></h5>
-                    <span class="related-meta"><a href="#/chuyen-muc/${g.subcategory||g.category}" style="color: inherit; font-weight: 600;">${g.subcategory||g.category}</a> <span class="meta-dot">&bull;&nbsp;</span>${g.date}</span>
+                    <h5 class="related-title"><a href="#/bai-viet/${m.id}">${m.title}</a></h5>
+                    <span class="related-meta"><a href="#/chuyen-muc/${m.subcategory||m.category}" style="color: inherit; font-weight: 600;">${m.subcategory||m.category}</a> <span class="meta-dot">&bull;&nbsp;</span>${m.date}</span>
                   </div>
                 </div>
               `).join(""):'<p style="color: var(--text-muted); font-size: 0.85rem;">Không có bài viết liên quan nào khác cùng chuyên mục.</p>'}
@@ -924,21 +924,34 @@
     <div class="post-toast" id="post-toast">
       <span class="toast-message">Đã sao chép liên kết!</span>
     </div>
-  `;function r(){const g=document.getElementById("comments-list");if(!g)return;g.innerHTML=t.commentsList.map(m=>`
+
+    <!-- Mobile TOC Elements -->
+    <button class="mobile-toc-toggle-btn" id="mobile-toc-toggle" aria-label="Mở mục lục">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+    </button>
+    
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+      <div class="mobile-toc-header">
+        <h5>Mục lục bài viết</h5>
+        <button class="mobile-toc-close" id="mobile-toc-close" aria-label="Đóng">&times;</button>
+      </div>
+      <ul class="mobile-toc-list" id="mobile-toc-list"></ul>
+    </div>
+  `;function r(){const m=document.getElementById("comments-list");if(!m)return;m.innerHTML=t.commentsList.map(T=>`
       <div class="comment-item">
         <div class="comment-content">
           <div class="comment-header">
-            <span class="comment-author">${m.author}</span>
-            <span class="comment-date">${m.date}</span>
+            <span class="comment-author">${T.author}</span>
+            <span class="comment-date">${T.date}</span>
           </div>
-          <p class="comment-text-p">${m.content}</p>
+          <p class="comment-text-p">${T.content}</p>
         </div>
       </div>
-    `).join("");const x=document.getElementById("comments-count");x&&(x.textContent=t.commentsList.length)}r();const a=document.getElementById("submit-comment-btn");a&&a.addEventListener("click",()=>{const g=document.getElementById("comment-author-name"),x=document.getElementById("comment-text"),m=g==null?void 0:g.value.trim(),k=x==null?void 0:x.value.trim();if(!m||!k){alert("Vui lòng điền đầy đủ Tên và Nội dung bình luận.");return}const A={id:Date.now(),author:m,date:"Vừa xong",content:k,avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80&h=80"};t.commentsList.unshift(A),t.comments=t.commentsList.length,localStorage.setItem("toptech_articles",JSON.stringify(s)),g&&(g.value=""),x&&(x.value=""),r()});const i=()=>{const g=document.getElementById("reading-bar");if(!g)return;const x=window.scrollY||document.documentElement.scrollTop,m=document.documentElement.scrollHeight-document.documentElement.clientHeight;if(m>0){const k=x/m*100;g.style.width=k+"%"}};window.addEventListener("scroll",i),e.cleanup=()=>{window.removeEventListener("scroll",i)};const w=e.querySelectorAll(".post-detail-body h2"),C=document.getElementById("post-toc-container"),B=document.getElementById("toc-list");if(w.length>0&&C&&B){C.style.display="block",w.forEach((k,A)=>{const H=`toc-section-${A}`;k.id=H}),B.innerHTML=Array.from(w).map((k,A)=>{const H=k.textContent.trim();return`<li><a href="javascript:void(0)" data-target="toc-section-${A}" class="toc-link">${H}</a></li>`}).join("");const g=B.querySelectorAll(".toc-link");g.forEach(k=>{k.addEventListener("click",A=>{A.preventDefault();const H=k.dataset.target,q=document.getElementById(H);if(q){const W=q.getBoundingClientRect().top+window.pageYOffset-100;window.scrollTo({top:W,behavior:"smooth"}),g.forEach(d=>d.classList.remove("active")),k.classList.add("active")}})});const x=()=>{const k=window.scrollY||document.documentElement.scrollTop;let A=-1;w.forEach((H,q)=>{H.offsetTop-110<=k&&(A=q)}),g.forEach((H,q)=>{q===A?H.classList.add("active"):H.classList.remove("active")})};window.addEventListener("scroll",x);const m=e.cleanup;e.cleanup=()=>{m&&m(),window.removeEventListener("scroll",x)}}const I=document.getElementById("quick-edit-post-btn");I==null||I.addEventListener("click",()=>{sessionStorage.setItem("toptech_editing_article_id",t.id),window.location.hash="#/admin"});const h=e.querySelector(".post-detail-body");function c(g){const x=document.getElementById("post-toast");if(!x)return;const m=x.querySelector(".toast-message");m&&(m.textContent=g),x.classList.add("show"),x.timeoutId&&clearTimeout(x.timeoutId),x.timeoutId=setTimeout(()=>{x.classList.remove("show")},2500)}let f=!1,L=!1,p=null,u=0;const v=document.getElementById("post-action-audio"),b=v==null?void 0:v.querySelector(".audio-icon-play"),T=v==null?void 0:v.querySelector(".audio-icon-pause");function P(){typeof responsiveVoice<"u"?responsiveVoice.cancel():"speechSynthesis"in window&&window.speechSynthesis.cancel(),f=!1,L=!1,v==null||v.classList.remove("active"),b&&(b.style.display="block"),T&&(T.style.display="none")}function D(){if(!h)return;const g=`${t.title}. ${h.innerText.trim()}`;if(g)if(typeof responsiveVoice<"u"?responsiveVoice.cancel():"speechSynthesis"in window&&window.speechSynthesis.cancel(),f=!0,L=!1,v==null||v.classList.add("active"),b&&(b.style.display="none"),T&&(T.style.display="block"),typeof responsiveVoice<"u")c("Đang đọc: Giọng trực tuyến (ResponsiveVoice)"),responsiveVoice.speak(g,"Vietnamese Female",{rate:1.1,onend:P,onerror:x=>{console.error("ResponsiveVoice Error:",x),P()}});else if("speechSynthesis"in window){const x=window.speechSynthesis.getVoices();if(x.length===0&&u<3){u++,window.speechSynthesis.getVoices(),setTimeout(D,250);return}u=0,p=new SpeechSynthesisUtterance(g),p.lang="vi-VN",p.rate=1.1;const m=x.find(k=>k.lang.toLowerCase().replace("_","-").includes("vi-vn")||k.lang.toLowerCase()==="vi"||k.name.toLowerCase().includes("viet")||k.name.toLowerCase().includes("việt"));m?(p.voice=m,c(`Đang đọc: Giọng hệ thống ${m.name}`)):c("Dùng giọng hệ thống mặc định (Hãy cài giọng tiếng Việt để đọc chuẩn)."),p.onend=()=>{P()},p.onerror=k=>{console.error("Native TTS Error:",k),P()},window.speechSynthesis.speak(p)}else c("Trình duyệt không hỗ trợ nghe đọc bài viết."),P()}v==null||v.addEventListener("click",()=>{f?L?(typeof responsiveVoice<"u"?responsiveVoice.resume():"speechSynthesis"in window&&window.speechSynthesis.resume(),L=!1,v==null||v.classList.add("active"),b&&(b.style.display="none"),T&&(T.style.display="block")):(typeof responsiveVoice<"u"?responsiveVoice.pause():"speechSynthesis"in window&&window.speechSynthesis.pause(),L=!0,v==null||v.classList.remove("active"),b&&(b.style.display="block"),T&&(T.style.display="none")):D()});const O=e.querySelector(".post-main-content");let j=parseInt(localStorage.getItem("toptech_post_font_size"),10)||18;function N(){O&&(O.style.fontSize=`${j}px`,localStorage.setItem("toptech_post_font_size",j))}N();const F=document.getElementById("post-action-font-inc"),X=document.getElementById("post-action-font-dec");F==null||F.addEventListener("click",()=>{j<26?(j+=2,N(),c(`Đã tăng cỡ chữ: ${j}px`)):c("Đã đạt cỡ chữ tối đa.")}),X==null||X.addEventListener("click",()=>{j>14?(j-=2,N(),c(`Đã giảm cỡ chữ: ${j}px`)):c("Đã đạt cỡ chữ tối thiểu.")});const S=document.getElementById("post-action-share");function Y(){navigator.clipboard.writeText(window.location.href).then(()=>{c("Đã sao chép liên kết vào bộ nhớ tạm!")}).catch(()=>{const g=document.createElement("textarea");g.value=window.location.href,g.style.position="fixed",document.body.appendChild(g),g.select();try{document.execCommand("copy"),c("Đã sao chép liên kết vào bộ nhớ tạm!")}catch{c("Không thể sao chép liên kết.")}document.body.removeChild(g)})}S==null||S.addEventListener("click",()=>{const g={title:t.title,text:t.description||"",url:window.location.href};navigator.share&&navigator.canShare&&navigator.canShare(g)?navigator.share(g).then(()=>c("Chia sẻ bài viết thành công!")).catch(x=>{x.name!=="AbortError"&&Y()}):Y()});const U=document.getElementById("post-action-print");U==null||U.addEventListener("click",()=>{window.print()});const V=document.getElementById("post-action-comments");V==null||V.addEventListener("click",()=>{const g=e.querySelector(".post-comments-section");if(g){const k=g.getBoundingClientRect().top+window.pageYOffset-100;window.scrollTo({top:k,behavior:"smooth"})}});const K=e.cleanup;e.cleanup=()=>{K&&K(),P()}}const xt=[{name:"Trí tuệ nhân tạo (AI)",url:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Lập trình / Code",url:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Đám mây / Dữ liệu",url:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Mạng / Bảo mật",url:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Thiết bị thông minh",url:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Văn phòng tối giản",url:"https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800&h=450"}];function ot(e,n,s,o){sessionStorage.getItem("toptech_admin_logged_in")==="true"?Tt(e,n,s,o):kt(e,n,s,o)}function kt(e,n,s,o){e.innerHTML=`
+    `).join("");const g=document.getElementById("comments-count");g&&(g.textContent=t.commentsList.length)}r();const a=document.getElementById("submit-comment-btn");a&&a.addEventListener("click",()=>{const m=document.getElementById("comment-author-name"),g=document.getElementById("comment-text"),T=m==null?void 0:m.value.trim(),$=g==null?void 0:g.value.trim();if(!T||!$){alert("Vui lòng điền đầy đủ Tên và Nội dung bình luận.");return}const B={id:Date.now(),author:T,date:"Vừa xong",content:$,avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80&h=80"};t.commentsList.unshift(B),t.comments=t.commentsList.length,localStorage.setItem("toptech_articles",JSON.stringify(s)),m&&(m.value=""),g&&(g.value=""),r()});const n=()=>{const m=document.getElementById("reading-bar");if(!m)return;const g=window.scrollY||document.documentElement.scrollTop,T=document.documentElement.scrollHeight-document.documentElement.clientHeight;if(T>0){const $=g/T*100;m.style.width=$+"%"}};window.addEventListener("scroll",n),e.cleanup=()=>{window.removeEventListener("scroll",n)};const x=e.querySelectorAll(".post-detail-body h2"),k=document.getElementById("post-toc-container"),q=document.getElementById("toc-list"),M=document.getElementById("mobile-toc-list");if(x.length>0){e.classList.add("has-toc"),x.forEach((w,b)=>{const E=`toc-section-${b}`;w.id=E}),k&&q&&(k.style.display="block",q.innerHTML=Array.from(x).map((w,b)=>{const E=w.textContent.trim();return`<li><a href="javascript:void(0)" data-target="toc-section-${b}" class="toc-link">${E}</a></li>`}).join("")),M&&(M.innerHTML=Array.from(x).map((w,b)=>{const E=w.textContent.trim();return`<li><a href="javascript:void(0)" data-target="toc-section-${b}" class="mobile-toc-link">${E}</a></li>`}).join(""));const m=e.querySelectorAll(".toc-link"),g=e.querySelectorAll(".mobile-toc-link"),T=w=>{w.forEach(b=>{b.addEventListener("click",E=>{var Y;E.preventDefault();const V=b.dataset.target,N=document.getElementById(V);if(N){const F=N.getBoundingClientRect().top+window.pageYOffset-100;window.scrollTo({top:F,behavior:"smooth"}),w.forEach(dt=>dt.classList.remove("active")),b.classList.add("active"),(Y=document.getElementById("mobile-toc-panel"))==null||Y.classList.remove("active")}})})};T(m),T(g);const $=document.getElementById("mobile-toc-toggle"),B=document.getElementById("mobile-toc-panel"),z=document.getElementById("mobile-toc-close"),G=()=>{B==null||B.classList.toggle("active")},X=()=>{B==null||B.classList.remove("active")};$==null||$.addEventListener("click",G),z==null||z.addEventListener("click",X);const W=w=>{B!=null&&B.classList.contains("active")&&!B.contains(w.target)&&!$.contains(w.target)&&X()};document.addEventListener("click",W);const c=()=>{const w=window.scrollY||document.documentElement.scrollTop;let b=-1;x.forEach((V,N)=>{V.offsetTop-110<=w&&(b=N)});const E=V=>{V.forEach((N,Y)=>{Y===b?N.classList.add("active"):N.classList.remove("active")})};E(m),E(g)};window.addEventListener("scroll",c);const f=e.cleanup;e.cleanup=()=>{f&&f(),window.removeEventListener("scroll",c),document.removeEventListener("click",W)}}const d=document.getElementById("quick-edit-post-btn");d==null||d.addEventListener("click",()=>{sessionStorage.setItem("toptech_editing_article_id",t.id),window.location.hash="#/admin"});const h=e.querySelector(".post-detail-body");function v(m){const g=document.getElementById("post-toast");if(!g)return;const T=g.querySelector(".toast-message");T&&(T.textContent=m),g.classList.add("show"),g.timeoutId&&clearTimeout(g.timeoutId),g.timeoutId=setTimeout(()=>{g.classList.remove("show")},2500)}let L=!1,y=!1,p=null,I=0;const u=document.getElementById("post-action-audio"),C=u==null?void 0:u.querySelector(".audio-icon-play"),A=u==null?void 0:u.querySelector(".audio-icon-pause");function R(){typeof responsiveVoice<"u"?responsiveVoice.cancel():"speechSynthesis"in window&&window.speechSynthesis.cancel(),L=!1,y=!1,u==null||u.classList.remove("active"),C&&(C.style.display="block"),A&&(A.style.display="none")}function U(){if(!h)return;const m=`${t.title}. ${h.innerText.trim()}`;if(m)if(typeof responsiveVoice<"u"?responsiveVoice.cancel():"speechSynthesis"in window&&window.speechSynthesis.cancel(),L=!0,y=!1,u==null||u.classList.add("active"),C&&(C.style.display="none"),A&&(A.style.display="block"),typeof responsiveVoice<"u")v("Đang đọc: Giọng trực tuyến (ResponsiveVoice)"),responsiveVoice.speak(m,"Vietnamese Female",{rate:1.1,onend:R,onerror:g=>{console.error("ResponsiveVoice Error:",g),R()}});else if("speechSynthesis"in window){const g=window.speechSynthesis.getVoices();if(g.length===0&&I<3){I++,window.speechSynthesis.getVoices(),setTimeout(U,250);return}I=0,p=new SpeechSynthesisUtterance(m),p.lang="vi-VN",p.rate=1.1;const T=g.find($=>$.lang.toLowerCase().replace("_","-").includes("vi-vn")||$.lang.toLowerCase()==="vi"||$.name.toLowerCase().includes("viet")||$.name.toLowerCase().includes("việt"));T?(p.voice=T,v(`Đang đọc: Giọng hệ thống ${T.name}`)):v("Dùng giọng hệ thống mặc định (Hãy cài giọng tiếng Việt để đọc chuẩn)."),p.onend=()=>{R()},p.onerror=$=>{console.error("Native TTS Error:",$),R()},window.speechSynthesis.speak(p)}else v("Trình duyệt không hỗ trợ nghe đọc bài viết."),R()}u==null||u.addEventListener("click",()=>{L?y?(typeof responsiveVoice<"u"?responsiveVoice.resume():"speechSynthesis"in window&&window.speechSynthesis.resume(),y=!1,u==null||u.classList.add("active"),C&&(C.style.display="none"),A&&(A.style.display="block")):(typeof responsiveVoice<"u"?responsiveVoice.pause():"speechSynthesis"in window&&window.speechSynthesis.pause(),y=!0,u==null||u.classList.remove("active"),C&&(C.style.display="block"),A&&(A.style.display="none")):U()});const K=e.querySelector(".post-main-content");let H=parseInt(localStorage.getItem("toptech_post_font_size"),10)||18;function J(){K&&(K.style.fontSize=`${H}px`,localStorage.setItem("toptech_post_font_size",H))}J();const tt=document.getElementById("post-action-font-inc"),P=document.getElementById("post-action-font-dec");tt==null||tt.addEventListener("click",()=>{H<26?(H+=2,J(),v(`Đã tăng cỡ chữ: ${H}px`)):v("Đã đạt cỡ chữ tối đa.")}),P==null||P.addEventListener("click",()=>{H>14?(H-=2,J(),v(`Đã giảm cỡ chữ: ${H}px`)):v("Đã đạt cỡ chữ tối thiểu.")});const Z=document.getElementById("post-action-share");function et(){navigator.clipboard.writeText(window.location.href).then(()=>{v("Đã sao chép liên kết vào bộ nhớ tạm!")}).catch(()=>{const m=document.createElement("textarea");m.value=window.location.href,m.style.position="fixed",document.body.appendChild(m),m.select();try{document.execCommand("copy"),v("Đã sao chép liên kết vào bộ nhớ tạm!")}catch{v("Không thể sao chép liên kết.")}document.body.removeChild(m)})}Z==null||Z.addEventListener("click",()=>{const m={title:t.title,text:t.description||"",url:window.location.href};navigator.share&&navigator.canShare&&navigator.canShare(m)?navigator.share(m).then(()=>v("Chia sẻ bài viết thành công!")).catch(g=>{g.name!=="AbortError"&&et()}):et()});const O=document.getElementById("post-action-print");O==null||O.addEventListener("click",()=>{window.print()});const Q=document.getElementById("post-action-comments");Q==null||Q.addEventListener("click",()=>{const m=e.querySelector(".post-comments-section");if(m){const $=m.getBoundingClientRect().top+window.pageYOffset-100;window.scrollTo({top:$,behavior:"smooth"})}});const D=e.cleanup;e.cleanup=()=>{D&&D(),R()}}const kt=[{name:"Trí tuệ nhân tạo (AI)",url:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Lập trình / Code",url:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Đám mây / Dữ liệu",url:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Mạng / Bảo mật",url:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Thiết bị thông minh",url:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800&h=450"},{name:"Văn phòng tối giản",url:"https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800&h=450"}];function st(e,i,s,o){sessionStorage.getItem("toptech_admin_logged_in")==="true"?Lt(e,i,s,o):Ct(e,i,s,o)}function Ct(e,i,s,o){e.innerHTML=`
     <div class="admin-login-wrapper">
       <div class="admin-login-card glass-panel">
         <div class="login-logo-container">
-          <img src="${M("/logo-toptech-color.svg")}" alt="TopTech Logo" style="height: 100px; margin: 0 auto;">
+          <img src="${S("/logo-toptech-color.svg")}" alt="TopTech Logo" style="height: 100px; margin: 0 auto;">
         </div>
         <h2 class="login-title">Cổng Quản Trị Blog</h2>
         <p class="login-subtitle">Vui lòng nhập mật khẩu quản trị để đăng bài viết mới</p>
@@ -956,9 +969,9 @@
         </div>
       </div>
     </div>
-  `;const t=document.getElementById("admin-password"),l=document.getElementById("login-submit-btn"),r=document.getElementById("login-error-msg"),a=()=>{(t==null?void 0:t.value.trim())==="admin123"?(sessionStorage.setItem("toptech_admin_logged_in","true"),ot(e,n,s,o)):(r&&(r.textContent="Mật khẩu không chính xác. Thử lại!",r.style.display="block"),t.style.borderColor="var(--secondary-color)")};l==null||l.addEventListener("click",a),t==null||t.addEventListener("keydown",i=>{i.key==="Enter"&&a()})}function Ct(e){if(!e)return"";if(e.trim().startsWith("<")||e.includes("</p>")||e.includes("</div>")||e.includes("</td>")||e.includes("</figure>"))return e;const n=e.split(`
-`);let s=!1,o="",t=[];for(let r=0;r<n.length;r++){let a=n[r].trim();if(a.startsWith("|")&&a.endsWith("|")){s||(s=!0,o='<div class="table-responsive"><table class="post-detail-table">');const i=a.split("|").slice(1,-1).map(C=>C.trim());if(i.every(C=>/^:?-+:?$/.test(C)))continue;o.includes('<table class="post-detail-table">')&&!o.includes("<thead>")&&!o.includes("<tbody>")?o+="<thead><tr>"+i.map(C=>`<th>${C}</th>`).join("")+"</tr></thead><tbody>":o+="<tr>"+i.map(C=>`<td>${C}</td>`).join("")+"</tr>"}else s&&(s=!1,o+="</tbody></table></div>",t.push(o),o=""),t.push(n[r])}s&&(o+="</tbody></table></div>",t.push(o)),e=t.join(`
-`);let l=e.replace(/^### (.*$)/gim,'<h3 class="post-subheading-3">$1</h3>').replace(/^## (.*$)/gim,'<h2 class="post-subheading-2">$1</h2>').replace(/^# (.*$)/gim,'<h1 class="post-heading-1">$1</h1>').replace(/\!\[(.*?)\]\((.*?)\)/g,'<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>').replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/^\> (.*$)/gim,'<blockquote class="post-blockquote">$1</blockquote>').replace(/^\- (.*$)/gim,"<li>$1</li>").replace(/\`\`\`([\s\S]*?)\`\`\`/g,'<pre class="post-code-block"><code>$1</code></pre>').replace(/\`(.*?)\`/g,'<code class="post-inline-code">$1</code>').replace(/\n\n/g,"</p><p>");return l=l.replace(/(<li>.*<\/li>)/gim,"<ul>$1</ul>"),`<p>${l}</p>`}function Tt(e,n,s,o){let t="list",l=null,r=xt[0].url;const a=sessionStorage.getItem("toptech_editing_article_id");if(a){const h=parseInt(a,10),c=n.find(f=>f.id===h);c&&(t="create",l=h,r=c.image),sessionStorage.removeItem("toptech_editing_article_id")}function i(){var h,c,f;e.innerHTML=`
+  `;const t=document.getElementById("admin-password"),l=document.getElementById("login-submit-btn"),r=document.getElementById("login-error-msg"),a=()=>{(t==null?void 0:t.value.trim())==="admin123"?(sessionStorage.setItem("toptech_admin_logged_in","true"),st(e,i,s,o)):(r&&(r.textContent="Mật khẩu không chính xác. Thử lại!",r.style.display="block"),t.style.borderColor="var(--secondary-color)")};l==null||l.addEventListener("click",a),t==null||t.addEventListener("keydown",n=>{n.key==="Enter"&&a()})}function Tt(e){if(!e)return"";if(e.trim().startsWith("<")||e.includes("</p>")||e.includes("</div>")||e.includes("</td>")||e.includes("</figure>"))return e;const i=e.split(`
+`);let s=!1,o="",t=[];for(let r=0;r<i.length;r++){let a=i[r].trim();if(a.startsWith("|")&&a.endsWith("|")){s||(s=!0,o='<div class="table-responsive"><table class="post-detail-table">');const n=a.split("|").slice(1,-1).map(k=>k.trim());if(n.every(k=>/^:?-+:?$/.test(k)))continue;o.includes('<table class="post-detail-table">')&&!o.includes("<thead>")&&!o.includes("<tbody>")?o+="<thead><tr>"+n.map(k=>`<th>${k}</th>`).join("")+"</tr></thead><tbody>":o+="<tr>"+n.map(k=>`<td>${k}</td>`).join("")+"</tr>"}else s&&(s=!1,o+="</tbody></table></div>",t.push(o),o=""),t.push(i[r])}s&&(o+="</tbody></table></div>",t.push(o)),e=t.join(`
+`);let l=e.replace(/^### (.*$)/gim,'<h3 class="post-subheading-3">$1</h3>').replace(/^## (.*$)/gim,'<h2 class="post-subheading-2">$1</h2>').replace(/^# (.*$)/gim,'<h1 class="post-heading-1">$1</h1>').replace(/\!\[(.*?)\]\((.*?)\)/g,'<figure class="post-inline-figure"><img src="$2" alt="$1"><figcaption class="post-figcaption">$1</figcaption></figure>').replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/^\> (.*$)/gim,'<blockquote class="post-blockquote">$1</blockquote>').replace(/^\- (.*$)/gim,"<li>$1</li>").replace(/\`\`\`([\s\S]*?)\`\`\`/g,'<pre class="post-code-block"><code>$1</code></pre>').replace(/\`(.*?)\`/g,'<code class="post-inline-code">$1</code>').replace(/\n\n/g,"</p><p>");return l=l.replace(/(<li>.*<\/li>)/gim,"<ul>$1</ul>"),`<p>${l}</p>`}function Lt(e,i,s,o){let t="list",l=null,r=kt[0].url;const a=sessionStorage.getItem("toptech_editing_article_id");if(a){const d=parseInt(a,10),h=i.find(v=>v.id===d);h&&(t="create",l=d,r=h.image),sessionStorage.removeItem("toptech_editing_article_id")}function n(){var d,h,v;e.innerHTML=`
       <div class="admin-dashboard-container container section-padding">
         <!-- Top bar with Welcome and Logout -->
         <div class="admin-header-bar">
@@ -975,7 +988,7 @@
         <!-- Tabs selectors -->
         <div class="admin-tabs">
           <button class="admin-tab-btn ${t==="list"?"active":""}" id="tab-list-btn">
-            Danh sách bài viết (${n.length})
+            Danh sách bài viết (${i.length})
           </button>
           <button class="admin-tab-btn ${t==="create"?"active":""}" id="tab-create-btn">
             + Viết bài mới
@@ -984,10 +997,10 @@
 
         <!-- Tab content area -->
         <div id="admin-tab-content">
-          ${t==="list"?w():B()}
+          ${t==="list"?x():q()}
         </div>
       </div>
-    `,(h=document.getElementById("admin-logout-btn"))==null||h.addEventListener("click",()=>{sessionStorage.removeItem("toptech_admin_logged_in"),ot(e,n,s,o)}),(c=document.getElementById("tab-list-btn"))==null||c.addEventListener("click",()=>{t="list",i()}),(f=document.getElementById("tab-create-btn"))==null||f.addEventListener("click",()=>{t="create",l=null,i()}),t==="list"?C():I()}function w(){return`
+    `,(d=document.getElementById("admin-logout-btn"))==null||d.addEventListener("click",()=>{sessionStorage.removeItem("toptech_admin_logged_in"),st(e,i,s,o)}),(h=document.getElementById("tab-list-btn"))==null||h.addEventListener("click",()=>{t="list",n()}),(v=document.getElementById("tab-create-btn"))==null||v.addEventListener("click",()=>{t="create",l=null,n()}),t==="list"?k():M()}function x(){return`
       <div class="admin-list-panel glass-panel">
         <div class="table-responsive">
           <table class="admin-table">
@@ -1002,43 +1015,43 @@
               </tr>
             </thead>
             <tbody>
-              ${n.length===0?`
+              ${i.length===0?`
                 <tr>
                   <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-muted);">
                     Chưa có bài viết nào trong hệ thống. Hãy nhấp vào "Viết bài mới" để tạo bài viết đầu tiên!
                   </td>
                 </tr>
-              `:n.map(h=>`
-                <tr id="article-row-${h.id}">
+              `:i.map(d=>`
+                <tr id="article-row-${d.id}">
                   <td>
-                    <img class="table-post-thumb" src="${h.image.startsWith("http")||h.image.startsWith("data:")?h.image:M(h.image)}" alt="Thumbnail">
+                    <img class="table-post-thumb" src="${d.image.startsWith("http")||d.image.startsWith("data:")?d.image:S(d.image)}" alt="Thumbnail">
                   </td>
                   <td>
                     <div style="font-weight: 600; line-height: 1.4;">
-                      <a href="#/bai-viet/${h.id}" target="_blank" class="table-post-title-link">${h.title}</a>
+                      <a href="#/bai-viet/${d.id}" target="_blank" class="table-post-title-link">${d.title}</a>
                     </div>
-                    ${h.featured?'<span class="badge badge-featured">Nổi bật</span>':""}
+                    ${d.featured?'<span class="badge badge-featured">Nổi bật</span>':""}
                   </td>
                   <td>
-                    <span class="badge badge-cat">${h.category}</span>
+                    <span class="badge badge-cat">${d.category}</span>
                   </td>
                   <td>
-                    <strong>${h.author}</strong>
+                    <strong>${d.author}</strong>
                   </td>
                   <td>
                     <div style="font-size: 0.85rem;">
-                      👀 <strong>${h.views||0}</strong> lượt xem
+                      👀 <strong>${d.views||0}</strong> lượt xem
                     </div>
                     <div style="font-size: 0.85rem;">
-                      💬 <strong>${h.comments||0}</strong> bình luận
+                      💬 <strong>${d.comments||0}</strong> bình luận
                     </div>
                   </td>
                   <td>
-                    <button class="edit-post-btn" data-id="${h.id}" style="margin-right: 0.5rem; background-color: var(--primary-color); border-color: var(--primary-color);">
+                    <button class="edit-post-btn" data-id="${d.id}" style="margin-right: 0.5rem; background-color: var(--primary-color); border-color: var(--primary-color);">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                       Sửa
                     </button>
-                    <button class="delete-post-btn" data-id="${h.id}">
+                    <button class="delete-post-btn" data-id="${d.id}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                       Xóa
                     </button>
@@ -1049,23 +1062,23 @@
           </table>
         </div>
       </div>
-    `}function C(){e.querySelectorAll(".edit-post-btn").forEach(f=>{f.addEventListener("click",()=>{const L=parseInt(f.dataset.id,10),p=n.find(u=>u.id===L);p&&(l=L,r=p.image,t="create",i())})}),e.querySelectorAll(".delete-post-btn").forEach(f=>{f.addEventListener("click",()=>{const L=parseInt(f.dataset.id,10),p=n.find(u=>u.id===L);if(confirm(`Bạn có chắc chắn muốn xóa bài viết "${p==null?void 0:p.title}" không? Hành động này không thể hoàn tác.`)){const u=n.filter(b=>b.id!==L);localStorage.setItem("toptech_articles",JSON.stringify(u));const v=document.getElementById(`article-row-${L}`);v&&(v.style.transition="opacity 0.4s ease",v.style.opacity="0",setTimeout(()=>{n.splice(0,n.length,...u),o(),i()},400))}})})}function B(){const h=l?n.find(c=>c.id===l):null;return`
+    `}function k(){e.querySelectorAll(".edit-post-btn").forEach(v=>{v.addEventListener("click",()=>{const L=parseInt(v.dataset.id,10),y=i.find(p=>p.id===L);y&&(l=L,r=y.image,t="create",n())})}),e.querySelectorAll(".delete-post-btn").forEach(v=>{v.addEventListener("click",()=>{const L=parseInt(v.dataset.id,10),y=i.find(p=>p.id===L);if(confirm(`Bạn có chắc chắn muốn xóa bài viết "${y==null?void 0:y.title}" không? Hành động này không thể hoàn tác.`)){const p=i.filter(u=>u.id!==L);localStorage.setItem("toptech_articles",JSON.stringify(p));const I=document.getElementById(`article-row-${L}`);I&&(I.style.transition="opacity 0.4s ease",I.style.opacity="0",setTimeout(()=>{i.splice(0,i.length,...p),o(),n()},400))}})})}function q(){const d=l?i.find(h=>h.id===l):null;return`
       <div class="create-post-layout-grid">
         <!-- Form entry column (Left) -->
         <div class="publish-form-panel glass-panel">
-          <h3 class="panel-subtitle">${h?"Chỉnh sửa bài viết":"Nội dung bài viết mới"}</h3>
+          <h3 class="panel-subtitle">${d?"Chỉnh sửa bài viết":"Nội dung bài viết mới"}</h3>
           
           <div class="login-form" style="margin-top: 1.5rem;">
             <div class="form-row">
               <label for="post-title">Tiêu đề bài viết <span style="color:var(--secondary-color)">*</span></label>
-              <input type="text" id="post-title" value="${h?h.title:""}" placeholder="Ví dụ: Lợi ích của AI trong chuyển đổi số 2026..." required>
+              <input type="text" id="post-title" value="${d?d.title:""}" placeholder="Ví dụ: Lợi ích của AI trong chuyển đổi số 2026..." required>
             </div>
 
             <div class="form-grid-3">
               <div class="form-row">
                 <label for="post-category">Chuyên mục chính <span style="color:var(--secondary-color)">*</span></label>
                 <select id="post-category" required>
-                  ${s.map(c=>`<option value="${c}" ${h&&h.category===c?"selected":""}>${c}</option>`).join("")}
+                  ${s.map(h=>`<option value="${h}" ${d&&d.category===h?"selected":""}>${h}</option>`).join("")}
                 </select>
               </div>
 
@@ -1077,7 +1090,7 @@
               </div>
 
               <div class="form-row" style="display:flex; align-items:center; gap: 0.5rem; margin-top: 1.8rem; cursor:pointer;">
-                <input type="checkbox" id="post-featured" ${h&&h.featured?"checked":""} style="width: 20px; height: 20px; margin:0;">
+                <input type="checkbox" id="post-featured" ${d&&d.featured?"checked":""} style="width: 20px; height: 20px; margin:0;">
                 <label for="post-featured" style="margin:0; font-weight:600; font-size: 0.85rem;">Bài viết nổi bật (Featured)</label>
               </div>
             </div>
@@ -1085,11 +1098,11 @@
             <div class="form-grid-2">
               <div class="form-row">
                 <label for="post-author-name">Tên tác giả <span style="color:var(--secondary-color)">*</span></label>
-                <input type="text" id="post-author-name" value="${h?h.author:"Ms. Phương Linh"}" placeholder="Nhập tên tác giả..." required>
+                <input type="text" id="post-author-name" value="${d?d.author:"Ms. Phương Linh"}" placeholder="Nhập tên tác giả..." required>
               </div>
               <div class="form-row" style="display: none;">
                 <label for="post-author-tag">Mã tác giả / Thẻ</label>
-                <input type="text" id="post-author-tag" value="${h?h.authorTag:"#CTAD01"}" placeholder="Ví dụ: #CTAD01...">
+                <input type="text" id="post-author-tag" value="${d?d.authorTag:"#CTAD01"}" placeholder="Ví dụ: #CTAD01...">
               </div>
             </div>
 
@@ -1106,13 +1119,13 @@
               
               <div style="margin-top: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap;">Hoặc nhập URL ảnh:</span>
-                <input type="url" id="post-cover-url" value="${h&&h.image.startsWith("http")?h.image:""}" placeholder="Dán link ảnh bìa vào đây (https://...)" style="margin: 0; padding: 0.5rem 0.8rem; font-size: 0.9rem;">
+                <input type="url" id="post-cover-url" value="${d&&d.image.startsWith("http")?d.image:""}" placeholder="Dán link ảnh bìa vào đây (https://...)" style="margin: 0; padding: 0.5rem 0.8rem; font-size: 0.9rem;">
               </div>
             </div>
 
             <div class="form-row">
               <label for="post-description">Tóm tắt bài viết (Sapo) <span style="color:var(--secondary-color)">*</span></label>
-              <textarea id="post-description" rows="3" placeholder="Viết tóm tắt ngắn cho bài viết hiển thị ở trang chủ (1-2 câu)..." required>${h?h.description:""}</textarea>
+              <textarea id="post-description" rows="3" placeholder="Viết tóm tắt ngắn cho bài viết hiển thị ở trang chủ (1-2 câu)..." required>${d?d.description:""}</textarea>
             </div>
 
             <!-- Content Area Header -->
@@ -1157,7 +1170,7 @@
             </div>
 
             <button class="submit-comment-btn" id="publish-post-btn" style="margin-top: 1.5rem; width:100%; font-size: 1rem; padding: 0.8rem 1.5rem; background-color: var(--primary-color); color:#fff; border-color: var(--primary-color);">
-              ${h?"💾 Cập nhật bài viết":"🚀 Xuất bản bài viết"}
+              ${d?"💾 Cập nhật bài viết":"🚀 Xuất bản bài viết"}
             </button>
           </div>
         </div>
@@ -1193,13 +1206,13 @@
           </div>
         </div>
       </div>
-    `}function I(){const h=document.getElementById("post-title"),c=document.getElementById("post-category"),f=document.getElementById("post-subcategory"),L=document.getElementById("post-featured"),p=document.getElementById("post-author-name"),u=document.getElementById("post-author-tag"),v=document.getElementById("post-description"),b=document.getElementById("post-content"),T=document.getElementById("publish-post-btn"),P=document.getElementById("sidebar-preview-img"),D=document.getElementById("sidebar-preview-cat"),O=document.getElementById("sidebar-preview-title"),j=document.getElementById("sidebar-preview-desc"),N=document.getElementById("sidebar-preview-author"),F=document.getElementById("sidebar-preview-time"),X={"Tin công nghệ":["Điện thoại","Máy tính","Thiết bị thông minh","Xe điện"],AI:["Machine Learning","Generative AI","ChatGPT & LLMs","Thị giác máy tính"],"Chuyển đổi số":["Doanh nghiệp","Giải pháp đám mây","IoT & Automation","Bảo mật dữ liệu"],Review:["Đánh giá Laptop","Đánh giá Smartphone","Đồ công nghệ khác","Trải nghiệm dịch vụ"],"Phần mềm":["Công cụ lập trình","Phần mềm văn phòng","Hệ điều hành","Ứng dụng di động"],IT:["Lập trình","Quản trị mạng","Cơ sở dữ liệu","DevOps"],"Giải pháp công nghệ":["AI cho doanh nghiệp","Tự động hóa quy trình","Hạ tầng số","ERP & CRM"],Casestudy:["Thành công tiêu biểu","Phân tích thất bại","Khảo sát thực tế"]},S=l?n.find(d=>d.id===l):null;if(S&&b){b.innerHTML=S.content,r=S.image,P&&(P.src=r),D&&(D.textContent=(S.subcategory||S.category).toUpperCase()),O&&(O.textContent=S.title),j&&(j.textContent=S.description),N&&(N.textContent=`${S.author}`);const d=document.getElementById("upload-dropzone");d&&(d.style.borderColor="var(--primary-color)",d.innerHTML=`
+    `}function M(){const d=document.getElementById("post-title"),h=document.getElementById("post-category"),v=document.getElementById("post-subcategory"),L=document.getElementById("post-featured"),y=document.getElementById("post-author-name"),p=document.getElementById("post-author-tag"),I=document.getElementById("post-description"),u=document.getElementById("post-content"),C=document.getElementById("publish-post-btn"),A=document.getElementById("sidebar-preview-img"),R=document.getElementById("sidebar-preview-cat"),U=document.getElementById("sidebar-preview-title"),K=document.getElementById("sidebar-preview-desc"),H=document.getElementById("sidebar-preview-author"),J=document.getElementById("sidebar-preview-time"),tt={"Tin công nghệ":["Điện thoại","Máy tính","Thiết bị thông minh","Xe điện"],AI:["Machine Learning","Generative AI","ChatGPT & LLMs","Thị giác máy tính"],"Chuyển đổi số":["Doanh nghiệp","Giải pháp đám mây","IoT & Automation","Bảo mật dữ liệu"],Review:["Đánh giá Laptop","Đánh giá Smartphone","Đồ công nghệ khác","Trải nghiệm dịch vụ"],"Phần mềm":["Công cụ lập trình","Phần mềm văn phòng","Hệ điều hành","Ứng dụng di động"],IT:["Lập trình","Quản trị mạng","Cơ sở dữ liệu","DevOps"],"Giải pháp công nghệ":["AI cho doanh nghiệp","Tự động hóa quy trình","Hạ tầng số","ERP & CRM"],Casestudy:["Thành công tiêu biểu","Phân tích thất bại","Khảo sát thực tế"]},P=l?i.find(c=>c.id===l):null;if(P&&u){u.innerHTML=P.content,r=P.image,A&&(A.src=r),R&&(R.textContent=(P.subcategory||P.category).toUpperCase()),U&&(U.textContent=P.title),K&&(K.textContent=P.description),H&&(H.textContent=`${P.author}`);const c=document.getElementById("upload-dropzone");c&&(c.style.borderColor="var(--primary-color)",c.innerHTML=`
           <div style="text-align: center; color: var(--primary-color);">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <p style="font-weight:600; font-size:0.85rem;">Đã chọn ảnh bìa hiện tại!</p>
             <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">(Click hoặc kéo thả file khác để thay đổi)</p>
           </div>
-        `)}const Y=(d,y="")=>{if(!f)return;const E=X[d]||[];f.innerHTML='<option value="">-- Không có --</option>'+E.map($=>`<option value="${$}" ${y===$?"selected":""}>${$}</option>`).join("")};c&&Y(c.value,S?S.subcategory:"");function U(){const d=(b==null?void 0:b.innerText.trim())||"",y=d?d.split(/\s+/).length:0,E=Math.max(1,Math.ceil(y/200)),$=document.getElementById("word-count-indicator"),z=document.getElementById("reading-time-indicator");return $&&($.textContent=`${y} từ`),z&&(z.textContent=`${E} phút đọc`),F&&(F.innerHTML=`${E} phút để đọc`),`${E<10?"0":""}${E} phút để đọc`}h==null||h.addEventListener("input",d=>{O&&(O.textContent=d.target.value.trim()||"Chưa nhập tiêu đề...")}),c==null||c.addEventListener("change",d=>{Y(d.target.value),D&&(D.textContent=d.target.value.toUpperCase())}),f==null||f.addEventListener("change",d=>{D&&(D.textContent=(d.target.value||(c==null?void 0:c.value)||"").toUpperCase())}),p==null||p.addEventListener("input",d=>{N&&(N.textContent=`${d.target.value.trim()}`)}),u==null||u.addEventListener("input",d=>{if(N){const y=(p==null?void 0:p.value.trim())||"";N.textContent=`${y}`}}),v==null||v.addEventListener("input",d=>{j&&(j.textContent=d.target.value.trim()||"Nhập sapo để xem trước phần tóm tắt của bài viết tại đây.")}),b==null||b.addEventListener("input",()=>{U()});const V=(d,y=null)=>{document.execCommand(d,!1,y),b==null||b.focus(),b==null||b.dispatchEvent(new Event("input"))};e.querySelectorAll(".toolbar-btn[data-cmd]").forEach(d=>{d.addEventListener("click",()=>{const y=d.dataset.cmd,E=d.dataset.val||null;if(y==="createLink"){const $=prompt("Nhập đường dẫn liên kết (ví dụ: https://google.com):");$&&V(y,$)}else y==="insertHTML-table"?V("insertHTML",`
+        `)}const Z=(c,f="")=>{if(!v)return;const w=tt[c]||[];v.innerHTML='<option value="">-- Không có --</option>'+w.map(b=>`<option value="${b}" ${f===b?"selected":""}>${b}</option>`).join("")};h&&Z(h.value,P?P.subcategory:"");function et(){const c=(u==null?void 0:u.innerText.trim())||"",f=c?c.split(/\s+/).length:0,w=Math.max(1,Math.ceil(f/200)),b=document.getElementById("word-count-indicator"),E=document.getElementById("reading-time-indicator");return b&&(b.textContent=`${f} từ`),E&&(E.textContent=`${w} phút đọc`),J&&(J.innerHTML=`${w} phút để đọc`),`${w<10?"0":""}${w} phút để đọc`}d==null||d.addEventListener("input",c=>{U&&(U.textContent=c.target.value.trim()||"Chưa nhập tiêu đề...")}),h==null||h.addEventListener("change",c=>{Z(c.target.value),R&&(R.textContent=c.target.value.toUpperCase())}),v==null||v.addEventListener("change",c=>{R&&(R.textContent=(c.target.value||(h==null?void 0:h.value)||"").toUpperCase())}),y==null||y.addEventListener("input",c=>{H&&(H.textContent=`${c.target.value.trim()}`)}),p==null||p.addEventListener("input",c=>{if(H){const f=(y==null?void 0:y.value.trim())||"";H.textContent=`${f}`}}),I==null||I.addEventListener("input",c=>{K&&(K.textContent=c.target.value.trim()||"Nhập sapo để xem trước phần tóm tắt của bài viết tại đây.")}),u==null||u.addEventListener("input",()=>{et()});const O=(c,f=null)=>{document.execCommand(c,!1,f),u==null||u.focus(),u==null||u.dispatchEvent(new Event("input"))};e.querySelectorAll(".toolbar-btn[data-cmd]").forEach(c=>{c.addEventListener("click",()=>{const f=c.dataset.cmd,w=c.dataset.val||null;if(f==="createLink"){const b=prompt("Nhập đường dẫn liên kết (ví dụ: https://google.com):");b&&O(f,b)}else f==="insertHTML-table"?O("insertHTML",`
             <table class="post-detail-table" style="width: 100%;">
               <thead>
                 <tr>
@@ -1218,16 +1231,16 @@
                 </tr>
               </tbody>
             </table><p><br></p>
-          `):V(y,E)})});const K=document.getElementById("btn-insert-inline-img"),g=document.getElementById("inline-img-file-input"),x=d=>{if(!d)return;const y=new FileReader;y.onload=E=>{const z=`
+          `):O(f,w)})});const Q=document.getElementById("btn-insert-inline-img"),D=document.getElementById("inline-img-file-input"),m=c=>{if(!c)return;const f=new FileReader;f.onload=w=>{const E=`
           <figure class="post-inline-figure">
-            <img src="${E.target.result}" alt="Ảnh chèn bài">
+            <img src="${w.target.result}" alt="Ảnh chèn bài">
             <figcaption class="post-figcaption">Chú thích hình ảnh của bạn</figcaption>
           </figure><p><br></p>
-        `;V("insertHTML",z)},y.readAsDataURL(d)};K==null||K.addEventListener("click",()=>{g==null||g.click()}),g==null||g.addEventListener("change",d=>{x(d.target.files[0])}),b==null||b.addEventListener("paste",d=>{var E;const y=(E=d.clipboardData)==null?void 0:E.items;if(y){for(let $=0;$<y.length;$++)if(y[$].type.indexOf("image")!==-1){d.preventDefault();const z=y[$].getAsFile();x(z);break}}});const m=document.getElementById("upload-dropzone"),k=document.getElementById("cover-file-input"),A=document.getElementById("post-cover-url");m==null||m.addEventListener("click",()=>{k==null||k.click()});const H=d=>{if(!d)return;const y=new FileReader;y.onload=E=>{r=E.target.result,P&&(P.src=r),m&&(m.style.borderColor="var(--primary-color)",m.innerHTML=`
+        `;O("insertHTML",E)},f.readAsDataURL(c)};Q==null||Q.addEventListener("click",()=>{D==null||D.click()}),D==null||D.addEventListener("change",c=>{m(c.target.files[0])}),u==null||u.addEventListener("paste",c=>{var w;const f=(w=c.clipboardData)==null?void 0:w.items;if(f){for(let b=0;b<f.length;b++)if(f[b].type.indexOf("image")!==-1){c.preventDefault();const E=f[b].getAsFile();m(E);break}}});const g=document.getElementById("upload-dropzone"),T=document.getElementById("cover-file-input"),$=document.getElementById("post-cover-url");g==null||g.addEventListener("click",()=>{T==null||T.click()});const B=c=>{if(!c)return;const f=new FileReader;f.onload=w=>{r=w.target.result,A&&(A.src=r),g&&(g.style.borderColor="var(--primary-color)",g.innerHTML=`
             <div style="text-align: center; color: var(--primary-color);">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg>
               <p style="font-weight:600; font-size:0.85rem;">Đã chọn ảnh bìa thành công!</p>
-              <p style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:250px;">${d.name||"Ảnh dán từ clipboard"}</p>
+              <p style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:250px;">${c.name||"Ảnh dán từ clipboard"}</p>
               <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">(Click hoặc kéo thả file khác để thay đổi)</p>
             </div>
-          `)},y.readAsDataURL(d)};k==null||k.addEventListener("change",d=>{H(d.target.files[0])}),m==null||m.addEventListener("dragover",d=>{d.preventDefault(),m&&(m.style.borderColor="var(--primary-color)")}),m==null||m.addEventListener("dragleave",()=>{m&&(m.style.borderColor="var(--border-color)")}),m==null||m.addEventListener("drop",d=>{d.preventDefault(),m&&(m.style.borderColor="var(--border-color)"),H(d.dataTransfer.files[0])}),m&&(m.setAttribute("tabindex","0"),m.addEventListener("paste",d=>{var E;const y=(E=d.clipboardData)==null?void 0:E.items;if(y){for(let $=0;$<y.length;$++)if(y[$].type.indexOf("image")!==-1){d.preventDefault();const z=y[$].getAsFile();H(z);break}}})),A==null||A.addEventListener("input",d=>{const y=d.target.value.trim();y&&(r=y,P&&(P.src=r))});const q=document.getElementById("editor-write-tab"),_=document.getElementById("editor-preview-tab"),J=document.getElementById("editor-textarea-wrapper"),W=document.getElementById("editor-preview-wrapper");q==null||q.addEventListener("click",()=>{q.classList.add("active"),_==null||_.classList.remove("active"),J&&(J.style.display="block"),W&&(W.style.display="none")}),_==null||_.addEventListener("click",()=>{if(_.classList.add("active"),q==null||q.classList.remove("active"),J&&(J.style.display="none"),W){W.style.display="block";const d=(b==null?void 0:b.innerHTML)||"";W.innerHTML=d?Ct(d):'<p style="color:var(--text-muted); font-style:italic;">Chưa viết nội dung bài viết để xem trước...</p>'}}),T==null||T.addEventListener("click",()=>{const d=h==null?void 0:h.value.trim(),y=c==null?void 0:c.value,E=(f==null?void 0:f.value)||"",$=p==null?void 0:p.value.trim(),z=(u==null?void 0:u.value.trim())||"",Z=v==null?void 0:v.value.trim(),tt=b==null?void 0:b.innerHTML.trim(),at=L==null?void 0:L.checked;if(!d||!y||!$||!Z||!tt){alert("Vui lòng nhập đầy đủ các trường thông tin bắt buộc (*).");return}T.disabled=!0,T.textContent="⏳ Đang chuẩn bị xuất bản...",setTimeout(()=>{const st=U();if(l){const R=n.find(Q=>Q.id===l);R&&(R.title=d,R.category=y,R.subcategory=E,R.image=r,R.author=$,R.authorTag=z,R.description=Z,R.content=tt,R.featured=at,R.readTime=st);try{localStorage.setItem("toptech_articles",JSON.stringify(n)),o(),T.style.backgroundColor="#10b981",T.style.borderColor="#10b981",T.innerHTML="✓ Cập nhật bài viết thành công!",l=null,setTimeout(()=>{window.location.hash="#/"},1200)}catch{T.disabled=!1,T.style.backgroundColor="var(--secondary-color)",T.style.borderColor="var(--secondary-color)",T.textContent="💾 Thử lại",alert("Lỗi lưu trữ: Bài viết có dung lượng quá lớn. Vui lòng nén bớt dung lượng ảnh trước khi lưu!")}}else{const R={id:Date.now(),title:d,category:y,subcategory:E,image:r,author:$,authorTag:z,date:"Vừa đăng",readTime:st,views:0,comments:0,featured:at,description:Z,content:tt,commentsList:[]};try{const Q=[R,...n];localStorage.setItem("toptech_articles",JSON.stringify(Q)),n.splice(0,n.length,...Q),o(),T.style.backgroundColor="#10b981",T.style.borderColor="#10b981",T.innerHTML="✓ Bài viết đã xuất bản thành công!",setTimeout(()=>{window.location.hash="#/"},1200)}catch{T.disabled=!1,T.style.backgroundColor="var(--secondary-color)",T.style.borderColor="var(--secondary-color)",T.textContent="🚀 Thử lại",alert("Lỗi lưu trữ: Bài viết có dung lượng quá lớn. Vui lòng nén bớt dung lượng ảnh trước khi chèn!")}}},1e3)})}i()}const Lt=[{id:1,title:"Top 20 công cụ AI tốt nhất năm 2026",category:"AI",image:"hero_robot.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Khám phá danh sách các công cụ Trí tuệ Nhân tạo đột phá nhất năm 2026, giúp tự động hóa công việc, tăng hiệu suất gấp 5 lần và tối ưu hóa quy trình làm việc của cá nhân cũng như doanh nghiệp."},{id:2,title:"Top 15 laptop cho lập trình viên chuyên nghiệp",category:"Tin công nghệ",image:"coding_laptop.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Đánh giá chi tiết top 15 dòng máy tính xách tay cấu hình cao, pin trâu và bàn phím gõ êm nhất dành riêng cho các kỹ sư phần mềm và lập trình viên chuyên nghiệp năm nay."},{id:3,title:"So sánh ưu điểm ChatGPT vs Claude vs Gemini năm nay",category:"AI",image:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1357,comments:26,featured:!1},{id:4,title:"Mô hình ngôn ngữ lớn LLM đang thay đổi lập trình thế nào",category:"AI",image:"https://images.unsplash.com/photo-1684369175833-3d026dc6a066?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 ngày trước",views:945,comments:14,featured:!1},{id:5,title:"EUROPE IS PUSHING BACK ON WASHINGTON’S CHIP WAR",category:"AI",image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800&h=450",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:894,comments:15,description:`At high-stakes meetings with the White House, Anthropic's cofounder—a "weirdo," per one official—has been replaced by cofounder Tom Brown to lead negotiations on silicon sanctions.`},{id:6,title:"I Met With China’s Top AI Experts. They’re Freaking Out, Too",category:"AI",image:"https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1102,comments:42,description:"The AI arms race between China and the US has researchers on both sides worried about a “Chernobyl moment” for automated systems."},{id:7,title:"Đánh giá chi tiết Keychron Q1 Pro sau 6 tháng sử dụng",category:"Review",image:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"2 ngày trước",views:520,comments:9},{id:8,title:"A24 Knows You’re Mad About the Google AI Collab",category:"AI",image:"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:932,comments:18},{id:9,title:"Meta tạm dừng chương trình theo dõi nhân viên sau sự cố rò rỉ dữ liệu",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:2405,comments:63},{id:10,title:"Chính phủ Mỹ yêu cầu nhân viên gỡ bỏ ứng dụng lạ trên điện thoại công vụ",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:3108,comments:72},{id:11,title:"Hành trình chuyển đổi số của doanh nghiệp bán lẻ Việt Nam",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"3 ngày trước",views:1823,comments:29},{id:12,title:"Chiến lược tối ưu hóa hạ tầng đám mây cho startup năm 2026",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"4 ngày trước",views:1245,comments:11},{id:13,title:"Đánh giá chi tiết màn hình Dell UltraSharp U2723QE 4K",category:"Review",image:"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"5 ngày trước",views:890,comments:15},{id:14,title:"VS Code vs WebStorm: IDE nào tốt hơn cho lập trình Frontend",category:"Phần mềm",image:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 tuần trước",views:3105,comments:54},{id:15,title:"Xây dựng hệ thống CI/CD hoàn chỉnh với Docker và GitHub Actions",category:"IT",image:"https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:2200,comments:31},{id:16,title:"Bảo mật API trong kiến trúc Microservices thế nào cho đúng",category:"IT",image:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:1780,comments:19},{id:17,title:"Ứng dụng AI tổng hợp để tăng năng suất cho doanh nghiệp",category:"Giải pháp công nghệ",image:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"2 tuần trước",views:1450,comments:22},{id:18,title:"Casestudy: Uber đã di chuyển hạ tầng dữ liệu khổng lồ thế nào",category:"Casestudy",image:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"3 tuần trước",views:2900,comments:48}];let G=[];function it(){const e=localStorage.getItem("toptech_articles");e?G=JSON.parse(e):(G=Lt,localStorage.setItem("toptech_articles",JSON.stringify(G)))}it();const nt=["Tin công nghệ","AI","Chuyển đổi số","Review","Phần mềm","IT","Giải pháp công nghệ","Casestudy"];function lt(){it();const e=document.getElementById("app-content");if(!e)return;e.cleanup&&(e.cleanup(),e.cleanup=null);const n=window.location.hash||"#/";if(gt(n),n.startsWith("#/ #")){const s=n.split("#")[2];rt(e,G,nt),setTimeout(()=>{const o=document.getElementById(s);o&&o.scrollIntoView({behavior:"smooth"})},100);return}if(n==="#/"||n==="")rt(e,G,nt);else if(n.startsWith("#/chuyen-muc/")){const s=n.replace("#/chuyen-muc/","");ct(e,s,G,!1)}else if(n.startsWith("#/tim-kiem/")){const s=n.replace("#/tim-kiem/","");ct(e,s,G,!0)}else if(n.startsWith("#/bai-viet/")){const s=n.replace("#/bai-viet/","");wt(e,s,G)}else n==="#/admin"||n.startsWith("#/admin")?ot(e,G,nt,()=>{it()}):window.location.hash="#/";n.startsWith("#/ #")||window.scrollTo(0,0)}document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("app-header"),n=document.getElementById("app-footer");e&&dt(e),n&&pt(n),ht(s=>{window.location.hash=`#/tim-kiem/${encodeURIComponent(s)}`}),window.addEventListener("hashchange",lt),lt()});
+          `)},f.readAsDataURL(c)};T==null||T.addEventListener("change",c=>{B(c.target.files[0])}),g==null||g.addEventListener("dragover",c=>{c.preventDefault(),g&&(g.style.borderColor="var(--primary-color)")}),g==null||g.addEventListener("dragleave",()=>{g&&(g.style.borderColor="var(--border-color)")}),g==null||g.addEventListener("drop",c=>{c.preventDefault(),g&&(g.style.borderColor="var(--border-color)"),B(c.dataTransfer.files[0])}),g&&(g.setAttribute("tabindex","0"),g.addEventListener("paste",c=>{var w;const f=(w=c.clipboardData)==null?void 0:w.items;if(f){for(let b=0;b<f.length;b++)if(f[b].type.indexOf("image")!==-1){c.preventDefault();const E=f[b].getAsFile();B(E);break}}})),$==null||$.addEventListener("input",c=>{const f=c.target.value.trim();f&&(r=f,A&&(A.src=r))});const z=document.getElementById("editor-write-tab"),G=document.getElementById("editor-preview-tab"),X=document.getElementById("editor-textarea-wrapper"),W=document.getElementById("editor-preview-wrapper");z==null||z.addEventListener("click",()=>{z.classList.add("active"),G==null||G.classList.remove("active"),X&&(X.style.display="block"),W&&(W.style.display="none")}),G==null||G.addEventListener("click",()=>{if(G.classList.add("active"),z==null||z.classList.remove("active"),X&&(X.style.display="none"),W){W.style.display="block";const c=(u==null?void 0:u.innerHTML)||"";W.innerHTML=c?Tt(c):'<p style="color:var(--text-muted); font-style:italic;">Chưa viết nội dung bài viết để xem trước...</p>'}}),C==null||C.addEventListener("click",()=>{const c=d==null?void 0:d.value.trim(),f=h==null?void 0:h.value,w=(v==null?void 0:v.value)||"",b=y==null?void 0:y.value.trim(),E=(p==null?void 0:p.value.trim())||"",V=I==null?void 0:I.value.trim(),N=u==null?void 0:u.innerHTML.trim(),Y=L==null?void 0:L.checked;if(!c||!f||!b||!V||!N){alert("Vui lòng nhập đầy đủ các trường thông tin bắt buộc (*).");return}C.disabled=!0,C.textContent="⏳ Đang chuẩn bị xuất bản...",setTimeout(()=>{const it=et();if(l){const j=i.find(F=>F.id===l);j&&(j.title=c,j.category=f,j.subcategory=w,j.image=r,j.author=b,j.authorTag=E,j.description=V,j.content=N,j.featured=Y,j.readTime=it);try{localStorage.setItem("toptech_articles",JSON.stringify(i)),o(),C.style.backgroundColor="#10b981",C.style.borderColor="#10b981",C.innerHTML="✓ Cập nhật bài viết thành công!",l=null,setTimeout(()=>{window.location.hash="#/"},1200)}catch{C.disabled=!1,C.style.backgroundColor="var(--secondary-color)",C.style.borderColor="var(--secondary-color)",C.textContent="💾 Thử lại",alert("Lỗi lưu trữ: Bài viết có dung lượng quá lớn. Vui lòng nén bớt dung lượng ảnh trước khi lưu!")}}else{const j={id:Date.now(),title:c,category:f,subcategory:w,image:r,author:b,authorTag:E,date:"Vừa đăng",readTime:it,views:0,comments:0,featured:Y,description:V,content:N,commentsList:[]};try{const F=[j,...i];localStorage.setItem("toptech_articles",JSON.stringify(F)),i.splice(0,i.length,...F),o(),C.style.backgroundColor="#10b981",C.style.borderColor="#10b981",C.innerHTML="✓ Bài viết đã xuất bản thành công!",setTimeout(()=>{window.location.hash="#/"},1200)}catch{C.disabled=!1,C.style.backgroundColor="var(--secondary-color)",C.style.borderColor="var(--secondary-color)",C.textContent="🚀 Thử lại",alert("Lỗi lưu trữ: Bài viết có dung lượng quá lớn. Vui lòng nén bớt dung lượng ảnh trước khi chèn!")}}},1e3)})}n()}const $t=[{id:1,title:"Top 20 công cụ AI tốt nhất năm 2026",category:"AI",image:"hero_robot.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Khám phá danh sách các công cụ Trí tuệ Nhân tạo đột phá nhất năm 2026, giúp tự động hóa công việc, tăng hiệu suất gấp 5 lần và tối ưu hóa quy trình làm việc của cá nhân cũng như doanh nghiệp."},{id:2,title:"Top 15 laptop cho lập trình viên chuyên nghiệp",category:"Tin công nghệ",image:"coding_laptop.png",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",readTime:"02 phút để đọc",views:1357,comments:26,featured:!0,description:"Đánh giá chi tiết top 15 dòng máy tính xách tay cấu hình cao, pin trâu và bàn phím gõ êm nhất dành riêng cho các kỹ sư phần mềm và lập trình viên chuyên nghiệp năm nay."},{id:3,title:"So sánh ưu điểm ChatGPT vs Claude vs Gemini năm nay",category:"AI",image:"https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1357,comments:26,featured:!1},{id:4,title:"Mô hình ngôn ngữ lớn LLM đang thay đổi lập trình thế nào",category:"AI",image:"https://images.unsplash.com/photo-1684369175833-3d026dc6a066?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 ngày trước",views:945,comments:14,featured:!1},{id:5,title:"EUROPE IS PUSHING BACK ON WASHINGTON’S CHIP WAR",category:"AI",image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800&h=450",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:894,comments:15,description:`At high-stakes meetings with the White House, Anthropic's cofounder—a "weirdo," per one official—has been replaced by cofounder Tom Brown to lead negotiations on silicon sanctions.`},{id:6,title:"I Met With China’s Top AI Experts. They’re Freaking Out, Too",category:"AI",image:"https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:1102,comments:42,description:"The AI arms race between China and the US has researchers on both sides worried about a “Chernobyl moment” for automated systems."},{id:7,title:"Đánh giá chi tiết Keychron Q1 Pro sau 6 tháng sử dụng",category:"Review",image:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"2 ngày trước",views:520,comments:9},{id:8,title:"A24 Knows You’re Mad About the Google AI Collab",category:"AI",image:"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:932,comments:18},{id:9,title:"Meta tạm dừng chương trình theo dõi nhân viên sau sự cố rò rỉ dữ liệu",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:2405,comments:63},{id:10,title:"Chính phủ Mỹ yêu cầu nhân viên gỡ bỏ ứng dụng lạ trên điện thoại công vụ",category:"Tin công nghệ",image:"https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&q=80&w=400&h=250",author:"Phương Linh",authorTag:"#CTAD01",date:"12 giờ trước",views:3108,comments:72},{id:11,title:"Hành trình chuyển đổi số của doanh nghiệp bán lẻ Việt Nam",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"3 ngày trước",views:1823,comments:29},{id:12,title:"Chiến lược tối ưu hóa hạ tầng đám mây cho startup năm 2026",category:"Chuyển đổi số",image:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=400&h=250",author:"Minh Tâm",authorTag:"#CTAD04",date:"4 ngày trước",views:1245,comments:11},{id:13,title:"Đánh giá chi tiết màn hình Dell UltraSharp U2723QE 4K",category:"Review",image:"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400&h=250",author:"Quốc Anh",authorTag:"#CTAD03",date:"5 ngày trước",views:890,comments:15},{id:14,title:"VS Code vs WebStorm: IDE nào tốt hơn cho lập trình Frontend",category:"Phần mềm",image:"https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&q=80&w=400&h=250",author:"Khánh Nam",authorTag:"#CTAD02",date:"1 tuần trước",views:3105,comments:54},{id:15,title:"Xây dựng hệ thống CI/CD hoàn chỉnh với Docker và GitHub Actions",category:"IT",image:"https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:2200,comments:31},{id:16,title:"Bảo mật API trong kiến trúc Microservices thế nào cho đúng",category:"IT",image:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=400&h=250",author:"Trà My",authorTag:"#CTAD05",date:"1 tuần trước",views:1780,comments:19},{id:17,title:"Ứng dụng AI tổng hợp để tăng năng suất cho doanh nghiệp",category:"Giải pháp công nghệ",image:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"2 tuần trước",views:1450,comments:22},{id:18,title:"Casestudy: Uber đã di chuyển hạ tầng dữ liệu khổng lồ thế nào",category:"Casestudy",image:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=400&h=250",author:"Hoàng Long",authorTag:"#CTAD06",date:"3 tuần trước",views:2900,comments:48}];let _=[];function at(){const e=localStorage.getItem("toptech_articles");e?_=JSON.parse(e):(_=$t,localStorage.setItem("toptech_articles",JSON.stringify(_)))}at();const ot=["Tin công nghệ","AI","Chuyển đổi số","Review","Phần mềm","IT","Giải pháp công nghệ","Casestudy"];function ct(){at();const e=document.getElementById("app-content");if(!e)return;e.cleanup&&(e.cleanup(),e.cleanup=null);const i=window.location.hash||"#/";if(mt(i),i.startsWith("#/ #")){const s=i.split("#")[2];rt(e,_,ot),setTimeout(()=>{const o=document.getElementById(s);o&&o.scrollIntoView({behavior:"smooth"})},100);return}if(i==="#/"||i==="")rt(e,_,ot);else if(i.startsWith("#/chuyen-muc/")){const s=i.replace("#/chuyen-muc/","");lt(e,s,_,!1)}else if(i.startsWith("#/tim-kiem/")){const s=i.replace("#/tim-kiem/","");lt(e,s,_,!0)}else if(i.startsWith("#/bai-viet/")){const s=i.replace("#/bai-viet/","");xt(e,s,_)}else i==="#/admin"||i.startsWith("#/admin")?st(e,_,ot,()=>{at()}):window.location.hash="#/";i.startsWith("#/ #")||window.scrollTo(0,0)}document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("app-header"),i=document.getElementById("app-footer");e&&ht(e),i&&pt(i),gt(s=>{window.location.hash=`#/tim-kiem/${encodeURIComponent(s)}`}),window.addEventListener("hashchange",ct),ct()});
