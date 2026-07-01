@@ -232,20 +232,31 @@ export function loadArticles() {
 }
 loadArticles();
 
-export const CATEGORIES = [
-  "Tin công nghệ",
-  "AI",
-  "Chuyển đổi số",
-  "Review",
-  "Phần mềm",
-  "IT",
-  "Giải pháp công nghệ",
-  "Casestudy"
-];
+export let CATEGORIES = [];
+export function loadCategories() {
+  const storedCats = localStorage.getItem("toptech_categories");
+  if (storedCats) {
+    CATEGORIES = JSON.parse(storedCats);
+  } else {
+    CATEGORIES = [
+      "Tin công nghệ",
+      "AI",
+      "Chuyển đổi số",
+      "Review",
+      "Phần mềm",
+      "IT",
+      "Giải pháp công nghệ",
+      "Casestudy"
+    ];
+    localStorage.setItem("toptech_categories", JSON.stringify(CATEGORIES));
+  }
+}
+loadCategories();
 
 // Single Page Application Routing Control
 function router() {
   loadArticles(); // Always load fresh articles list on navigation
+  loadCategories(); // Always load fresh categories list on navigation
   const contentContainer = document.getElementById("app-content");
   if (!contentContainer) return;
 

@@ -1,48 +1,6 @@
 import { getAssetUrl } from '../utils.js';
 
-const SUBCATEGORY_PARENTS = {
-  // Tin công nghệ
-  "Điện thoại": "Tin công nghệ",
-  "Máy tính": "Tin công nghệ",
-  "Thiết bị thông minh": "Tin công nghệ",
-  "Xe điện": "Tin công nghệ",
-  // AI
-  "Machine Learning": "AI",
-  "Generative AI": "AI",
-  "ChatGPT & LLMs": "AI",
-  "Thị giác máy tính": "AI",
-  // Chuyển đổi số
-  "Doanh nghiệp": "Chuyển đổi số",
-  "Giải pháp đám mây": "Chuyển đổi số",
-  "IoT & Automation": "Chuyển đổi số",
-  "Bảo mật dữ liệu": "Chuyển đổi số",
-  // Review
-  "Đánh giá Laptop": "Review",
-  "Đánh giá Smartphone": "Review",
-  "Đồ công nghệ khác": "Review",
-  "Trải nghiệm dịch vụ": "Review",
-  // Phần mềm
-  "Công cụ lập trình": "Phần mềm",
-  "Phần mềm văn phòng": "Phần mềm",
-  "Hệ điều hành": "Phần mềm",
-  "Ứng dụng di động": "Phần mềm",
-  // IT
-  "Lập trình": "IT",
-  "Quản trị mạng": "IT",
-  "Cơ sở dữ liệu": "IT",
-  "DevOps": "IT",
-  // Giải pháp công nghệ
-  "AI cho doanh nghiệp": "Giải pháp công nghệ",
-  "Tự động hóa quy trình": "Giải pháp công nghệ",
-  "Hạ tầng số": "Giải pháp công nghệ",
-  "ERP & CRM": "Giải pháp công nghệ",
-  // Casestudy
-  "Thành công tiêu biểu": "Casestudy",
-  "Phân tích thất bại": "Casestudy",
-  "Khảo sát thực tế": "Casestudy"
-};
-
-const PARENT_SUBCATEGORIES = {
+const DEFAULT_SUBCATEGORIES = {
   "Tin công nghệ": ["Điện thoại", "Máy tính", "Thiết bị thông minh", "Xe điện"],
   "AI": ["Machine Learning", "Generative AI", "ChatGPT & LLMs", "Thị giác máy tính"],
   "Chuyển đổi số": ["Doanh nghiệp", "Giải pháp đám mây", "IoT & Automation", "Bảo mật dữ liệu"],
@@ -52,6 +10,16 @@ const PARENT_SUBCATEGORIES = {
   "Giải pháp công nghệ": ["AI cho doanh nghiệp", "Tự động hóa quy trình", "Hạ tầng số", "ERP & CRM"],
   "Casestudy": ["Thành công tiêu biểu", "Phân tích thất bại", "Khảo sát thực tế"]
 };
+
+const storedSubs = localStorage.getItem("toptech_subcategories");
+const PARENT_SUBCATEGORIES = storedSubs ? JSON.parse(storedSubs) : DEFAULT_SUBCATEGORIES;
+
+const SUBCATEGORY_PARENTS = {};
+for (const cat in PARENT_SUBCATEGORIES) {
+  PARENT_SUBCATEGORIES[cat].forEach(sub => {
+    SUBCATEGORY_PARENTS[sub] = cat;
+  });
+}
 
 
 export function renderCategoryPage(container, categoryName, articles, isSearch = false) {
