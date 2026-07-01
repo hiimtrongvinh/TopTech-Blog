@@ -4006,3 +4006,35 @@ body.dark .post-toast {
     grid-template-columns: 1fr;
   }
 }
+
+/* Responsive Admin Utilities */
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: block !important;
+}
+
+.admin-post-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .preview-sidebar-panel {
+    display: none !important; /* Hide preview on mobile to save vertical space */
+  }
+}

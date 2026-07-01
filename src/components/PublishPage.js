@@ -289,7 +289,45 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           </button>
         </div>
         
-        <div class="admin-list-panel glass-panel">
+        <!-- Mobile Card List View -->
+        <div class="mobile-only" style="margin-bottom: 2rem;">
+          ${articles.length === 0 ? `
+            <div style="text-align: center; padding: 2rem; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px; color: var(--text-muted);">
+              Chưa có bài viết nào trong hệ thống.
+            </div>
+          ` : articles.map(post => `
+            <div class="admin-post-card" id="article-card-${post.id}">
+              <div style="display: flex; gap: 0.8rem; align-items: flex-start;">
+                <img src="${post.image.startsWith('http') || post.image.startsWith('data:') ? post.image : getAssetUrl(post.image)}" alt="Thumbnail" style="width: 70px; aspect-ratio: 16/10; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border-color);">
+                <div style="flex: 1; min-width: 0;">
+                  <h4 style="font-size: 0.9rem; font-weight: 700; line-height: 1.3; margin: 0 0 0.2rem 0; word-break: break-word;"><a href="#/bai-viet/${post.id}" target="_blank" style="color: var(--text-primary);">${post.title}</a></h4>
+                  <span class="badge badge-cat" style="font-size: 0.65rem; padding: 0.15rem 0.4rem;">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
+                  ${post.featured ? '<span class="badge badge-featured" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; margin-left: 0.3rem;">Nổi bật</span>' : ''}
+                </div>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border-color); padding-top: 0.5rem; margin-top: 0.6rem; font-size: 0.75rem; color: var(--text-muted);">
+                <div>Tác giả: <strong>${post.author}</strong></div>
+                <div style="display: flex; gap: 0.6rem;">
+                  <span>👀 ${post.views || 0}</span>
+                  <span>💬 ${post.comments || 0}</span>
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.7rem; border-top: 1px solid var(--border-color); padding-top: 0.6rem;">
+                <button class="edit-post-btn" data-id="${post.id}" style="flex: 1; background-color: var(--primary-color); border: none; color: #fff; padding: 0.4rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+                  Sửa
+                </button>
+                <button class="delete-post-btn" data-id="${post.id}" style="flex: 1; margin: 0; padding: 0.4rem; display: inline-flex; align-items: center; justify-content: center;">
+                  Xóa
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Desktop Table View -->
+        <div class="admin-list-panel glass-panel desktop-only">
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
@@ -516,15 +554,20 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           localStorage.setItem("toptech_articles", JSON.stringify(updated));
           
           const row = document.getElementById(`article-row-${id}`);
+          const card = document.getElementById(`article-card-${id}`);
           if (row) {
             row.style.transition = "opacity 0.3s ease";
             row.style.opacity = "0";
-            setTimeout(() => {
-              articles.splice(0, articles.length, ...updated);
-              onUpdate();
-              renderView();
-            }, 300);
           }
+          if (card) {
+            card.style.transition = "opacity 0.3s ease";
+            card.style.opacity = "0";
+          }
+          setTimeout(() => {
+            articles.splice(0, articles.length, ...updated);
+            onUpdate();
+            renderView();
+          }, 300);
         }
       });
     });
