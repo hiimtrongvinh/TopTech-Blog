@@ -1268,10 +1268,9 @@
         </div>
       </a>
     `}).join("");e.innerHTML=`
-    <div class="category-page-header" style="padding: 3rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); text-align: center;">
+    <div class="category-page-header" style="padding: 2.5rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); text-align: center;">
       <div class="container">
-        <span class="category-eyebrow" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--primary-color);">Danh sách chủ đề</span>
-        <h1 class="category-page-title" style="font-size: 2.8rem; font-weight: 900; margin: 0.5rem 0 0; text-transform: uppercase; color: var(--text-primary);">Tất cả chuyên mục</h1>
+        <h1 class="category-page-title" style="font-size: 2.5rem; font-weight: 900; margin: 0; text-transform: uppercase; color: var(--text-primary);">Tất cả chuyên mục</h1>
       </div>
     </div>
     
@@ -1290,10 +1289,9 @@
         <span class="author-list-count-badge">${o} bài viết</span>
       </a>
     `}).join("");e.innerHTML=`
-    <div class="category-page-header" style="padding: 3rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); text-align: center;">
+    <div class="category-page-header" style="padding: 2.5rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); text-align: center;">
       <div class="container">
-        <span class="category-eyebrow" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--primary-color);">Cây bút nổi bật</span>
-        <h1 class="category-page-title" style="font-size: 2.8rem; font-weight: 900; margin: 0.5rem 0 0; text-transform: uppercase; color: var(--text-primary);">Đội ngũ tác giả</h1>
+        <h1 class="category-page-title" style="font-size: 2.5rem; font-weight: 900; margin: 0; text-transform: uppercase; color: var(--text-primary);">Đội ngũ tác giả</h1>
       </div>
     </div>
     
