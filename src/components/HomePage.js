@@ -201,12 +201,12 @@ function populateHeroSection(articles) {
       <div class="hero-banner-full-content">
         <a href="#/chuyen-muc/${robotPost.category}" class="hero-banner-full-tag">${robotPost.category}</a>
         <h3 class="hero-banner-full-title"><a href="#/bai-viet/${robotPost.id}">${robotPost.title}</a></h3>
-        <div class="post-meta">
+        <div class="post-meta post-detail-meta">
           <div class="post-author">
             <span>${robotPost.author} ${robotPost.authorTag || ''}</span>
           </div>
-          <span>&bull;&nbsp; ${robotPost.date}</span>
-          <span>&bull;&nbsp; ${robotPost.readTime}</span>
+          <span class="meta-dot">&bull;&nbsp;</span><span>${robotPost.date}</span>
+          <span class="meta-dot">&bull;&nbsp;</span><span>${robotPost.readTime}</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${robotPost.views}
           </span>
@@ -227,12 +227,12 @@ function populateHeroSection(articles) {
       <div class="featured-big-content">
         <a href="#/chuyen-muc/${laptopPost.category}" class="featured-big-tag">${laptopPost.category}</a>
         <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
-        <div class="post-meta">
+        <div class="post-meta post-detail-meta">
           <div class="post-author">
             <span>${laptopPost.author} ${laptopPost.authorTag || ''}</span>
           </div>
-          <span>&bull;&nbsp; ${laptopPost.date}</span>
-          <span>&bull;&nbsp; ${laptopPost.readTime}</span>
+          <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
+          <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime}</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
           </span>
@@ -258,12 +258,16 @@ function populateHeroSection(articles) {
         <img class="side-post-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
         <div class="side-post-info">
           <h4 class="side-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-            <span>${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
-          </div>
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+              <span>${post.author} ${post.authorTag || ''}</span>
+              <span class="meta-dot">&bull;</span>
+              <span>${post.date}</span>
+            </div>
+            <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
+              <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
+              <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -284,9 +288,13 @@ function populateHeroSection(articles) {
           <img src="${getAssetUrl(post.image)}" alt="${post.title}">
         </div>
         <h4 class="small-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; justify-content: space-between;">
-          <span>${post.author} &bull; ${post.date}</span>
-          <div style="display: gap: 0.5rem; display: flex;">
+        <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <span>${post.author}</span>
+            <span class="meta-dot">&bull;</span>
+            <span>${post.date}</span>
+          </div>
+          <div class="meta-right" style="display: flex; align-items: center; gap: 0.5rem; margin-left: auto;">
             <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
             <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
           </div>
@@ -314,12 +322,16 @@ function populateFeaturedNumbers(articles) {
       </div>
       <div class="number-post-info">
         <h4 class="number-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-          <span>${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
-        </div>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem;">
-          <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-          <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+        <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <span>${post.author} ${post.authorTag || ''}</span>
+            <span class="meta-dot">&bull;</span>
+            <span>${post.date}</span>
+          </div>
+          <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
+            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
+            <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -344,7 +356,13 @@ function populateSplitSections(articles) {
         <div class="post-card-mini-info">
           <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag">${post.category}</a>
           <h4 class="post-card-mini-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-          <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
+          <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+            <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+              <span>${post.author}</span>
+              <span class="meta-dot">&bull;</span>
+              <span>${post.date}</span>
+            </div>
+          </div>
         </div>
       </div>
     `).join('');
@@ -362,8 +380,8 @@ function populateSplitSections(articles) {
       <div class="center-main-post">
         <a href="#/chuyen-muc/${mainNew.category}" class="center-main-tag">${mainNew.category}</a>
         <h4 class="center-main-title"><a href="#/bai-viet/${mainNew.id}">${mainNew.title}</a></h4>
-        <div class="post-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
-          <span>${mainNew.author} ${mainNew.authorTag || ''} &bull; ${mainNew.date}</span>
+        <div class="post-meta post-detail-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
+          <span>${mainNew.author} ${mainNew.authorTag || ''} <span class="meta-dot">&bull;&nbsp;</span>${mainNew.date}</span>
         </div>
         <div class="center-main-img-wrapper">
           <img src="${getAssetUrl(mainNew.image)}" alt="${mainNew.title}">
@@ -398,7 +416,13 @@ function populateSplitSections(articles) {
     trendingContent.innerHTML = trendPosts.map(post => `
       <div class="trending-post-card">
         <h4 class="trending-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} ${post.authorTag || ''} &bull; ${post.date}</span>
+        <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+          <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <span>${post.author} ${post.authorTag || ''}</span>
+            <span class="meta-dot">&bull;</span>
+            <span>${post.date}</span>
+          </div>
+        </div>
       </div>
     `).join('');
   }
@@ -416,7 +440,13 @@ function populateSplitSections(articles) {
         </div>
         <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</a>
         <h4 class="review-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
+        <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+          <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+            <span>${post.author}</span>
+            <span class="meta-dot">&bull;</span>
+            <span>${post.date}</span>
+          </div>
+        </div>
       </div>
     `).join('');
   }
@@ -477,7 +507,13 @@ function setupHomeEventListeners(articles) {
               <div class="post-card-mini-info">
                 <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag">${post.category}</a>
                 <h4 class="post-card-mini-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-                <span style="font-size: 0.7rem; color: var(--text-muted);">${post.author} &bull; ${post.date}</span>
+                <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+                  <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <span>${post.author}</span>
+                    <span class="meta-dot">&bull;</span>
+                    <span>${post.date}</span>
+                  </div>
+                </div>
               </div>
             </div>
           `).join('');

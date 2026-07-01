@@ -146,15 +146,15 @@ export function renderPostPage(container, postId, articles) {
 
             <h1 class="post-detail-title">${article.title}</h1>
             
-            <div class="post-meta" style="font-size: 0.8em; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div class="post-meta post-detail-meta" style="font-size: 0.8em; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
               <div class="post-author" style="display: flex; align-items: center; gap: 0.3rem;">
                 <span>Tác giả: <strong>${article.author}</strong> ${article.authorTag || ''}</span>
               </div>
-              <span>&bull;&nbsp; ${article.date}</span>
-              <span>&bull;&nbsp; ${article.readTime}</span>
+              <span class="meta-dot">&bull;&nbsp;</span><span>${article.date}</span>
+              <span class="meta-dot">&bull;&nbsp;</span><span>${article.readTime}</span>
               
               ${sessionStorage.getItem("toptech_admin_logged_in") === "true" ? `
-                <span>&bull;</span>
+                <span class="meta-dot">&bull;&nbsp;</span>
                 <button id="quick-edit-post-btn" style="background-color: var(--primary-color); color: #fff; border: 1px solid var(--primary-color); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                   Sửa bài
@@ -243,7 +243,7 @@ export function renderPostPage(container, postId, articles) {
                   </div>
                   <div class="related-post-info">
                     <h5 class="related-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h5>
-                    <span class="related-meta"><a href="#/chuyen-muc/${post.subcategory || post.category}" style="color: inherit; font-weight: 600;">${post.subcategory || post.category}</a> &bull; ${post.date}</span>
+                    <span class="related-meta"><a href="#/chuyen-muc/${post.subcategory || post.category}" style="color: inherit; font-weight: 600;">${post.subcategory || post.category}</a> <span class="meta-dot">&bull;&nbsp;</span>${post.date}</span>
                   </div>
                 </div>
               `).join('') : '<p style="color: var(--text-muted); font-size: 0.85rem;">Không có bài viết liên quan nào khác cùng chuyên mục.</p>'}

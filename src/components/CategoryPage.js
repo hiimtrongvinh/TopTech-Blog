@@ -131,7 +131,7 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
   // Render Page Shell
   container.innerHTML = `
     <div class="category-page-header" style="padding: 2.5rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); transition: background-color var(--transition-normal), border-color var(--transition-normal);">
-      <div class="container category-header-content" style="${headerStyle}">
+      <div class="container category-header-content ${isSearch ? 'search-mode' : ''}">
         ${headerHtml}
       </div>
     </div>
@@ -140,10 +140,15 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
       <!-- Filter controls -->
       <div class="category-filters-bar">
         <span class="filters-label">Sắp xếp theo:</span>
-        <div class="filters-group">
-          <button class="filter-tab-btn active" data-filter="newest">Mới nhất</button>
-          <button class="filter-tab-btn" data-filter="views">Xem nhiều nhất</button>
-          <button class="filter-tab-btn" data-filter="comments">Bình luận nhiều nhất</button>
+        <div class="filters-select-wrapper">
+          <select class="filter-select" id="filter-select">
+            <option value="newest" ${currentFilter === 'newest' ? 'selected' : ''}>Mới nhất</option>
+            <option value="views" ${currentFilter === 'views' ? 'selected' : ''}>Xem nhiều nhất</option>
+            <option value="comments" ${currentFilter === 'comments' ? 'selected' : ''}>Bình luận nhiều nhất</option>
+          </select>
+          <div class="select-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
         </div>
       </div>
 
@@ -198,17 +203,20 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
           <h3 class="cat-card-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h3>
           <p class="cat-card-description">${post.description || 'Chưa có mô tả chi tiết cho bài viết này. Nhấp vào để đọc bài viết...'}</p>
           
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: auto; width: 100%;">
-            <div class="post-author">
+          <div class="post-meta" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
               <span class="post-author-name">${post.author}</span>
+              <span class="meta-dot">&bull;</span>
+              <span>${post.date}</span>
             </div>
-            <span>&bull;&nbsp; ${post.date}</span>
-            <span style="margin-left: auto; display: flex; align-items: center; gap: 0.25rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}
-            </span>
-            <span style="display: flex; align-items: center; gap: 0.25rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}
-            </span>
+            <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
+              <span style="display: flex; align-items: center; gap: 0.25rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}
+              </span>
+              <span style="display: flex; align-items: center; gap: 0.25rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}
+              </span>
+            </div>
           </div>
         </div>
       </article>
@@ -237,16 +245,13 @@ export function renderCategoryPage(container, categoryName, articles, isSearch =
     });
   }
 
-  // Filter tabs click
-  const filterBtns = document.querySelectorAll(".filter-tab-btn");
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      filterBtns.forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      
-      currentFilter = e.target.dataset.filter;
+  // Filter select dropdown change
+  const filterSelect = document.getElementById("filter-select");
+  if (filterSelect) {
+    filterSelect.addEventListener("change", (e) => {
+      currentFilter = e.target.value;
       itemsToShow = 6; // Reset page items count
       displayArticles();
     });
-  });
+  }
 }

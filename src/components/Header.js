@@ -182,16 +182,10 @@ export function renderHeader(container) {
     <!-- Search Modal Overlay -->
     <div class="search-overlay" id="search-overlay">
       <div class="search-container">
-        <div class="search-modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-heading);">Tìm kiếm bài viết</h3>
-          <button class="search-close-btn" id="search-close" aria-label="Close search" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.2rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 28px; height: 28px; transition: background-color var(--transition-fast);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-        </div>
         <div style="position: relative;">
-          <input type="text" class="search-input" id="search-input" placeholder="Nhập từ khóa cần tìm..." aria-label="Search posts">
+          <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm bài viết..." aria-label="Search posts">
           <div style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; display: flex; align-items: center;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
           </div>
         </div>
       </div>
