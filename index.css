@@ -1686,7 +1686,7 @@ body.dark footer {
     gap: 0.4rem !important;
   }
 
-  .write-btn {
+  .write-post-btn {
     padding: 0.4rem !important;
     border-radius: 50% !important;
     width: 38px !important;
@@ -1694,6 +1694,9 @@ body.dark footer {
     justify-content: center !important;
     align-items: center !important;
     display: inline-flex !important;
+  }
+  .write-post-btn span {
+    display: none !important;
   }
 
   .hero-banner-full {
@@ -1721,7 +1724,7 @@ body.dark footer {
   }
 
   .categories-tabs-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .footer-top-row {
@@ -1740,7 +1743,13 @@ body.dark footer {
   }
 
   .authors-grid {
-    gap: 1.5rem;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+  }
+  .author-card {
+    width: 100% !important;
   }
 
   .mega-menu-grid {
@@ -1841,7 +1850,7 @@ body.dark footer {
 
 @media (max-width: 480px) {
   .mega-menu-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   .container {
@@ -1853,8 +1862,7 @@ body.dark footer {
   }
 
   .footer-links-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   .logo-img {

@@ -15,10 +15,7 @@ export function renderHomePage(container, articles, categories) {
         việc và kinh doanh.</p>
     </div>
 
-    <!-- 1. Full-width Main Hero Banner (Robot post) -->
-    <section class="hero-banner-full" id="hero-banner-container">
-      <!-- Rendered dynamically -->
-    </section>
+
 
     <!-- 2. Hero Grid: 1 Big Laptop Featured & Side List -->
     <section class="hero-grid" id="blog">
@@ -172,116 +169,93 @@ export function renderHomePage(container, articles, categories) {
   `;
 
   // 2. Run the dynamic rendering functions inside HomePage
-  populateHeroSection(articles);
-  populateFeaturedNumbers(articles);
-  populateSplitSections(articles);
-  populateCategoryColumns(articles, categories);
-  setupHomeEventListeners(articles);
-}
-
-// ----------------------------------------------------
-// POPULATION & SUB-RENDER LOGIC
-// ----------------------------------------------------
-
-function populateHeroSection(articles) {
-  // Find featured articles dynamically
-  const featuredList = articles.filter(a => a.featured);
-  const robotPost = featuredList[0] || articles.find(a => a.id === 1) || articles[0];
-  let laptopPost = featuredList[1] || articles.find(a => a.id === 2) || articles[1];
-  if (laptopPost && robotPost && laptopPost.id === robotPost.id) {
-    laptopPost = articles.find(a => a.id !== robotPost.id) || articles[1];
-  }
-
-  // 1. Full-width Hero Banner
-  const heroBannerContainer = document.getElementById("hero-banner-container");
-  if (robotPost && heroBannerContainer) {
-    heroBannerContainer.innerHTML = `
-      <img src="${getAssetUrl(robotPost.image)}" alt="${robotPost.title}">
-      <div class="hero-banner-full-overlay"></div>
-      <div class="hero-banner-full-content">
-        <a href="#/chuyen-muc/${robotPost.category}" class="hero-banner-full-tag">${robotPost.category}</a>
-        <h3 class="hero-banner-full-title"><a href="#/bai-viet/${robotPost.id}">${robotPost.title}</a></h3>
-        <div class="post-meta post-detail-meta">
-          <div class="post-author">
-            <span>${robotPost.author} ${robotPost.authorTag || ''}</span>
-          </div>
-          <span class="meta-dot">&bull;&nbsp;</span><span>${robotPost.date}</span>
-          <span class="meta-dot">&bull;&nbsp;</span><span>${robotPost.readTime}</span>
-          <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${robotPost.views}
-          </span>
-          <span style="display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${robotPost.comments}
-          </span>
-        </div>
-      </div>
-    `;
-  }
-
-  // 2. Left Medium post in Grid
-  const heroLeftContainer = document.getElementById("hero-left-container");
-  if (laptopPost && heroLeftContainer) {
-    heroLeftContainer.innerHTML = `
-      <img src="${getAssetUrl(laptopPost.image)}" alt="${laptopPost.title}">
-      <div class="featured-big-overlay"></div>
-      <div class="featured-big-content">
-        <a href="#/chuyen-muc/${laptopPost.category}" class="featured-big-tag">${laptopPost.category}</a>
-        <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
-        <div class="post-meta post-detail-meta">
-          <div class="post-author">
-            <span>${laptopPost.author} ${laptopPost.authorTag || ''}</span>
-          </div>
-          <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
-          <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime}</span>
-          <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
-          </span>
-          <span style="display: flex; align-items: center; gap: 0.3rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${laptopPost.comments}
-          </span>
-        </div>
-      </div>
-    `;
-  }
-
-  // 3. Right side list (4 posts stacked, unique)
-  const heroSideContainer = document.getElementById("hero-side-container");
-  let sidePosts = [];
-  if (heroSideContainer) {
-    const usedIds = [robotPost?.id, laptopPost?.id].filter(Boolean);
-    sidePosts = articles
-      .filter(a => !usedIds.includes(a.id))
-      .slice(0, 4);
-
-    heroSideContainer.innerHTML = sidePosts.map(post => `
-      <div class="side-post-card">
-        <img class="side-post-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
-        <div class="side-post-info">
-          <h4 class="side-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-              <span>${post.author} ${post.authorTag || ''}</span>
-              <span class="meta-dot">&bull;</span>
-              <span>${post.date}</span>
+  let currentBigIndex = 0;
+  
+  function renderHero(index) {
+    const laptopPost = articles[index % articles.length];
+    
+    // Right side posts (4 unique small posts)
+    const sidePosts = [
+      articles[(index + 1) % articles.length],
+      articles[(index + 2) % articles.length],
+      articles[(index + 3) % articles.length],
+      articles[(index + 4) % articles.length]
+    ];
+    
+    // Populate left big container
+    const heroLeftContainer = document.getElementById("hero-left-container");
+    if (laptopPost && heroLeftContainer) {
+      heroLeftContainer.innerHTML = `
+        <img src="${getAssetUrl(laptopPost.image)}" alt="${laptopPost.title}">
+        <div class="featured-big-overlay"></div>
+        <div class="featured-big-content">
+          <a href="#/chuyen-muc/${laptopPost.category}" class="featured-big-tag">${laptopPost.category}</a>
+          <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
+          <div class="post-meta post-detail-meta">
+            <div class="post-author">
+              <span>${laptopPost.author} ${laptopPost.authorTag || ''}</span>
             </div>
-            <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
-              <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
-              <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+            <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
+            <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime || '02 phút để đọc'}</span>
+            <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${laptopPost.comments}
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Populate right side container
+    const heroSideContainer = document.getElementById("hero-side-container");
+    if (heroSideContainer) {
+      heroSideContainer.innerHTML = sidePosts.filter(Boolean).map(post => `
+        <div class="side-post-card">
+          <img class="side-post-img" src="${getAssetUrl(post.image)}" alt="${post.title}">
+          <div class="side-post-info">
+            <h4 class="side-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
+            <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                <span>${post.author} ${post.authorTag || ''}</span>
+                <span class="meta-dot">&bull;</span>
+                <span>${post.date}</span>
+              </div>
+              <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
+                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${post.views}</span>
+                <span style="display: flex; align-items: center; gap: 0.2rem;"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${post.comments}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+    }
   }
 
-  // 4. Bottom 4 Small Cards (unique)
+  // Initial render
+  renderHero(currentBigIndex);
+  
+  // Set interval
+  const rotationInterval = setInterval(() => {
+    currentBigIndex = (currentBigIndex + 1) % articles.length;
+    const left = document.getElementById("hero-left-container");
+    const side = document.getElementById("hero-side-container");
+    if (left && side) {
+      left.style.opacity = "0.1";
+      side.style.opacity = "0.1";
+      setTimeout(() => {
+        renderHero(currentBigIndex);
+        left.style.opacity = "1";
+        side.style.opacity = "1";
+      }, 300);
+    }
+  }, 5000);
+
+  // Populate bottom 4 small cards once (static)
   const heroSmallGridContainer = document.getElementById("hero-small-grid-container");
   if (heroSmallGridContainer) {
-    const usedIds = [robotPost?.id, laptopPost?.id, ...sidePosts.map(p => p.id)].filter(Boolean);
-    const smallPosts = articles
-      .filter(a => !usedIds.includes(a.id))
-      .slice(0, 4);
-
+    const smallPosts = articles.slice(5, 9);
     heroSmallGridContainer.innerHTML = smallPosts.map(post => `
       <div class="small-post-card">
         <div class="small-post-img-wrapper">
@@ -302,6 +276,15 @@ function populateHeroSection(articles) {
       </div>
     `).join('');
   }
+
+  populateFeaturedNumbers(articles);
+  populateSplitSections(articles);
+  populateCategoryColumns(articles, categories);
+  setupHomeEventListeners(articles);
+
+  container.cleanup = () => {
+    clearInterval(rotationInterval);
+  };
 }
 
 function populateFeaturedNumbers(articles) {

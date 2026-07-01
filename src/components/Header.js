@@ -14,6 +14,13 @@ export function renderHeader(container) {
               <line x1="4" y1="18" x2="20" y2="18"></line>
             </svg>
           </button>
+          
+          <!-- Admin write shortcut moved here -->
+          <a href="#/admin" class="write-post-btn" title="Cổng quản trị blog">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span class="desktop-only" style="margin-left: 0.3rem;">Viết bài</span>
+          </a>
+
           <ul class="nav-links desktop-only">
             <li><a href="#/" class="nav-home-link active">Trang chủ</a></li>
             <li><a href="#/" class="nav-blog-link">Blog</a></li>
@@ -31,12 +38,6 @@ export function renderHeader(container) {
             <li><a href="javascript:void(0)" class="nav-chuyen-muc-trigger">Chuyên mục</a></li>
             <li><a href="#/ #tac-gia">Tác giả</a></li>
           </ul>
-
-          <!-- Admin write shortcut -->
-          <a href="#/admin" class="write-post-btn" title="Cổng quản trị blog">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            <span class="desktop-only" style="margin-left: 0.3rem;">Viết bài</span>
-          </a>
 
           <!-- Dark Mode Toggle -->
           <button class="theme-toggle-btn" id="theme-toggle" aria-label="Chuyển chế độ tối/sáng">
