@@ -148,7 +148,7 @@ export function renderPostPage(container, postId, articles) {
             
             <div class="post-meta post-detail-meta" style="font-size: 0.8em; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
               <div class="post-author" style="display: flex; align-items: center; gap: 0.3rem;">
-                <span>Tác giả: <strong>${article.author}</strong> ${article.authorTag || ''}</span>
+                <span>Tác giả: <strong>${article.author}</strong></span>
               </div>
               <span class="meta-dot">&bull;&nbsp;</span><span>${article.date}</span>
               <span class="meta-dot">&bull;&nbsp;</span><span>${article.readTime}</span>

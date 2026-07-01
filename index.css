@@ -487,6 +487,7 @@ header .nav-links a.active {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  transition: opacity 0.3s ease-in-out !important;
 }
 
 .featured-big img {
@@ -571,6 +572,7 @@ header .nav-links a.active {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  transition: opacity 0.3s ease-in-out !important;
 }
 
 .side-post-card {
@@ -1793,23 +1795,23 @@ body.dark footer {
     transform: none !important;
   }
 
-  /* Stack Post Metadata on mobile for small cards */
-  /* Stack Post Metadata on mobile for small cards */
+  /* Stack Post Metadata on mobile for small cards: Name - Date on same line, views/comments on next line */
   .post-meta-stack {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 0.5rem !important;
+    gap: 0.3rem !important;
     width: 100% !important;
   }
   
   .post-meta-stack .meta-left {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0.2rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
   }
   
   .post-meta-stack .meta-left .meta-dot {
-    display: none !important;
+    display: inline !important;
   }
   
   .post-meta-stack .meta-right {
@@ -1823,7 +1825,36 @@ body.dark footer {
   }
 
   .post-meta-stack .meta-dot {
-    display: none !important;
+    display: inline !important;
+  }
+
+  /* First post of category grid on mobile: Image left, Title/Date right */
+  .cat-post-card.has-image {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  .cat-post-card.has-image .cat-post-img-wrapper {
+    width: 110px !important;
+    aspect-ratio: 16 / 10 !important;
+    flex-shrink: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    display: block !important;
+  }
+  
+  .cat-post-card.has-image .cat-post-img-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  .cat-post-card.has-image .cat-post-text-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.3rem !important;
+    flex: 1 !important;
   }
 
   /* Keep metadata horizontal for large news on mobile */

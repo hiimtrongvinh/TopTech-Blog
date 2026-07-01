@@ -265,7 +265,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
                   </td>
                   <td>
                     <strong>${post.author}</strong>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">${post.authorTag || ''}</div>
                   </td>
                   <td>
                     <div style="font-size: 0.85rem;">
@@ -380,7 +379,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
                 <label for="post-author-name">Tên tác giả <span style="color:var(--secondary-color)">*</span></label>
                 <input type="text" id="post-author-name" value="${editPost ? editPost.author : 'Ms. Phương Linh'}" placeholder="Nhập tên tác giả..." required>
               </div>
-              <div class="form-row">
+              <div class="form-row" style="display: none;">
                 <label for="post-author-tag">Mã tác giả / Thẻ</label>
                 <input type="text" id="post-author-tag" value="${editPost ? editPost.authorTag : '#CTAD01'}" placeholder="Ví dụ: #CTAD01...">
               </div>
@@ -529,7 +528,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       if (previewCat) previewCat.textContent = (editPost.subcategory || editPost.category).toUpperCase();
       if (previewTitle) previewTitle.textContent = editPost.title;
       if (previewDesc) previewDesc.textContent = editPost.description;
-      if (previewAuthor) previewAuthor.textContent = `${editPost.author} ${editPost.authorTag}`;
+      if (previewAuthor) previewAuthor.textContent = `${editPost.author}`;
       
       // Update visual indicator in cover dropzone
       const dropzone = document.getElementById("upload-dropzone");
@@ -591,15 +590,14 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
     postAuthor?.addEventListener("input", (e) => {
       if (previewAuthor) {
-        const tag = postAuthorTag?.value.trim() || "";
-        previewAuthor.textContent = `${e.target.value.trim()} ${tag}`;
+        previewAuthor.textContent = `${e.target.value.trim()}`;
       }
     });
 
     postAuthorTag?.addEventListener("input", (e) => {
       if (previewAuthor) {
         const name = postAuthor?.value.trim() || "";
-        previewAuthor.textContent = `${name} ${e.target.value.trim()}`;
+        previewAuthor.textContent = `${name}`;
       }
     });
 

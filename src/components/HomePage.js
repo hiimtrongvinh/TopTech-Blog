@@ -193,7 +193,7 @@ export function renderHomePage(container, articles, categories) {
           <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
           <div class="post-meta post-detail-meta">
             <div class="post-author">
-              <span>${laptopPost.author} ${laptopPost.authorTag || ''}</span>
+              <span>${laptopPost.author}</span>
             </div>
             <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
             <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime || '02 phút để đọc'}</span>
@@ -218,7 +218,7 @@ export function renderHomePage(container, articles, categories) {
             <h4 class="side-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
             <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                <span>${post.author} ${post.authorTag || ''}</span>
+                <span>${post.author}</span>
                 <span class="meta-dot">&bull;</span>
                 <span>${post.date}</span>
               </div>
@@ -307,7 +307,7 @@ function populateFeaturedNumbers(articles) {
         <h4 class="number-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
         <div class="post-meta" style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-            <span>${post.author} ${post.authorTag || ''}</span>
+            <span>${post.author}</span>
             <span class="meta-dot">&bull;</span>
             <span>${post.date}</span>
           </div>
@@ -364,7 +364,7 @@ function populateSplitSections(articles) {
         <a href="#/chuyen-muc/${mainNew.category}" class="center-main-tag">${mainNew.category}</a>
         <h4 class="center-main-title"><a href="#/bai-viet/${mainNew.id}">${mainNew.title}</a></h4>
         <div class="post-meta post-detail-meta" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem;">
-          <span>${mainNew.author} ${mainNew.authorTag || ''} <span class="meta-dot">&bull;&nbsp;</span>${mainNew.date}</span>
+          <span>${mainNew.author} <span class="meta-dot">&bull;&nbsp;</span>${mainNew.date}</span>
         </div>
         <div class="center-main-img-wrapper">
           <img src="${getAssetUrl(mainNew.image)}" alt="${mainNew.title}">
@@ -401,7 +401,7 @@ function populateSplitSections(articles) {
         <h4 class="trending-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
         <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-            <span>${post.author} ${post.authorTag || ''}</span>
+            <span>${post.author}</span>
             <span class="meta-dot">&bull;</span>
             <span>${post.date}</span>
           </div>
@@ -457,8 +457,10 @@ function populateCategoryColumns(articles, categories) {
               <div class="cat-post-img-wrapper">
                 <img src="${getAssetUrl(post.image)}" alt="${post.title}">
               </div>
-              <h4 class="cat-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">${post.date}</span>
+              <div class="cat-post-text-wrapper">
+                <h4 class="cat-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">${post.date}</span>
+              </div>
             </div>
           `).join('')}
         </div>
