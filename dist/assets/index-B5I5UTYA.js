@@ -531,7 +531,7 @@
           <img src="${M(L.image)}" alt="${L.title}">
         </div>
         <h4 class="small-post-title"><a href="#/bai-viet/${L.id}">${L.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
             <span>${L.author}</span>
             <span class="meta-dot">&bull;</span>
@@ -626,7 +626,7 @@
         </div>
         <a href="#/chuyen-muc/${s.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${s.category}</a>
         <h4 class="review-post-title"><a href="#/bai-viet/${s.id}">${s.title}</a></h4>
-        <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+        <div class="post-meta post-meta-stack" style="font-size: 0.7rem; color: var(--text-muted);">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
             <span>${s.author}</span>
             <span class="meta-dot">&bull;</span>
@@ -737,7 +737,7 @@
           <h3 class="cat-card-title"><a href="#/bai-viet/${p.id}">${p.title}</a></h3>
           <p class="cat-card-description">${p.description||"Chưa có mô tả chi tiết cho bài viết này. Nhấp vào để đọc bài viết..."}</p>
           
-          <div class="post-meta" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
               <span class="post-author-name">${p.author}</span>
               <span class="meta-dot">&bull;</span>
@@ -1195,7 +1195,7 @@
               <h3 id="sidebar-preview-title" class="cat-card-title" style="font-size: 1.1rem; line-height:1.4;">Chưa nhập tiêu đề...</h3>
               <p id="sidebar-preview-desc" class="cat-card-description" style="margin-bottom: 1.5rem;">Nhập sapo để xem trước phần tóm tắt của bài viết tại đây.</p>
               
-              <div class="post-meta" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+              <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-color); padding-top: 1rem; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                 <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
                   <span id="sidebar-preview-author">Ms. Phương Linh</span>
                   <span class="meta-dot">&bull;</span>

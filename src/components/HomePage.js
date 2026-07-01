@@ -288,7 +288,7 @@ function populateHeroSection(articles) {
           <img src="${getAssetUrl(post.image)}" alt="${post.title}">
         </div>
         <h4 class="small-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <div class="post-meta" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.7rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
             <span>${post.author}</span>
             <span class="meta-dot">&bull;</span>
@@ -440,7 +440,7 @@ function populateSplitSections(articles) {
         </div>
         <a href="#/chuyen-muc/${post.category}" class="post-card-mini-tag" style="font-size: 0.65rem; margin-top: 0.2rem;">${post.category}</a>
         <h4 class="review-post-title"><a href="#/bai-viet/${post.id}">${post.title}</a></h4>
-        <div class="post-meta" style="font-size: 0.7rem; color: var(--text-muted);">
+        <div class="post-meta post-meta-stack" style="font-size: 0.7rem; color: var(--text-muted);">
           <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
             <span>${post.author}</span>
             <span class="meta-dot">&bull;</span>

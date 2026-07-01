@@ -1639,7 +1639,7 @@ body.dark footer {
   }
 
   .categories-tabs-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   .mega-menu-grid {
@@ -1647,7 +1647,7 @@ body.dark footer {
   }
 
   .review-grid-four {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
@@ -1665,7 +1665,7 @@ body.dark footer {
     position: relative;
   }
 
-  .logo {
+  .nav-container .logo {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -1675,6 +1675,25 @@ body.dark footer {
 
   .logo-img {
     height: 60px !important;
+  }
+
+  .logo-img-footer {
+    height: 100px !important;
+    margin: 0 auto !important;
+  }
+
+  .header-actions {
+    gap: 0.4rem !important;
+  }
+
+  .write-btn {
+    padding: 0.4rem !important;
+    border-radius: 50% !important;
+    width: 38px !important;
+    height: 38px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    display: inline-flex !important;
   }
 
   .hero-banner-full {
@@ -1766,34 +1785,35 @@ body.dark footer {
   }
 
   /* Stack Post Metadata on mobile for small cards */
-  .post-meta {
+  /* Stack Post Metadata on mobile for small cards */
+  .post-meta-stack {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 0.5rem !important;
     width: 100% !important;
   }
   
-  .post-meta .meta-left {
+  .post-meta-stack .meta-left {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 0.2rem !important;
   }
   
-  .post-meta .meta-left .meta-dot {
+  .post-meta-stack .meta-left .meta-dot {
     display: none !important;
   }
   
-  .post-meta .meta-right {
+  .post-meta-stack .meta-right {
     margin-left: 0 !important;
     width: 100% !important;
     justify-content: flex-start !important;
   }
   
-  .post-meta > span {
+  .post-meta-stack > span {
     margin-left: 0 !important;
   }
 
-  .post-meta .meta-dot {
+  .post-meta-stack .meta-dot {
     display: none !important;
   }
 
@@ -1829,7 +1849,7 @@ body.dark footer {
   }
 
   .small-post-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   .footer-links-grid {
@@ -1842,7 +1862,7 @@ body.dark footer {
   }
 
   .logo-img-footer {
-    height: 120px;
+    height: 100px !important;
   }
   
   .post-detail-meta span:last-child,
@@ -2490,7 +2510,7 @@ body.dark footer {
   }
 
   .category-articles-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
