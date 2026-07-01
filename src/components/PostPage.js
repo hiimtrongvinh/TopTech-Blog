@@ -474,6 +474,147 @@ export function renderPostPage(container, postId, articles) {
   const postBodyEl = container.querySelector(".post-detail-body");
   migrateArticleContent(postBodyEl, { isEditor: false });
 
+  // Open full size image Lightbox on click
+  postBodyEl?.querySelectorAll("img").forEach(img => {
+    img.style.cursor = "zoom-in";
+    img.addEventListener("click", () => {
+      openLightbox(img);
+    });
+  });
+
+  function openLightbox(clickedImg) {
+    const allImages = Array.from(postBodyEl.querySelectorAll("img"));
+    let currentIndex = allImages.indexOf(clickedImg);
+    if (currentIndex === -1) return;
+
+    let lightbox = document.getElementById("post-lightbox");
+    if (!lightbox) {
+      lightbox = document.createElement("div");
+      lightbox.id = "post-lightbox";
+      lightbox.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      `;
+      lightbox.innerHTML = `
+        <!-- Close Button -->
+        <button class="lightbox-close-btn" style="position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 3.5rem; cursor: pointer; font-weight: bold; line-height: 1; z-index: 100002;">&times;</button>
+        
+        <!-- Navigation Buttons -->
+        <button class="lightbox-prev-btn" style="position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 2.5rem; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 100001; transition: background 0.2s; outline: none;">&lsaquo;</button>
+        <button class="lightbox-next-btn" style="position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 2.5rem; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 100001; transition: background 0.2s; outline: none;">&rsaquo;</button>
+        
+        <!-- Image and Caption container -->
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 85%; max-height: 85vh; justify-content: center; position: relative;">
+          <img class="lightbox-img" src="" style="max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); transition: transform 0.2s ease; transform: scale(0.95);">
+          <div class="lightbox-caption" style="color: rgba(255, 255, 255, 0.9); font-size: 0.95rem; font-style: italic; text-align: center; max-width: 600px; line-height: 1.45; padding: 0.6rem 1.2rem; background: rgba(0,0,0,0.6); border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);"></div>
+        </div>
+      `;
+      
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox || e.target.classList.contains("lightbox-close-btn")) {
+          closeLightbox();
+        }
+      });
+      
+      document.body.appendChild(lightbox);
+    }
+
+    const imgEl = lightbox.querySelector(".lightbox-img");
+    const captionEl = lightbox.querySelector(".lightbox-caption");
+    const prevBtn = lightbox.querySelector(".lightbox-prev-btn");
+    const nextBtn = lightbox.querySelector(".lightbox-next-btn");
+
+    const updateLightboxContent = () => {
+      const currentImg = allImages[currentIndex];
+      if (!currentImg) return;
+      imgEl.src = currentImg.src;
+
+      // Find caption
+      const figure = currentImg.closest("figure");
+      let captionText = "";
+      if (figure) {
+        const figcaption = figure.querySelector(".post-figcaption-zone, figcaption");
+        if (figcaption) {
+          captionText = figcaption.textContent.trim();
+        }
+      }
+      if (!captionText && currentImg.alt) {
+        captionText = currentImg.alt.trim();
+      }
+      if (captionText && captionText !== "Chú thích ảnh") {
+        captionEl.textContent = captionText;
+        captionEl.style.display = "block";
+      } else {
+        captionEl.style.display = "none";
+      }
+
+      // Hide navigation if only 1 image
+      if (allImages.length <= 1) {
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+      } else {
+        prevBtn.style.display = "flex";
+        nextBtn.style.display = "flex";
+      }
+    };
+
+    const closeLightbox = () => {
+      lightbox.style.opacity = "0";
+      imgEl.style.transform = "scale(0.95)";
+      document.removeEventListener("keydown", handleKeyDown);
+      setTimeout(() => {
+        lightbox.style.display = "none";
+      }, 200);
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        closeLightbox();
+      } else if (e.key === "ArrowLeft" && allImages.length > 1) {
+        currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+        updateLightboxContent();
+      } else if (e.key === "ArrowRight" && allImages.length > 1) {
+        currentIndex = (currentIndex + 1) % allImages.length;
+        updateLightboxContent();
+      }
+    };
+
+    prevBtn.onclick = (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+      updateLightboxContent();
+    };
+
+    nextBtn.onclick = (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % allImages.length;
+      updateLightboxContent();
+    };
+
+    // Bind key events
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Initial display
+    updateLightboxContent();
+    lightbox.style.display = "flex";
+    setTimeout(() => {
+      lightbox.style.opacity = "1";
+      imgEl.style.transform = "scale(1)";
+    }, 10);
+  }
+
+
   // Toast notifications helper
   function showToast(message) {
     const toast = document.getElementById("post-toast");
@@ -685,6 +826,12 @@ export function renderPostPage(container, postId, articles) {
   }
 
   shareBtn?.addEventListener("click", () => {
+    const isDesktop = window.innerWidth >= 1024;
+    if (isDesktop) {
+      copyLinkToClipboard();
+      return;
+    }
+
     const shareData = {
       title: article.title,
       text: article.description || "",

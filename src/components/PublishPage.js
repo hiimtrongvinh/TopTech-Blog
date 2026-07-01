@@ -133,7 +133,13 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       "Giải pháp công nghệ": ["AI cho doanh nghiệp", "Tự động hóa quy trình", "Hạ tầng số", "ERP & CRM"],
       "Casestudy": ["Thành công tiêu biểu", "Phân tích thất bại", "Khảo sát thực tế"]
     };
-    return stored ? JSON.parse(stored) : defaultSubs;
+    if (!stored) return defaultSubs;
+    const parsed = JSON.parse(stored);
+    if (!parsed["AI"] || parsed["AI"].length === 0) {
+      parsed["AI"] = defaultSubs["AI"];
+      localStorage.setItem("toptech_subcategories", JSON.stringify(parsed));
+    }
+    return parsed;
   }
 
   function saveSubcategoriesDb(subs) {
@@ -184,7 +190,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       body.innerHTML = html;
       content.style.maxWidth = width;
       modal.classList.add("is-active");
-      
+
       // Focus within modal
       content.focus();
 
@@ -216,27 +222,55 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
   // Unified reusable HTML generator for multi-option media upload
   function createMediaUploadHtml(idPrefix, currentUrl = "") {
+    const isPostCover = idPrefix === 'post-cover';
+    const previewWidth = isPostCover ? 220 : 180;
+    const previewHeight = isPostCover ? 130 : 110;
     return `
-      <div class="media-upload-control" id="${idPrefix}-media-control" style="display: flex; flex-direction: column; gap: 0.8rem; padding: 1.2rem; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-surface-secondary); margin-top: 0.5rem;">
-        <div class="form-row" style="margin:0;">
-          <label style="font-weight:600; font-size:0.85rem; margin-bottom: 0.3rem;">Link địa chỉ ảnh (URL):</label>
-          <input type="url" class="media-url-input" value="${currentUrl.startsWith('data:') ? '' : currentUrl}" placeholder="Nhập hoặc dán link ảnh (https://...)" style="margin:0; padding: 0.5rem 0.8rem; font-size: 0.85rem;">
+      <div class="media-upload-control" id="${idPrefix}-media-control" style="display: grid; grid-template-columns: ${previewWidth}px 1fr; gap: 1rem; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-surface-secondary); margin-top: 0.4rem; align-items: center;">
+        <!-- Left Side: Preview & Dropzone -->
+        <div class="media-upload-dropzone" style="position: relative; width: ${previewWidth}px; height: ${previewHeight}px; border: 2px dashed var(--border-color); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; background: var(--bg-main); cursor: pointer; transition: border-color var(--transition-fast);">
+          
+          <div class="dropzone-placeholder" style="text-align: center; padding: 0.3rem; pointer-events: none; display: ${currentUrl ? 'none' : 'block'};">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); margin-bottom: 0.15rem;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <div style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600; line-height: 1.2;">Kéo thả ảnh hoặc click để chọn</div>
+          </div>
+          
+          <img class="media-preview-img" src="${currentUrl || ''}" style="display: ${currentUrl ? 'block' : 'none'}; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          
+          <div class="dropzone-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; color: #fff; font-size: 0.72rem; font-weight: 700; pointer-events: none;">
+            Thả ảnh tại đây...
+          </div>
         </div>
-        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" class="btn-media-upload-file" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; background: var(--primary-color); color: #fff; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
-            📁 Tải lên từ máy
-          </button>
-          <button type="button" class="btn-media-paste-clipboard" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; font-weight: 700; border-radius: 8px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
-            📋 Dán ảnh từ Clipboard
-          </button>
-          <span class="media-upload-status" style="font-size: 0.8rem; color: var(--text-muted); font-style: italic; font-weight: 600;">
-            ${currentUrl ? '✓ Đã chọn ảnh' : 'Chưa có ảnh'}
-          </span>
+
+        <!-- Right Side: Action Inputs -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; min-width: 0;">
+          <div class="form-row" style="margin:0;">
+            <label style="font-weight:600; font-size:0.78rem; margin-bottom: 0.15rem; display: block; color: var(--text-secondary);">Nhập hoặc dán link ảnh (URL):</label>
+            <input type="url" class="media-url-input" value="${currentUrl.startsWith('data:') ? '' : currentUrl}" placeholder="https://..." style="margin:0; padding: 0.35rem 0.5rem; font-size: 0.78rem; width: 100%; height: 32px;">
+          </div>
+          <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-media-upload-file" style="padding: 0.35rem 0.7rem; font-size: 0.72rem; font-weight: 700; border-radius: 6px; background: var(--primary-color); color: #fff; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; height: 30px;">
+              📁 Tải lên từ máy
+            </button>
+            <button type="button" class="btn-media-paste-clipboard" style="padding: 0.35rem 0.7rem; font-size: 0.72rem; font-weight: 700; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; height: 30px;">
+              📋 Dán ảnh (Clip)
+            </button>
+            <span class="media-upload-status" style="font-size: 0.7rem; color: var(--text-muted); font-style: italic; font-weight: 600;">
+              ${currentUrl ? '✓ Đã chọn ảnh' : 'Chưa có ảnh'}
+            </span>
+          </div>
+          <input type="file" class="media-file-input" accept="image/*" style="display:none;">
         </div>
-        <div class="media-upload-dropzone" style="border: 2px dashed var(--border-color); border-radius: 8px; padding: 0.8rem; text-align: center; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; font-weight: 500;">
-          Hoặc kéo thả ảnh vào khu vực này
+      </div>
+            <button type="button" class="btn-media-paste-clipboard" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: 700; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem;">
+              📋 Dán ảnh (Clip)
+            </button>
+            <span class="media-upload-status" style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; font-weight: 600;">
+              ${currentUrl ? '✓ Đã chọn ảnh' : 'Chưa có ảnh'}
+            </span>
+          </div>
+          <input type="file" class="media-file-input" accept="image/*" style="display:none;">
         </div>
-        <input type="file" class="media-file-input" accept="image/*" style="display:none;">
       </div>
     `;
   }
@@ -250,6 +284,21 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     const dropzone = wrapper.querySelector(".media-upload-dropzone");
     const fileInput = wrapper.querySelector(".media-file-input");
     const statusSpan = wrapper.querySelector(".media-upload-status");
+    const previewImg = wrapper.querySelector(".media-preview-img");
+    const placeholder = wrapper.querySelector(".dropzone-placeholder");
+    const dropzoneOverlay = wrapper.querySelector(".dropzone-overlay");
+
+    const updatePreview = (url) => {
+      if (url) {
+        if (previewImg) {
+          previewImg.src = url;
+          previewImg.style.display = "block";
+        }
+        if (placeholder) {
+          placeholder.style.display = "none";
+        }
+      }
+    };
 
     const handleFile = (file) => {
       if (!file) return;
@@ -261,10 +310,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           statusSpan.textContent = `✓ Đã dán/tải ảnh!`;
           statusSpan.style.color = "var(--primary-color)";
         }
-        if (dropzone) {
-          dropzone.style.borderColor = "var(--primary-color)";
-          dropzone.innerHTML = `<span style="color:var(--primary-color); font-weight:700;">✓ Đã tải ảnh thành công!</span>`;
-        }
+        updatePreview(dataUrl);
         onImageSelected(dataUrl);
       };
       reader.readAsDataURL(file);
@@ -277,14 +323,21 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           statusSpan.textContent = "✓ Đã dùng Link";
           statusSpan.style.color = "var(--primary-color)";
         }
+        updatePreview(url);
         onImageSelected(url);
       }
     });
 
-    uploadBtn?.addEventListener("click", () => fileInput?.click());
+    uploadBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      fileInput?.click();
+    });
+    
+    dropzone?.addEventListener("click", () => fileInput?.click());
     fileInput?.addEventListener("change", (e) => handleFile(e.target.files[0]));
 
-    pasteBtn?.addEventListener("click", async () => {
+    pasteBtn?.addEventListener("click", async (e) => {
+      e.stopPropagation();
       try {
         const clipboardItems = await navigator.clipboard.read();
         for (const item of clipboardItems) {
@@ -307,15 +360,18 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     dropzone?.addEventListener("dragover", (e) => {
       e.preventDefault();
       dropzone.style.borderColor = "var(--primary-color)";
+      if (dropzoneOverlay) dropzoneOverlay.style.display = "flex";
     });
 
     dropzone?.addEventListener("dragleave", () => {
       dropzone.style.borderColor = "var(--border-color)";
+      if (dropzoneOverlay) dropzoneOverlay.style.display = "none";
     });
 
     dropzone?.addEventListener("drop", (e) => {
       e.preventDefault();
       dropzone.style.borderColor = "var(--border-color)";
+      if (dropzoneOverlay) dropzoneOverlay.style.display = "none";
       handleFile(e.dataTransfer.files[0]);
     });
 
@@ -405,123 +461,94 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     return `
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1.5rem;">
         <h3 class="panel-subtitle" style="margin: 0; font-size: 1.35rem; font-weight: 800; color: var(--text-primary);">${editPost ? 'Chỉnh sửa bài viết' : 'Nội dung bài viết mới'}</h3>
-        <button class="logout-btn" id="btn-cancel-post-modal" style="padding: 0.5rem 1rem; font-weight: 700; border-radius: 8px; margin: 0;">
-          Đóng
-        </button>
       </div>
 
-      <div class="create-post-layout-grid">
-        <div class="publish-form-panel">
-          <div class="login-form" style="gap: 1.2rem; display: flex; flex-direction: column;">
-            <!-- Title -->
-            <div class="form-row">
-              <label for="post-title" style="font-weight:600; font-size:0.85rem;">Tiêu đề bài viết <span style="color:var(--secondary-color)">*</span></label>
-              <input type="text" id="post-title" value="${editPost ? editPost.title : ''}" placeholder="Nhập tiêu đề hấp dẫn..." required>
-            </div>
+      <div class="login-form" style="gap: 1.2rem; display: flex; flex-direction: column; width: 100%;">
+        <!-- Title -->
+        <div class="form-row">
+          <label for="post-title" style="font-weight:600; font-size:0.85rem;">Tiêu đề bài viết <span style="color:var(--secondary-color)">*</span></label>
+          <input type="text" id="post-title" value="${editPost ? editPost.title : ''}" placeholder="Nhập tiêu đề hấp dẫn..." required>
+        </div>
 
-            <!-- Categories -->
-            <div class="create-post-categories-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-              <div class="form-row">
-                <label for="post-category" style="font-weight:600; font-size:0.85rem;">Chuyên mục chính <span style="color:var(--secondary-color)">*</span></label>
-                <select id="post-category" required>
-                  ${cats.map(cat => `<option value="${cat}" ${editPost && editPost.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
-                </select>
-              </div>
+        <!-- Categories + Featured -->
+        <div class="create-post-categories-row" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+          <div class="form-row">
+            <label for="post-category" style="font-weight:600; font-size:0.85rem;">Chuyên mục chính <span style="color:var(--secondary-color)">*</span></label>
+            <select id="post-category" required>
+              ${cats.map(cat => `<option value="${cat}" ${editPost && editPost.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+            </select>
+          </div>
 
-              <div class="form-row">
-                <label for="post-subcategory" style="font-weight:600; font-size:0.85rem;">Chuyên mục con</label>
-                <select id="post-subcategory">
-                  <!-- Dynamic render -->
-                </select>
-              </div>
-            </div>
+          <div class="form-row">
+            <label for="post-subcategory" style="font-weight:600; font-size:0.85rem;">Chuyên mục con</label>
+            <select id="post-subcategory">
+              <!-- Dynamic render -->
+            </select>
+          </div>
 
-            <div class="form-row" style="display:flex; align-items:center; gap: 0.5rem; margin-top: 0.5rem; cursor:pointer;">
-              <input type="checkbox" id="post-featured" ${editPost && editPost.featured ? 'checked' : ''} style="width: 18px; height: 18px; margin:0;">
-              <label for="post-featured" style="margin:0; font-weight:600; font-size: 0.85rem;">Bài viết nổi bật (Featured)</label>
-            </div>
-
-            <div class="form-row">
-              <label for="post-author-name" style="font-weight:600; font-size:0.85rem;">Tác giả <span style="color:var(--secondary-color)">*</span></label>
-              <select id="post-author-name" required>
-                ${authors.map(aut => `<option value="${aut.name}" ${editPost && editPost.author === aut.name ? 'selected' : ''}>${aut.name} (${aut.role})</option>`).join('')}
-              </select>
-            </div>
-
-            <!-- Cover Image Selector -->
-            <div class="form-row">
-              <label style="font-weight:600; font-size:0.85rem;">Ảnh bìa bài viết <span style="color:var(--secondary-color)">*</span></label>
-              ${createMediaUploadHtml('post-cover', editPost ? editPost.image : selectedCoverUrl)}
-            </div>
-
-            <div class="form-row">
-              <label for="post-description" style="font-weight:600; font-size:0.85rem;">Tóm tắt bài viết (Sapo) <span style="color:var(--secondary-color)">*</span></label>
-              <textarea id="post-description" rows="2" placeholder="Viết tóm tắt ngắn..." required>${editPost ? editPost.description : ''}</textarea>
-            </div>
-
-            <!-- WYSIWYG Editor Block -->
-            <div class="form-row" style="margin-top: 0.5rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                <label style="font-weight:600; font-size:0.85rem; margin: 0;">Nội dung bài viết <span style="color:var(--secondary-color)">*</span></label>
-                <div class="editor-tabs" style="display: flex; gap: 0.2rem; background: var(--bg-surface-secondary); padding: 0.2rem; border-radius: 6px; border: 1px solid var(--border-color);">
-                  <button class="editor-tab-btn active" id="editor-write-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Soạn thảo</button>
-                  <button class="editor-tab-btn" id="editor-preview-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Xem trước</button>
-                </div>
-              </div>
-
-              <div id="editor-textarea-wrapper">
-                <div class="editor-toolbar" style="display: flex; gap: 0.4rem; background-color: var(--bg-surface-secondary); padding: 0.5rem; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; flex-wrap: wrap; align-items: center;">
-                  <button class="toolbar-btn" data-cmd="bold" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chữ đậm (B)">B</button>
-                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h2" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục lớn (H2)">H2</button>
-                  <button class="toolbar-btn" data-cmd="formatBlock" data-val="h3" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục nhỏ (H3)">H3</button>
-                  <button class="toolbar-btn" data-cmd="insertBlockquote" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Trích dẫn (Quote)">Q</button>
-                  <button class="toolbar-btn" data-cmd="insertUnorderedList" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Dòng liệt kê (-)">•</button>
-                  <button class="toolbar-btn" data-cmd="createLink" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn liên kết">🔗</button>
-                  <button class="toolbar-btn" data-cmd="insertHTML-table" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn bảng">田</button>
-                  <button class="toolbar-btn" id="btn-insert-inline-img" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn ảnh đơn">📷 Ảnh đơn</button>
-                  <button class="toolbar-btn" id="btn-insert-image-row" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn nhóm ảnh">⊞ Nhóm ảnh</button>
-                  <button class="toolbar-btn" id="btn-clear-format" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Hủy định dạng (Heading, List, Blockquote, Bold...)">🧹 Hủy định dạng</button>
-                </div>
-                <div id="post-content" class="rich-text-editor post-detail-body" contenteditable="true" style="border-top-left-radius: 0; border-top-right-radius: 0; min-height: 320px; border: 1px solid var(--border-color); padding: 1.2rem; outline: none; background-color: var(--bg-main);" placeholder="Soạn thảo tại đây..."></div>
-                <input type="file" id="inline-img-file-input" accept="image/*" style="display:none;">
-                <input type="file" id="image-row-file-input" accept="image/*" multiple style="display:none;">
-              </div>
-
-              <div id="editor-preview-wrapper" class="markdown-preview-container post-detail-body" style="display:none; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; background-color: var(--bg-main); min-height: 320px; overflow-y: auto;"></div>
-            </div>
-
-            <div class="editor-status-bar" style="margin-top: 0.4rem; display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
-              <span id="word-count-indicator">0 từ</span>
-              <span id="reading-time-indicator">0 phút đọc</span>
-            </div>
-
-            <button class="submit-comment-btn" id="publish-post-btn" style="margin-top: 1.2rem; width:100%; font-size: 0.95rem; font-weight:700; padding: 0.75rem 1.5rem; background-color: var(--primary-color); color:#fff; border-color: var(--primary-color); border-radius: 30px;">
-              ${editPost ? '💾 Cập nhật bài viết' : '🚀 Xuất bản bài viết'}
-            </button>
+          <div class="form-row" style="display:flex; align-items:center; gap: 0.5rem; margin: 0; cursor:pointer; padding-bottom: 0.25rem;">
+            <input type="checkbox" id="post-featured" ${editPost && editPost.featured ? 'checked' : ''} style="width: 18px; height: 18px; margin:0;">
+            <label for="post-featured" style="margin:0; font-weight:700; font-size: 0.85rem; white-space: nowrap;">Nổi bật</label>
           </div>
         </div>
 
-        <!-- Sidebar Preview -->
-        <div class="preview-sidebar-panel" style="flex: 0 0 320px;">
-          <h3 class="panel-subtitle" style="margin-bottom: 1.2rem; font-size:1.1rem;">Xem trước thẻ tin</h3>
-          <div class="cat-article-card" style="box-shadow: var(--shadow-lg); background-color: var(--bg-surface); border: 1px solid var(--border-color); pointer-events: none; border-radius:12px; overflow:hidden;">
-            <div class="cat-card-img-wrapper" style="position:relative;">
-              <img id="sidebar-preview-img" src="${editPost ? editPost.image : selectedCoverUrl}" alt="Cover Preview" style="height: 180px; width: 100%; object-fit: cover;">
-              <span id="sidebar-preview-cat" class="cat-card-category" style="position:absolute; top:0.8rem; left:0.8rem;">TIN CÔNG NGHỆ</span>
-            </div>
-            <div class="cat-card-content" style="padding: 1.2rem;">
-              <h3 id="sidebar-preview-title" class="cat-card-title" style="font-size: 1.05rem; line-height:1.4; font-weight:750; margin-bottom:0.5rem;">Chưa nhập tiêu đề...</h3>
-              <p id="sidebar-preview-desc" class="cat-card-description" style="margin-bottom: 1.2rem; font-size:0.85rem; line-height:1.4;">Nhập sapo để xem...</p>
-              <div class="post-meta post-meta-stack" style="color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border-color); padding-top: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                <div class="meta-left" style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap;">
-                  <span id="sidebar-preview-author">Tác giả</span>
-                  <span class="meta-dot">&bull;</span>
-                  <span id="sidebar-preview-time">0 phút đọc</span>
-                </div>
-              </div>
+        <div class="form-row">
+          <label for="post-author-name" style="font-weight:600; font-size:0.85rem;">Tác giả <span style="color:var(--secondary-color)">*</span></label>
+          <select id="post-author-name" required>
+            ${authors.map(aut => `<option value="${aut.name}" ${editPost && editPost.author === aut.name ? 'selected' : ''}>${aut.name} (${aut.role})</option>`).join('')}
+          </select>
+        </div>
+
+        <!-- Cover Image Selector -->
+        <div class="form-row">
+          <label style="font-weight:600; font-size:0.85rem;">Ảnh bìa bài viết <span style="color:var(--secondary-color)">*</span></label>
+          ${createMediaUploadHtml('post-cover', editPost ? editPost.image : selectedCoverUrl)}
+        </div>
+
+        <div class="form-row">
+          <label for="post-description" style="font-weight:600; font-size:0.85rem;">Tóm tắt bài viết (Sapo) <span style="color:var(--secondary-color)">*</span></label>
+          <textarea id="post-description" rows="2" placeholder="Viết tóm tắt ngắn..." required>${editPost ? editPost.description : ''}</textarea>
+        </div>
+
+        <!-- WYSIWYG Editor Block -->
+        <div class="form-row" style="margin-top: 0.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label style="font-weight:600; font-size:0.85rem; margin: 0;">Nội dung bài viết <span style="color:var(--secondary-color)">*</span></label>
+            <div class="editor-tabs" style="display: flex; gap: 0.2rem; background: var(--bg-surface-secondary); padding: 0.2rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <button class="editor-tab-btn active" id="editor-write-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Soạn thảo</button>
+              <button class="editor-tab-btn" id="editor-preview-tab" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.78rem; border-radius: 4px; border: none; font-weight: 600; cursor: pointer;">Xem trước</button>
             </div>
           </div>
+
+          <div id="editor-textarea-wrapper">
+            <div class="editor-toolbar" style="display: flex; gap: 0.4rem; background-color: var(--bg-surface-secondary); padding: 0.5rem; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; flex-wrap: wrap; align-items: center;">
+              <button class="toolbar-btn" data-cmd="bold" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chữ đậm (B)">B</button>
+              <button class="toolbar-btn" data-cmd="formatBlock" data-val="h2" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục lớn (H2)">H2</button>
+              <button class="toolbar-btn" data-cmd="formatBlock" data-val="h3" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 32px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem;" title="Đề mục nhỏ (H3)">H3</button>
+              <button class="toolbar-btn" data-cmd="insertBlockquote" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Trích dẫn (Quote)">Q</button>
+              <button class="toolbar-btn" data-cmd="insertUnorderedList" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Dòng liệt kê (-)">•</button>
+              <button class="toolbar-btn" data-cmd="createLink" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn liên kết">🔗</button>
+              <button class="toolbar-btn" data-cmd="insertHTML-table" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center;" title="Chèn bảng">田</button>
+              <button class="toolbar-btn" id="btn-insert-inline-img" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn ảnh đơn">📷 Ảnh đơn</button>
+              <button class="toolbar-btn" id="btn-insert-image-row" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Chèn nhóm ảnh">⊞ Nhóm ảnh</button>
+              <button class="toolbar-btn" id="btn-clear-format" type="button" style="border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-main); color: var(--text-primary); cursor: pointer; font-weight: bold; padding: 0 0.5rem; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 0.8rem; gap: 0.2rem;" title="Hủy định dạng (Heading, List, Blockquote, Bold...)">🧹 Hủy định dạng</button>
+            </div>
+            <div id="post-content" class="rich-text-editor post-detail-body" contenteditable="true" style="border-top-left-radius: 0; border-top-right-radius: 0; min-height: 320px; border: 1px solid var(--border-color); padding: 1.2rem; outline: none; background-color: var(--bg-main);" placeholder="Soạn thảo tại đây..."></div>
+            <input type="file" id="inline-img-file-input" accept="image/*" style="display:none;">
+            <input type="file" id="image-row-file-input" accept="image/*" multiple style="display:none;">
+          </div>
+
+          <div id="editor-preview-wrapper" class="markdown-preview-container post-detail-body" style="display:none; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; background-color: var(--bg-main); min-height: 320px; overflow-y: auto;"></div>
         </div>
+
+        <div class="editor-status-bar" style="margin-top: 0.4rem; display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
+          <span id="word-count-indicator">0 từ</span>
+          <span id="reading-time-indicator">0 phút đọc</span>
+        </div>
+
+        <button class="submit-comment-btn" id="publish-post-btn" style="margin-top: 1.2rem; width:100%; font-size: 0.95rem; font-weight:700; padding: 0.75rem 1.5rem; background-color: var(--primary-color); color:#fff; border-color: var(--primary-color); border-radius: 30px;">
+          ${editPost ? '💾 Cập nhật bài viết' : '🚀 Xuất bản bài viết'}
+        </button>
       </div>
     `;
   }
@@ -651,12 +678,14 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
           </div>
         ` : articles.map(post => `
           <div class="admin-post-card" id="article-card-${post.id}">
-            <div style="display: flex; gap: 0.8rem; align-items: flex-start;">
-              <img src="${post.image && (post.image.startsWith('http') || post.image.startsWith('data:')) ? post.image : getAssetUrl(post.image || '')}" alt="Thumbnail" style="width: 80px; aspect-ratio: 16/10; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
+              <img src="${post.image && (post.image.startsWith('http') || post.image.startsWith('data:')) ? post.image : getAssetUrl(post.image || '')}" alt="Thumbnail" style="width: 140px; aspect-ratio: 16/10; object-fit: cover; border-radius: 8px; flex-shrink: 0; border: 1px solid var(--border-color);">
               <div style="flex: 1; min-width: 0;">
-                <h4 style="font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin: 0 0 0.3rem 0; word-break: break-word;"><a href="#/bai-viet/${post.id}" target="_blank" style="color: var(--text-primary); transition: color var(--transition-fast);">${post.title}</a></h4>
-                <span class="badge badge-cat" style="font-size: 0.65rem; padding: 0.15rem 0.4rem;">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
-                ${post.featured ? '<span class="badge badge-featured" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; margin-left: 0.3rem;">Nổi bật</span>' : ''}
+                <h4 style="font-size: 1.15rem; font-weight: 800; line-height: 1.35; margin: 0 0 0.5rem 0; word-break: break-word;"><a href="#/bai-viet/${post.id}" target="_blank" style="color: var(--text-primary); transition: color var(--transition-fast);">${post.title}</a></h4>
+                <div class="admin-post-badges" style="display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center;">
+                  <span class="badge badge-cat" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; white-space: nowrap;">${post.category}${post.subcategory ? ` / ${post.subcategory}` : ''}</span>
+                  ${post.featured ? '<span class="badge badge-featured" style="font-size: 0.65rem; padding: 0.15rem 0.4rem; white-space: nowrap;">Nổi bật</span>' : ''}
+                </div>
               </div>
             </div>
             
@@ -708,7 +737,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         if (confirm(`Bạn có chắc chắn muốn xóa bài viết "${article?.title}"?`)) {
           const updated = articles.filter(a => a.id !== id);
           localStorage.setItem("toptech_articles", JSON.stringify(updated));
-          
+
           const card = document.getElementById(`article-card-${id}`);
           if (card) {
             card.style.transition = "opacity 0.3s ease";
@@ -734,13 +763,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
     const postContent = document.getElementById("post-content");
     const publishBtn = document.getElementById("publish-post-btn");
 
-    const previewImg = document.getElementById("sidebar-preview-img");
-    const previewCat = document.getElementById("sidebar-preview-cat");
-    const previewTitle = document.getElementById("sidebar-preview-title");
-    const previewDesc = document.getElementById("sidebar-preview-desc");
-    const previewAuthor = document.getElementById("sidebar-preview-author");
-    const previewTime = document.getElementById("sidebar-preview-time");
-
     const subsDb = getSubcategoriesDb();
     const editPost = editingArticleId ? articles.find(a => a.id === editingArticleId) : null;
 
@@ -748,24 +770,18 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       postContent.innerHTML = editPost.content;
       migrateArticleContent(postContent, { isEditor: true });
       selectedCoverUrl = editPost.image;
-      if (previewImg) previewImg.src = selectedCoverUrl;
-      if (previewCat) previewCat.textContent = (editPost.subcategory || editPost.category).toUpperCase();
-      if (previewTitle) previewTitle.textContent = editPost.title;
-      if (previewDesc) previewDesc.textContent = editPost.description;
-      if (previewAuthor) previewAuthor.textContent = editPost.author;
     }
 
     // Set up cover media upload control
     const uploadWrapper = document.getElementById("post-cover-media-control");
     setupMediaUploadControl(uploadWrapper, (url) => {
       selectedCoverUrl = url;
-      if (previewImg) previewImg.src = url;
     });
 
     const updateSubcategories = (parentCat, selectedSub = "") => {
       if (!postSubcategory) return;
       const subs = subsDb[parentCat] || [];
-      postSubcategory.innerHTML = '<option value="">-- Không có --</option>' + 
+      postSubcategory.innerHTML = '<option value="">-- Không có --</option>' +
         subs.map(s => `<option value="${s}" ${selectedSub === s ? 'selected' : ''}>${s}</option>`).join('');
     };
 
@@ -777,40 +793,18 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       const text = (postContent?.innerText || postContent?.textContent || "").trim();
       const wordCount = text ? text.split(/\s+/).length : 0;
       const readMinutes = Math.max(1, Math.ceil(wordCount / 200));
-      
+
       const wordSpan = document.getElementById("word-count-indicator");
       const readSpan = document.getElementById("reading-time-indicator");
-      
+
       if (wordSpan) wordSpan.textContent = `${wordCount} từ`;
       if (readSpan) readSpan.textContent = `${readMinutes} phút đọc`;
-      if (previewTime) previewTime.innerHTML = `${readMinutes} phút để đọc`;
-      
+
       return `${readMinutes < 10 ? '0' : ''}${readMinutes} phút để đọc`;
     }
 
-    postTitle?.addEventListener("input", (e) => {
-      if (previewTitle) previewTitle.textContent = e.target.value.trim() || "Chưa nhập tiêu đề...";
-    });
-
     postCategory?.addEventListener("change", (e) => {
       updateSubcategories(e.target.value);
-      if (previewCat) previewCat.textContent = e.target.value.toUpperCase();
-    });
-
-    postSubcategory?.addEventListener("change", (e) => {
-      if (previewCat) previewCat.textContent = (e.target.value || postCategory?.value || "").toUpperCase();
-    });
-
-    postAuthor?.addEventListener("change", (e) => {
-      if (previewAuthor) previewAuthor.textContent = e.target.value;
-    });
-
-    if (postAuthor && previewAuthor) {
-      previewAuthor.textContent = postAuthor.value;
-    }
-
-    postDesc?.addEventListener("input", (e) => {
-      if (previewDesc) previewDesc.textContent = e.target.value.trim() || "Nhập sapo để xem trước...";
     });
 
     postContent?.addEventListener("input", () => {
@@ -1013,10 +1007,6 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       }
     });
 
-    document.getElementById("btn-cancel-post-modal")?.addEventListener("click", () => {
-      closeModal();
-    });
-
     publishBtn?.addEventListener("click", () => {
       const title = postTitle?.value.trim();
       const category = postCategory?.value;
@@ -1098,34 +1088,39 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
       const subs = subsMap[cat] || [];
       const thumb = thumbsMap[cat] || "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400";
       return `
-        <div class="category-manage-row" style="border: 1px solid var(--border-color); padding: 1.2rem; border-radius: 12px; background: var(--bg-surface); display: flex; flex-direction: column; gap: 1rem;" id="cat-manage-${cat}">
-          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-            <img src="${thumb}" alt="${cat}" style="width: 80px; height: 55px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);">
-            <div style="flex: 1; min-width: 0;">
-              <strong style="font-size: 1.15rem; color: var(--text-primary);">${cat}</strong>
-              <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">(${subs.length} chuyên mục con)</span>
-            </div>
-            <div style="display: flex; gap: 0.4rem;">
-              <button class="edit-cat-btn" data-cat="${cat}" style="background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.2rem;">📝 Sửa</button>
-              <button class="delete-cat-btn" data-cat="${cat}" style="background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: #ef4444; display: inline-flex; align-items: center; gap: 0.2rem;">❌ Xóa</button>
+        <div class="category-manage-row" id="cat-manage-${cat}">
+          <!-- Top details -->
+          <div style="display: flex; gap: 0.7rem; align-items: center; margin-bottom: 0.1rem;">
+            <img src="${thumb}" alt="${cat}" style="width: 72px; height: 52px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-color); flex-shrink: 0;">
+            <div style="min-width: 0; flex: 1;">
+              <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${cat}">${cat}</h4>
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">(${subs.length} chuyên mục con)</span>
             </div>
           </div>
+
+          <!-- Edit / Delete actions -->
+          <div style="display: flex; gap: 0.4rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.65rem; margin-bottom: 0.65rem; margin-top: 0.35rem;">
+            <button class="edit-cat-btn" data-cat="${cat}" style="flex: 1; justify-content: center; background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.35rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.2rem;">📝 Sửa</button>
+            <button class="delete-cat-btn" data-cat="${cat}" style="flex: 1; justify-content: center; background: #ef44440d; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 0.35rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; color: #ef4444; display: inline-flex; align-items: center; gap: 0.2rem;">❌ Xóa</button>
+          </div>
           
-          <!-- Subcategories tags list -->
-          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
-            ${subs.map(sub => `
-              <span style="display: inline-flex; align-items: center; gap: 0.3rem; background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);">
-                ${sub}
-                <button class="delete-sub-btn" data-cat="${cat}" data-sub="${sub}" style="background:none; border:none; cursor:pointer; color: var(--text-muted); font-weight:bold; font-size: 0.9rem; padding: 0; display: inline-flex; align-items: center;">&times;</button>
-              </span>
-            `).join('')}
-            ${subs.length === 0 ? '<span style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Chưa có chuyên mục con.</span>' : ''}
+          <!-- Subcategories tags list (scrollable) -->
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.75rem; justify-content: flex-start; overflow: hidden;">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.3rem; align-content: flex-start; max-height: 86px; overflow-y: auto; padding-right: 0.15rem;">
+              ${subs.map(sub => `
+                <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: var(--bg-surface-secondary); border: 1px solid var(--border-color); border-radius: 20px; padding: 0.15rem 0.55rem; font-size: 0.71rem; font-weight: 600; color: var(--text-secondary);">
+                  ${sub}
+                  <button class="delete-sub-btn" data-cat="${cat}" data-sub="${sub}" style="background:none; border:none; cursor:pointer; color: var(--text-muted); font-weight:bold; font-size: 0.85rem; padding: 0; display: inline-flex; align-items: center;">&times;</button>
+                </span>
+              `).join('')}
+              ${subs.length === 0 ? '<span style="font-size: 0.73rem; color: var(--text-muted); font-style: italic; margin-top: 0.15rem;">Chưa có chuyên mục con</span>' : ''}
+            </div>
           </div>
 
           <!-- Add inline Subcategory input -->
-          <div style="display: flex; gap: 0.5rem; max-width: 320px; margin-top: 0.2rem;">
-            <input type="text" placeholder="Thêm chuyên mục con..." class="inline-sub-input" data-cat="${cat}" style="margin:0; padding: 0.5rem 0.8rem; font-size: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color); width: 100%;">
-            <button class="btn-add-subcategory" data-cat="${cat}" style="background: var(--primary-color); border: none; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; font-weight: bold;">+</button>
+          <div style="display: flex; gap: 0.5rem; width: 100%; margin-top: 0.1rem;">
+            <input type="text" placeholder="Thêm chuyên mục con..." class="inline-sub-input" data-cat="${cat}" style="margin:0; padding: 0.45rem 0.75rem; font-size: 0.83rem; border-radius: 10px; border: 1px solid var(--border-color); width: 100%;">
+            <button class="btn-add-subcategory" data-cat="${cat}" style="background: var(--primary-color); border: none; color: #fff; border-radius: 10px; padding: 0.45rem 0.9rem; font-size: 1rem; cursor: pointer; font-weight: 800; flex-shrink: 0; min-width: 44px;">+</button>
           </div>
         </div>
       `;
@@ -1191,7 +1186,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
 
         let subsMap = getSubcategoriesDb();
         if (!subsMap[catName]) subsMap[catName] = [];
-        
+
         if (subsMap[catName].includes(subName)) {
           alert("Chuyên mục con này đã tồn tại trong chuyên mục chính!");
           return;
@@ -1247,7 +1242,7 @@ function renderAdminDashboard(container, articles, categories, onUpdate) {
         const idx = cats.indexOf(editingCategoryName);
         if (idx !== -1) {
           cats[idx] = catName;
-          
+
           if (subsMap[editingCategoryName]) {
             subsMap[catName] = subsMap[editingCategoryName];
             delete subsMap[editingCategoryName];

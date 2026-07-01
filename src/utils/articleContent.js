@@ -159,8 +159,20 @@ export function migrateArticleContent(container, { isEditor = false } = {}) {
 
     const zone = fig.querySelector('.post-figcaption-zone');
     if (zone) {
-      if (isEditor) zone.contentEditable = 'true';
-      else zone.removeAttribute('contenteditable');
+      if (isEditor) {
+        zone.contentEditable = 'true';
+      } else {
+        zone.removeAttribute('contenteditable');
+        const text = zone.textContent.trim();
+        if (!text || text === 'Chú thích ảnh') {
+          zone.remove();
+          const media = fig.querySelector('.post-figure-media');
+          if (media) {
+            media.style.borderRadius = '12px';
+            media.style.borderBottom = '1px solid var(--border-color)';
+          }
+        }
+      }
     } else if (isEditor) {
       const newZone = document.createElement('div');
       newZone.className = 'post-figcaption-zone';

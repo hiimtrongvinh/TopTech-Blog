@@ -205,18 +205,20 @@ export function renderHomePage(container, articles, categories) {
         <div class="featured-big-content">
           <a href="#/chuyen-muc/${laptopPost.category}" class="featured-big-tag">${laptopPost.category}</a>
           <h3 class="featured-big-title"><a href="#/bai-viet/${laptopPost.id}">${laptopPost.title}</a></h3>
-          <div class="post-meta post-detail-meta">
-            <div class="post-author">
+          <div class="post-meta post-detail-meta" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+            <div class="meta-left" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; flex: none;">
               <span>${laptopPost.author}</span>
+              <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
+              <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime || '02 phút để đọc'}</span>
             </div>
-            <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.date}</span>
-            <span class="meta-dot">&bull;&nbsp;</span><span>${laptopPost.readTime || '02 phút để đọc'}</span>
-            <span style="margin-left: auto; display: flex; align-items: center; gap: 0.3rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
-            </span>
-            <span style="display: flex; align-items: center; gap: 0.3rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${laptopPost.comments}
-            </span>
+            <div class="meta-right" style="display: flex; align-items: center; gap: 0.6rem; margin-left: auto;">
+              <span style="display: inline-flex; align-items: center; gap: 0.2rem; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ${laptopPost.views}
+              </span>
+              <span style="display: inline-flex; align-items: center; gap: 0.2rem; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${laptopPost.comments}
+              </span>
+            </div>
           </div>
         </div>
       `;
